@@ -1,0 +1,16 @@
+# List of source files containing translatable strings.
+
+src/main.cc
+src/melangeWindow.cc
+src/melangeAboutDialog.cc
+src/pythonPdfWriter.cc
+src/melangeListStore.cc
+src/gtkbuilder2ustring.cc
+src/melangeDrawingArea.cc
+src/melange.ui.h
+src/melangePreferences.ui.h
+src/melangePreferences.cc
+src/melangeLogging.cc
+src/melangeKeyFile.cc
+src/melangePassword.cc
+

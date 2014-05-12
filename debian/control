@@ -1,0 +1,21 @@
+Source: pdfmelange
+Section: utils
+Priority: optional
+Maintainer: Tobias Tandetzki <tobzki@googlemail.com>
+Build-Depends: debhelper (>= 8.0.0), autotools-dev
+Standards-Version: 3.9.2
+Homepage: http://dertoki.github.io/pdfMelange/
+Vcs-Git: git://github.com/dertoki/pdfMelange.git
+Vcs-Browser: https://github.com/dertoki/pdfMelange
+
+Package: pdfmelange
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, python-pypdf
+Description: A program to modify PDF documents.
+ + Merging PDF documents.
+ + Erasing pages.
+ + Change the page order.
+ + Modify the orientation of pages by rotating in 90° steps.
+ + Drag an drop files from your file manager.
+ + Free and open software.
+

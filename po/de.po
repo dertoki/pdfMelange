@@ -1,0 +1,326 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: pdfmelange\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2014-05-08 19:58+0200\n"
+"PO-Revision-Date: 2014-05-08 20:10+0100\n"
+"Last-Translator: Tobias Tandetzki <tobzki@googlemail.com>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: German\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.5.4\n"
+
+#: ../src/melangeWindow.cc:411 ../src/melangeWindow.cc:542
+msgid "File already exists. Replace the old one?"
+msgstr "Die Datei ist bereits vorhanden, soll diese überschrieben werden?"
+
+#: ../src/melangeWindow.cc:463
+msgid "saved file "
+msgstr "gespeichert in Datei "
+
+#: ../src/melangeWindow.cc:493
+msgid "Save file"
+msgstr "Datei speichern"
+
+#: ../src/melangeWindow.cc:614
+msgid "Please choose a file"
+msgstr "Bitte eine Datei auswählen"
+
+#: ../src/melangeWindow.cc:812
+#, c-format
+msgid "file \"%s\" page %i"
+msgstr "Datei \"%s\" Seite %i"
+
+#: ../src/melange.ui.h:1
+msgid "About ..."
+msgstr "Über ..."
+
+#: ../src/melange.ui.h:2
+msgid "About PdfMelange ..."
+msgstr "Über pdfMelange ..."
+
+#: ../src/melange.ui.h:3
+msgid "Append a file ..."
+msgstr "Datei anfügen"
+
+#: ../src/melange.ui.h:4
+msgid "Append ..."
+msgstr "Anfügen"
+
+#: ../src/melange.ui.h:5
+msgid "_Copy"
+msgstr "_Kopieren"
+
+#: ../src/melange.ui.h:6
+msgid "Copy"
+msgstr "Kopieren"
+
+#: ../src/melange.ui.h:7
+msgid "Copy selected pages"
+msgstr "Markierte Seiten kopieren"
+
+#: ../src/melange.ui.h:8
+msgid "Cu_t"
+msgstr "_Ausschneiden"
+
+#: ../src/melange.ui.h:9
+msgid "Cut"
+msgstr "Ausschneiden"
+
+#: ../src/melange.ui.h:10
+msgid "Cut selected pages"
+msgstr "Markierte Seiten ausschneiden."
+
+#: ../src/melange.ui.h:11
+msgid "_Delete"
+msgstr "_Löschen"
+
+#: ../src/melange.ui.h:12
+msgid "Del"
+msgstr "Löschen"
+
+#: ../src/melange.ui.h:13
+msgid "Delete selected pages"
+msgstr "Markierte Seiten löschen"
+
+#: ../src/melange.ui.h:14
+msgid "Insert a file ..."
+msgstr "Datei einfügen"
+
+#: ../src/melange.ui.h:15
+msgid "Insert ..."
+msgstr "Einfügen"
+
+#: ../src/melange.ui.h:16
+msgid "Move element down"
+msgstr "Seite nach hinten verschieben"
+
+#: ../src/melange.ui.h:17
+msgid "down"
+msgstr "nach unten"
+
+#: ../src/melange.ui.h:18
+msgid "Move element up"
+msgstr "Seite nach vorne verschieben"
+
+#: ../src/melange.ui.h:19
+msgid "O_pen"
+msgstr "_Öffnen"
+
+#: ../src/melange.ui.h:20
+msgid "Open a file ..."
+msgstr "Datei öffnen."
+
+#: ../src/melange.ui.h:21
+msgid "_Paste"
+msgstr "_Einfügen"
+
+#: ../src/melange.ui.h:22
+msgid "paste"
+msgstr "Einfügen"
+
+#: ../src/melange.ui.h:23
+msgid "Paste selected pages"
+msgstr "Markierte Seiten einfügen"
+
+#: ../src/melange.ui.h:24
+msgid "Pr_eferences"
+msgstr "_Einstellungen"
+
+#: ../src/melange.ui.h:25
+msgid "User preferendes dialog."
+msgstr "Benutzereinstellungen ..."
+
+#: ../src/melange.ui.h:26
+msgid "Quit"
+msgstr "Beenden"
+
+#: ../src/melange.ui.h:27
+msgid "Quit PDFmelange"
+msgstr "pdfMelange beenden"
+
+#: ../src/melange.ui.h:28
+msgid "CCW"
+msgstr "Links drehen"
+
+#: ../src/melange.ui.h:29
+msgid "Rotate counter-clockwise"
+msgstr "Entgegen dem Uhrzeigersinn drehen"
+
+#: ../src/melange.ui.h:30
+msgid "CW"
+msgstr "Rechts drehen"
+
+#: ../src/melange.ui.h:31
+msgid "Rotate clockwise"
+msgstr "Im Uhrzeigersinn drehen"
+
+#: ../src/melange.ui.h:32
+msgid "Save ..."
+msgstr "Sichern ..."
+
+#: ../src/melange.ui.h:33
+msgid "Save as ..."
+msgstr "Sichern als ..."
+
+#: ../src/melange.ui.h:34
+msgid "Unselect all"
+msgstr "Markierung aufheben"
+
+#: ../src/melange.ui.h:35
+msgid "Select all"
+msgstr "Alle Seiten auswählen"
+
+#: ../src/melange.ui.h:36
+msgid "Systeminfo ..."
+msgstr "Systeminformationen ..."
+
+#: ../src/melange.ui.h:37
+msgid "System information ..."
+msgstr "Systeminformationen ..."
+
+#: ../src/melange.ui.h:38
+msgid "_Zoom fit"
+msgstr "_Anpassen"
+
+#: ../src/melange.ui.h:39
+msgid "Zoom fit"
+msgstr "Anpassen"
+
+#: ../src/melange.ui.h:40
+msgid "_Zoom in"
+msgstr "_Ansicht verkleinern"
+
+#: ../src/melange.ui.h:41
+msgid "Zoom in"
+msgstr "Ansicht verkleinern"
+
+#: ../src/melange.ui.h:42
+msgid "_Zoom out"
+msgstr "_Ansicht vergrößern"
+
+#: ../src/melange.ui.h:43
+msgid "Zoom out"
+msgstr "Ansicht vergrößern"
+
+#: ../src/melange.ui.h:44
+msgid "_File"
+msgstr "_Datei"
+
+#: ../src/melange.ui.h:45
+msgid "_Edit"
+msgstr "_Bearbeiten"
+
+#: ../src/melange.ui.h:46
+msgid "_View"
+msgstr "_Ansicht"
+
+#: ../src/melange.ui.h:47
+msgid "_Select all"
+msgstr "Alles _markieren"
+
+#: ../src/melange.ui.h:48
+msgid "_Unselect all"
+msgstr "Markierung _aufheben"
+
+#: ../src/melange.ui.h:49
+msgid "Zoom all"
+msgstr "An Seite anpassen"
+
+#: ../src/melange.ui.h:50
+msgid "_Help"
+msgstr "_Hilfe"
+
+#: ../src/melange.ui.h:51
+msgid "About PdfMelange"
+msgstr "Über pdfMelange"
+
+#: ../src/melange.ui.h:52
+msgid "toolbutton1"
+msgstr "toolbutton1"
+
+#: ../src/melange.ui.h:53
+msgid "toolbutton2"
+msgstr "toolbutton2"
+
+#: ../src/melange.ui.h:54
+msgid "toolbutton3"
+msgstr "toolbutton3"
+
+#: ../src/melange.ui.h:55
+msgid "PDF View"
+msgstr "PDF Ansicht"
+
+#: ../src/melange.ui.h:56
+msgid "File Info"
+msgstr "Datei Information"
+
+#: ../src/melangePreferences.ui.h:1
+msgid "pdfMelange-preferences"
+msgstr "pdfMelange-Voreinstellungen"
+
+#: ../src/melangePreferences.ui.h:2
+msgid "Iconsize"
+msgstr "Symbolgröße"
+
+#: ../src/melangePreferences.ui.h:3
+msgid "Viewer startup pagemode"
+msgstr "Starteinstellungen für 'pagemode' des PDF Betrachters"
+
+#: ../src/melangePreferences.ui.h:4
+msgid "Viewer startup pagelayout"
+msgstr "Starteinstellungen für 'layout' des PDF Betrachters"
+
+#: ../src/melangePreferences.ui.h:5
+msgid "Activate message logging to a file"
+msgstr "Nachrichtenprotokollierung in eine Datei"
+
+#: ../src/melangePreferences.ui.h:6
+msgid "Cancel"
+msgstr "Abbrechen"
+
+#: ../src/melangePreferences.ui.h:7
+msgid "Save"
+msgstr "Sichern"
+
+#: ../src/melangePassword.cc:48
+msgid "Trying to open an encrypted PDF file."
+msgstr "Versuche eine verschlüsselte Datei zu öffnen."
+
+#: ../src/melangePassword.cc:52
+msgid "Please enter the password ..."
+msgstr "Bitte das Passwort eingeben ..."
+
+#~ msgid "file"
+#~ msgstr "Datei"
+
+#~ msgid "page"
+#~ msgstr "Seite"
+
+#~ msgid "rotation"
+#~ msgstr "Drehung"
+
+#~ msgid "Error when opening a PDF file with restricted permissions."
+#~ msgstr "Fehler beim Öffnen einer Datei mit beschränkter Berechtigung."
+
+#~ msgid "Restricted permissions are not supported yet."
+#~ msgstr "Eingeschränkte Berechtigungen werden noch nicht unterstützt."
+
+#~ msgid "file "
+#~ msgstr "Datei "
+
+#~ msgid " opened."
+#~ msgstr " wurde geöffnet."
+
+#~ msgid "logging is written to "
+#~ msgstr "Protokollierung in Datei "
+
+#~ msgid "this is pdfMelange"
+#~ msgstr "Dies ist pdfMelange."

@@ -1,0 +1,33 @@
+Installation
+============
+
+GNU Linux:
+----------
+
+$ tar xvzf pdfMelange-0.4.tar.gz
+$ cd pdfMelange
+$ ./configure
+$ make
+$ sudo make install
+
+
+Windows:
+--------
+	
+	Start pdfMelange-setup.exe
+
+
+Uninstall
+=========
+
+GNU Linux:
+----------
+
+$ cd pdfMelange
+$ sudo make uninstall
+
+
+Windows:
+--------
+	
+	Start the system configuration and do the unsinstall. 

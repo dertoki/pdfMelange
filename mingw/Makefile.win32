@@ -1,0 +1,93 @@
+PREFIX=/opt/gtk38
+#PREFIX=/opt/gtk36
+
+INCLUDEDIR=$(PREFIX)/include
+LIBDIR=$(PREFIX)/lib
+PKG_CONFIG_PATH=$(PREFIX)/lib/pkgconfig
+PKG_CONFIG= PKG_CONFIG_PATH=$(PKG_CONFIG_PATH) pkg-config --define-variable=prefix=$(PREFIX) --define-variable=includedir=$(INCLUDEDIR) --define-variable=libdir=$(LIBDIR)
+
+CC=i686-w64-mingw32-g++
+RC=i686-w64-mingw32-windres
+
+CFLAGS := $(shell $(PKG_CONFIG) --cflags gtkmm-3.0 poppler-glib) \
+ 		-I/home/tobi/.wine/drive_c/Python27/include -Isrc -include cmath \
+		-std=c++0x -Os -s -Wall \
+		-Duse_python 
+LDFLAGS = -Os -s -mms-bitfields -mwindows
+#LDFLAGS = -Os -s -mms-bitfields
+#LDFLAGS = -Os -s -mms-bitfields -mwindows -static-libgcc -static-libstdc++ -lws2_32
+
+#
+# pdfMelange:
+#
+M_LIBS := $(shell $(PKG_CONFIG) --libs gtkmm-3.0 poppler-glib) -lpython27
+M_LDFLAGS = $(LDFLAGS) -L$(PKG_PREFIX)/lib -L/home/tobi/.wine/drive_c/Python27/libs
+M_OBJDIR := ../src
+M_OBJS := $(addprefix $(M_OBJDIR)/,main.o  melangeAboutDialog.o  melangeDrawingArea.o  melangeListStore.o  melangeTreeView.o  melangeWindow.o  pythonPdfWriter.o melangeKeyFile.o melangeLogging.o melangePreferences.o melangePassword.o) pdfMelange-resource.o
+M_BIN := ./dist/bin/pdfMelange.exe
+
+# 
+# pdfMelange locales 
+#
+M_PODIR := ../po
+M_POS := $(addprefix $(M_PODIR)/,de.po)
+M_MO_DE := ./dist/share/locale/de_DE/LC_MESSAGES/pdfmelange.mo
+
+#
+# launcher:
+#
+L_LIBS := 
+L_LDFLAGS = $(LDFLAGS)
+L_OBJS := launcher.o launcher-resource.o
+L_BIN := ./dist/set-up.exe
+
+#
+# portable_set-up:
+#
+P_LIBS := $(shell $(PKG_CONFIG) --libs  gtkmm-3.0)
+P_LDFLAGS = $(LDFLAGS)
+P_OBJS := portable_set-up.o portable_set-up_resource.o
+P_BIN := ./dist/bin/portable_set-up.exe
+
+all: mkdir $(M_BIN) $(L_BIN) $(P_BIN) $(M_MO_DE)
+
+melange: mkdir $(M_BIN) $(M_MO_DE)
+
+portable: mkdir $(M_BIN) $(L_BIN) $(P_BIN)
+
+$(P_BIN): mkdir $(P_OBJS)
+	$(CC) -o $@ $(P_OBJS) $(P_LIBS) $(P_LDFLAGS)
+
+$(L_BIN): $(L_OBJS)
+	$(CC) -o $@ $(L_OBJS) $(L_LIBS) $(L_LDFLAGS)
+
+$(M_BIN): $(M_OBJS)
+	$(CC) -o $@ $(M_OBJS) $(M_LIBS) $(M_LDFLAGS)
+
+$(M_MO_DE): $(M_POS)
+	msgfmt $(M_POS) -o $@
+
+%.o: %.cc
+	$(CC) -c $< -o $@ $(CFLAGS)
+
+%.o: %.c
+	$(CC) -c $< -o $@ $(CFLAGS)
+
+%.o: %.rc
+	$(RC) $< -o $@
+
+mkdir:
+	mkdir -vp ./dist/bin
+	mkdir -vp ./dist/share/locale/de_DE/LC_MESSAGES
+
+clean:
+	rm -vrf $(M_BIN) $(M_OBJS) $(L_OBJS) $(P_OBJS)
+
+print:
+	@echo $(PKG_CONFIG)
+
+help:
+	@echo "" 
+	@echo "make -f Makefile.win32 melange: creates pdfMelage.exe in ./dist/bin"
+	@echo "make -f Makefile.win32 portable: creates set-up.exe in ./dist/bin and portable_set-up.exe in ./dist/bin/"
+	@echo "" 

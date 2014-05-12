@@ -1,0 +1,10 @@
+./Debug/src/gtkbuilder2ustring src/melange.ui src/melange.ui-string.h
+./Debug/src/gtkbuilder2ustring src/melangePreferences.ui src/melangePreferences.ui-string.h
+cd po
+# update glade i18n header .ui.h
+intltool-extract --type=gettext/glade ../src/melange.ui
+intltool-extract --type=gettext/glade ../src/melangePreferences.ui
+# update pot file
+intltool-update --pot
+# edit po files ...
+poedit de.po
