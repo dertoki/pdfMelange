@@ -13,8 +13,8 @@ CFLAGS := $(shell $(PKG_CONFIG) --cflags gtkmm-3.0 poppler-glib) \
  		-I/home/tobi/.wine/drive_c/Python27/include -Isrc -include cmath \
 		-std=c++0x -Os -s -Wall \
 		-Duse_python 
-#LDFLAGS = -Os -s -mms-bitfields -mwindows
-LDFLAGS = -Os -s -mms-bitfields
+LDFLAGS = -Os -s -mms-bitfields -mwindows
+#LDFLAGS = -Os -s -mms-bitfields
 #LDFLAGS = -Os -s -mms-bitfields -mwindows -static-libgcc -static-libstdc++ -lws2_32
 
 #
