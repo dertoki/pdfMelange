@@ -82,6 +82,8 @@ private:
 
     double m_pdfScale;
     double m_zoom;
+	static constexpr double m_zoom_plus = 1.2f;
+	static constexpr double m_zoom_minus = 0.8f;
     int m_x, m_y;
     int m_x0, m_y0;
     int m_dx, m_dy;

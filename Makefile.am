@@ -21,7 +21,6 @@ pdfmelangeDesktop_DATA = extra/pdfmelange.desktop
 mingw_FILES = \
 	mingw/get_win32_deps.sh \
 	mingw/icons.lst \
-    mingw/install.txt \
 	mingw/launcher.c \
 	mingw/launcher-resource.rc \
 	mingw/licence.txt \

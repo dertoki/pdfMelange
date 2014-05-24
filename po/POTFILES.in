@@ -13,4 +13,5 @@ src/melangePreferences.cc
 src/melangeLogging.cc
 src/melangeKeyFile.cc
 src/melangePassword.cc
-
+src/melangeListStore.cc
+src/melangeTreeView.cc

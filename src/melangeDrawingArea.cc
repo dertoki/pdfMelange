@@ -239,7 +239,7 @@ void melangeDrawingArea::draw_fitted_to_window()
 void melangeDrawingArea::draw_zoom_in()
 {
     if (m_pPage) {
-        m_zoom = 1.1;
+        m_zoom = m_zoom_plus;
         m_mtx = m_mtx * calculate_zoom_matrix(m_width/2, m_height/2, m_zoom);
         m_pdfScale *= m_zoom;
 
@@ -253,7 +253,7 @@ void melangeDrawingArea::draw_zoom_in()
 void melangeDrawingArea::draw_zoom_out()
 {
     if (m_pPage) {
-        m_zoom = 0.9;
+        m_zoom = m_zoom_minus;
         m_mtx = m_mtx * calculate_zoom_matrix(m_width/2, m_height/2, m_zoom);
         m_pdfScale *= m_zoom;
 

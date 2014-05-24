@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pdfmelange\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-05-08 19:58+0200\n"
-"PO-Revision-Date: 2014-05-08 20:10+0100\n"
+"POT-Creation-Date: 2014-05-17 15:00+0200\n"
+"PO-Revision-Date: 2014-05-17 15:09+0100\n"
 "Last-Translator: Tobias Tandetzki <tobzki@googlemail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: German\n"
@@ -29,7 +29,7 @@ msgstr "gespeichert in Datei "
 msgid "Save file"
 msgstr "Datei speichern"
 
-#: ../src/melangeWindow.cc:614
+#: ../src/melangeWindow.cc:614 ../src/melangeTreeView.cc:911
 msgid "Please choose a file"
 msgstr "Bitte eine Datei auswählen"
 
@@ -54,7 +54,7 @@ msgstr "Datei anfügen"
 msgid "Append ..."
 msgstr "Anfügen"
 
-#: ../src/melange.ui.h:5
+#: ../src/melange.ui.h:5 ../src/melangeTreeView.cc:90
 msgid "_Copy"
 msgstr "_Kopieren"
 
@@ -66,7 +66,7 @@ msgstr "Kopieren"
 msgid "Copy selected pages"
 msgstr "Markierte Seiten kopieren"
 
-#: ../src/melange.ui.h:8
+#: ../src/melange.ui.h:8 ../src/melangeTreeView.cc:94
 msgid "Cu_t"
 msgstr "_Ausschneiden"
 
@@ -78,7 +78,7 @@ msgstr "Ausschneiden"
 msgid "Cut selected pages"
 msgstr "Markierte Seiten ausschneiden."
 
-#: ../src/melange.ui.h:11
+#: ../src/melange.ui.h:11 ../src/melangeTreeView.cc:98
 msgid "_Delete"
 msgstr "_Löschen"
 
@@ -118,7 +118,7 @@ msgstr "_Öffnen"
 msgid "Open a file ..."
 msgstr "Datei öffnen."
 
-#: ../src/melange.ui.h:21
+#: ../src/melange.ui.h:21 ../src/melangeTreeView.cc:102
 msgid "_Paste"
 msgstr "_Einfügen"
 
@@ -298,20 +298,33 @@ msgstr "Versuche eine verschlüsselte Datei zu öffnen."
 msgid "Please enter the password ..."
 msgstr "Bitte das Passwort eingeben ..."
 
-#~ msgid "file"
-#~ msgstr "Datei"
+#: ../src/melangeTreeView.cc:82
+msgid "Rotate CW"
+msgstr "Drehe rechts"
 
-#~ msgid "page"
-#~ msgstr "Seite"
+#: ../src/melangeTreeView.cc:86
+msgid "Rotate CCW"
+msgstr "Drehe links"
 
-#~ msgid "rotation"
-#~ msgstr "Drehung"
+#: ../src/melangeTreeView.cc:125
+msgid "file"
+msgstr "Datei"
 
-#~ msgid "Error when opening a PDF file with restricted permissions."
-#~ msgstr "Fehler beim Öffnen einer Datei mit beschränkter Berechtigung."
+#: ../src/melangeTreeView.cc:126
+msgid "page"
+msgstr "Seite"
 
-#~ msgid "Restricted permissions are not supported yet."
-#~ msgstr "Eingeschränkte Berechtigungen werden noch nicht unterstützt."
+#: ../src/melangeTreeView.cc:127
+msgid "rotation"
+msgstr "Drehung"
+
+#: ../src/melangeTreeView.cc:408
+msgid "Error when opening a PDF file with restricted permissions."
+msgstr "Fehler beim Öffnen einer Datei mit beschränkter Berechtigung."
+
+#: ../src/melangeTreeView.cc:410
+msgid "Restricted permissions are not supported yet."
+msgstr "Eingeschränkte Berechtigungen werden noch nicht unterstützt."
 
 #~ msgid "file "
 #~ msgstr "Datei "

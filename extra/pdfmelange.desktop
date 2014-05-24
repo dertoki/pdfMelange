@@ -1,0 +1,12 @@
+[Desktop Entry]
+Name=pdfMelange
+GenericName=PDF editor
+Comment=PDF merge and modify.
+Comment[de]=Zusammenstellen und verändern von PDF Dokumenten.
+Exec=pdfmelange
+Terminal=false
+Icon=pdfmelange
+Type=Application
+MimeType=application/pdf;
+Categories=Utility;FileTools;GTK
+

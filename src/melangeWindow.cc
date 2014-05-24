@@ -155,6 +155,7 @@ melangeWindow::melangeWindow(BaseObjectType* cobject, const Glib::RefPtr<Gtk::Bu
 	m_pTreeView->signal_selected.connect( sigc::mem_fun(*this, &melangeWindow::set_sensitive_on_selection) );
     m_pTreeView->signal_list_modified.connect( sigc::bind<bool>( sigc::mem_fun(*this, &melangeWindow::set_mainFile_is_modified), true) );
 	m_pTreeView->signal_item_modified.connect( sigc::mem_fun(*this, &melangeWindow::set_pdf_preview) );
+	m_pTreeView->signal_new.connect( sigc::mem_fun(*this, &melangeWindow::set_mainFileName) );
 	
     //this->set_sensitive_on_selection(false);
 

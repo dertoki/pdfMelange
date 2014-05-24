@@ -376,7 +376,8 @@ void melangeTreeView::get_pdf_document(Glib::ustring uri,
         /** read the the file into the model */
         error = m_refModel->read_pdf_document(uri, password, iter, pos);
 
-        if (error && error->code == POPPLER_ERROR_ENCRYPTED) {
+        if (error && error->code == POPPLER_ERROR_ENCRYPTED) // handle encrypted files
+        {
             g_message("   Error Nr.%i, %s\n", error->code, error->message);
             melangePassword dialog("Password request dialog", (Gtk::Window&)(*this->get_toplevel()));
             switch(dialog.run())
@@ -398,8 +399,9 @@ void melangeTreeView::get_pdf_document(Glib::ustring uri,
                     break;
                 }
             }
-        }
-        if (error && error->code == MELANGE_ERROR_PERMISSIONS) {
+        } 
+        else if (error && error->code == MELANGE_ERROR_PERMISSIONS) // handle pdf permissions
+        {
             g_message("  Error Nr.%i, %s\n", error->code, error->message);
 
             Glib::ustring message;
@@ -413,6 +415,10 @@ void melangeTreeView::get_pdf_document(Glib::ustring uri,
                                              Gtk::BUTTONS_CLOSE);
             messagedialog.run();
 
+            error = NULL;
+        }
+        else // e.g. file with wrong extension. 
+        {
             error = NULL;
         }
     } while (error);
@@ -618,16 +624,16 @@ void melangeTreeView::on_drop_drag_data_received(
 
             if (m_refModel->children().empty())
             {
-                Glib::ustring filename = uri_list[0];
-                if ( Glib::str_has_suffix(filename, ".pdf") || Glib::str_has_suffix(filename, ".PDF") )
-                    signal_new.emit(filename);
+                Glib::ustring uri = uri_list[0];
+                if ( Glib::str_has_suffix(uri, ".pdf") || Glib::str_has_suffix(uri, ".PDF") )
+                    signal_new.emit(Glib::filename_from_uri(uri));
             }
 
             Gtk::TreeModel::Row destRow;
             for (int i = 0; i < uri_list.size(); i++)
             {
-                Glib::ustring filename = uri_list[0];
-                if ( Glib::str_has_suffix(filename, ".pdf") || Glib::str_has_suffix(filename, ".PDF") )
+                Glib::ustring uri = uri_list[0];
+                if ( Glib::str_has_suffix(uri, ".pdf") || Glib::str_has_suffix(uri, ".PDF") )
                     get_pdf_document(uri_list[0].c_str(), destIter, pos);
                 else
                     g_message("   error: \"%s\" : file extension incorrect!", uri_list[i].c_str());
