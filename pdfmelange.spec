@@ -1,5 +1,5 @@
 Name:           pdfmelange
-Version:        0.4
+Version:        0.4.1
 Release:        1%{?dist}
 Summary:        A program to modify PDF documents.
 
@@ -7,15 +7,14 @@ License:        GPLv3+
 URL:            http://dertoki.github.io/pdfMelange/
 Source0:        %{name}-%{version}.tar.gz
 
-
-%if %{defined suse_version}
-BuildRequires:  gcc-c++,intltool,gtkmm3-devel,poppler-glib-devel,python2-devel
-Requires:       gtkmm3,poppler-glib,python,pyPdf
+%if 0%{?fedora}
+BuildRequires:  gcc-c++,intltool,gtkmm30-devel,poppler-glib-devel,python2-devel
+Requires:       gtkmm30,poppler-glib,python,pyPdf
 %endif
 
-%if %{defined fedora}
-BuildRequires:  gcc-c++,intltool,gtkmm30-devel,libpoppler-glib-devel,python2-devel
-Requires:       gtkmm30,libpoppler-glib,python,pyPdf
+%if 0%{?suse_version} == 1310
+BuildRequires:  gcc-c++,intltool,gtkmm3-devel,libpoppler-glib-devel,python-devel,update-desktop-files
+Requires:       libpoppler-glib8,libpython2_7-1_0,python-pypdf
 %endif
 
 %description
@@ -37,21 +36,28 @@ make %{?_smp_mflags}
 
 
 %install
-rm -rf $RPM_BUILD_ROOT
+%if 0%{?suse_version} == 1310
+%suse_update_desktop_file -r -G 'PDF editor' %{name} Utility DesktopUtility
+%endif
+
 %make_install
 
+%clean
+rm -rf $RPM_BUILD_ROOT
 
 %files
 /usr/bin/pdfmelange
-/usr/doc/pdfmelange/AUTHORS
-/usr/doc/pdfmelange/COPYING
-/usr/doc/pdfmelange/ChangeLog
-/usr/doc/pdfmelange/INSTALL
-/usr/doc/pdfmelange/NEWS
-/usr/doc/pdfmelange/README
 /usr/share/applications/pdfmelange.desktop
 /usr/share/locale/de/LC_MESSAGES/pdfmelange.mo
 /usr/share/pixmaps/pdfmelange.png
+%dir /usr/doc
+%dir /usr/doc/pdfmelange
+%doc /usr/doc/pdfmelange/AUTHORS
+%doc /usr/doc/pdfmelange/COPYING
+%doc /usr/doc/pdfmelange/ChangeLog
+%doc /usr/doc/pdfmelange/INSTALL
+%doc /usr/doc/pdfmelange/NEWS
+%doc /usr/doc/pdfmelange/README
 
 %changelog
 * Sun Apr 13 2014 Tobias

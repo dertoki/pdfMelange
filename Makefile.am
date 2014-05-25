@@ -44,6 +44,7 @@ EXTRA_DIST = $(pdfmelangedoc_DATA) \
 	$(data_DATA) \
 	debian \
 	extra \
+    pdfmelange.dsc \
     pdfmelange.spec
 
 DISTCLEANFILES = \
