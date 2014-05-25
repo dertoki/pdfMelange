@@ -230,7 +230,7 @@ function _collect_pythons {
 	M_python_dll_local=$(find $HOME/.wine/ -name $M_python_dll | tail -n 1)
 
 	M_python_libs_main='_abcoll.py abc.py codecs.py copy.py copy_reg.py decimal.py functools.py __future__.py genericpath.py hashlib.py linecache.py locale.py ntpath.py numbers.py os.py re.py site.py sre_compile.py sre_constants.py sre_parse.py stat.py struct.py sysconfig.py traceback.py types.py UserDict.py warnings.py weakref.py _weakrefset.py fnmatch.py shutil.py tempfile.py collections.py keyword.py heapq.py bisect.py random.py'
-	M_python_libs_encodings='aliases.py ascii.py cp1252.py cp850.py hex_codec.py __init__.py'
+	M_python_libs_encodings='aliases.py ascii.py cp1252.py cp850.py utf_16.py cp437.py hex_codec.py __init__.py'
 	M_python_libs_pypdf='filters.py filters.py generic.py generic.py __init__.py __init__.py pdf.py pdf.py utils.py utils.py xmp.py xmp.py'
 
 	# copy python runtime library.

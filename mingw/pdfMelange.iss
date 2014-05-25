@@ -22,6 +22,7 @@ AppUpdatesURL={#MyAppURL}
 DefaultDirName={pf}\{#MyAppName}
 DefaultGroupName={#MyAppName}
 LicenseFile=licence.txt
+InfoAfterFile=install.txt
 OutputDir=output
 OutputBaseFilename=setup
 Compression=lzma
