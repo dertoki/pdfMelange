@@ -1,0 +1,309 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+	<title></title>
+	<meta name="generator" content="Zim 0.60">
+	<meta name="viewport" content="width=device-width">
+	<!-- <link href='http://fonts.googleapis.com/css?family=Open+Sans:300&subset=latin,greek,latin-ext' rel='stylesheet' type='text/css'> -->
+	<![if !IE]>
+	<!-- comment out for IE since it spams the user with warnings -->
+	<script type='text/javascript' src='http://code.jquery.com/jquery-1.7.1.js'></script>
+	<script type='text/javascript'>
+		$(window).load(function(){$("#navigation").height( $("#content").height()+65 );});
+	</script>
+	<![endif]>
+	<style>
+		body, html {
+			height:100%;
+			font-family:'Open Sans', sans-serif;
+			line-height:1.5em;
+			font-weight:300;
+			background-color:#FAFAFA;
+			text-rendering:geometricPrecision;
+			margin:0;
+			padding:0;
+		}
+		.wrapper {
+			height:100%;
+			position:relative;
+		}
+		#navigation {
+			background-color:#F3F3F3;
+			display:inline-block;
+			border-right:1px solid #EAEAEA;
+			padding-right:65px;
+			padding-top:65px;
+			padding-left:25px;
+			position:relative;
+			float:left;
+			min-height:100%;
+		}
+		#content {
+			float:left;
+			display:inline-block;
+			position:absolute;
+			max-width:960px;
+			padding:65px;
+		}
+		#navigation ul {
+			margin-top:0;
+			margin-bottom:0;
+			padding-left:40px;
+		}
+		#navigation li {
+			list-style-type:none;
+		}
+		#navigation a {
+			text-decoration:none;
+			color:gray;
+		}
+		#navigation strong {
+			color:#4E9A06;
+			font-weight:400;
+		}
+		#navigation a:hover {
+			text-decoration:underline;
+		}
+		#content h1:nth-child(1) {
+			margin-top:0;
+		}
+		h1,h2,h3,h4,h5,h6 {
+			color:#4E9A06;
+			font-weight:300;
+		}
+		#content a {
+			color:#CE5C00;
+		}
+		#content a {
+			text-decoration: none;
+		}
+		#content a:hover {
+			text-decoration: underline;
+		}
+		#content a:active {
+			text-decoration: underline;
+		}
+		#content strike {
+			color: grey;
+		}
+		#content u {
+			text-decoration: none;
+			background-color: yellow;
+		}
+		#content tt {
+			color: #2e3436;
+		}
+		#content pre {
+			color: #2e3436;
+			margin-left: 20px;
+		}
+		.backlinks {
+			color:gray;
+		}
+		hr.footnotes {
+			width: 20%;
+			margin-left: 0;
+		}
+		@media print{
+			#navigation{
+				background-color:#FFF;
+			}
+		}
+	</style>
+</head>
+<body>
+	<div class="wrapper">
+		<div id="navigation"> 
+			<h2>pdfMelange</h2>
+			<img id="about" src='/pdfMelange/Home/logo.jpg' height="100px" width="146px" />
+			<ul>
+<li><a href="/pdfMelange/index.html" title="Home" class="page">Home</a></li>
+<ul>
+<li><a href="/pdfMelange/Home/Development.html" title="Development" class="page">Development</a></li>
+<ul>
+<li><a href="/pdfMelange/Home/Development/build_from_C%2B%2B_sources.html" title="build from C++ sources" class="page">build from C++ sources</a></li>
+<li><a href="/pdfMelange/Home/Development/build_from_java_sources.html" title="build from java sources" class="page">build from java sources</a></li>
+<li><strong class="activepage">build with minGW</strong></li>
+<li><a href="/pdfMelange/Home/Development/links.html" title="links" class="page">links</a></li>
+</ul>
+<li><a href="/pdfMelange/Home/Download.html" title="Download" class="page">Download</a></li>
+<li><a href="/pdfMelange/Home/Installation.html" title="Installation" class="page">Installation</a></li>
+<li><a href="/pdfMelange/Home/License.html" title="License" class="page">License</a></li>
+<li><a href="/pdfMelange/Home/News.html" title="News" class="page">News</a></li>
+<li><a href="/pdfMelange/Home/Screenshots.html" title="Screenshots" class="page">Screenshots</a></li>
+</ul>
+</ul>
+ 
+			<a href="https://github.com/">
+                            <img style="position:absolute; TOP:600px; LEFT:25px" 
+                                 src='/pdfMelange/Home/GitHub_Logo.png' 
+                                 height="41px" width="100px"
+                                 title="hosted at GitHub"
+                            >
+			</a>
+			<a href="http://developer.berlios.de/">
+			    <img style="position:absolute; TOP:642px; LEFT:25px" 
+                                 src='/pdfMelange/Home/bslogo.php.png' 
+                                 height="25px" width="101px"
+                                 title="previously hosted at BerliOS"
+                            >
+			</a>
+			<a href="http://zim-wiki.org/">
+			    <img style="position:absolute; TOP:666px; LEFT:25px" 
+                                 src='/pdfMelange/Home/zim-wiki.png' 
+                                 height="50px" width="50px"
+                                 title="pages build with zim-wiki"
+                            >
+			</a>
+		</div>
+		<div id="content">
+						<h1>build with minGW</h1>
+
+			<p>
+The Windows binaries are created in a cross compiling environment on a linux host. We neither need a Windows installation nor any non free Windows resources. <br>
+</p>
+
+<h4>Requirements and dependencies:</h4>
+
+<p>
+<ol type="1" start="1">
+<li><strong>MinGW</strong>: </li>
+</ol>
+</p>
+
+<p>
+<ol type="a" start="1" style='padding-left: 60pt'>
+<li>Ubuntu 14.04:</li>
+</ol>
+</p>
+
+<p>
+<div style='padding-left: 90pt'>
+<code>sudo apt install mingw-w64 mingw-w64-x86-64-dev</code><br>
+</div>
+</p>
+
+<p>
+<ol type="a" start="2" style='padding-left: 60pt'>
+<li>Fedora f20:</li>
+</ol>
+</p>
+
+<p>
+<div style='padding-left: 90pt'>
+<code>sudo yum install wget mingw-gcc</code><br>
+</div>
+</p>
+
+<p>
+<ol type="1" start="2">
+<li><strong>gtkmm</strong>: </li>
+</ol>
+<div style='padding-left: 30pt'>
+There are precompiled editions of <em>gtkmm</em> for <em>mingw</em> in repositories of <em>openSuse</em> and <em>fedora</em>, so we don't need to compile gtkmm from its sources.<br>
+</div>
+<div style='padding-left: 60pt'>
+<code>sudo yum install mingw32-gtkmm30 mingw32-poppler-glib</code><br>
+</div>
+<div style='padding-left: 30pt'>
+You will find all the files in <code>/usr/i686-w64-mingw32/sys-root/mingw.</code><br>
+</div>
+</p>
+
+<p>
+<div style='padding-left: 30pt'>
+Install additional icons into <code>sys-root</code>:<br>
+</div>
+</p>
+<pre style='padding-left: 30pt'>
+wget ftp://ftp.gnome.org/pub/gnome/sources/gnome-icon-theme/3.6/gnome-icon-theme-3.6.0.tar.xz
+sudo mkdir -p /usr/i686-w64-mingw32/sys-root/mingw/share/icons
+sudo tar xvf gnome-icon-theme-3.6.0.tar.xz \
+	-C /usr/i686-w64-mingw32/sys-root/mingw/share/icons \
+	gnome-icon-theme-3.6.0/gnome/ --strip-components=1
+</pre>
+
+	
+<p>
+<div style='padding-left: 30pt'>
+To use that edition with Ubuntu, take a copy of <code>sys-root/mingw </code>from a fedora installation and modify the pkg-config variables, so that it uses a different installation path (check "<code>Makefile.win32</code>" for details).<br>
+</div>
+</p>
+
+
+<h4>Build:</h4>
+
+<p>
+<ol type="1" start="1">
+<li><strong>Compile pdfMelange:</strong></li>
+</ol>
+<div style='padding-left: 30pt'>
+A particular makefile "<code>Makefile.win32</code>" in the subdirectory <code>"./mingw"</code> is used to build the binaries. Check the makefile variable <code>PKG_PREFIX </code>and start the make.<br>
+</div>
+</p>
+<pre style='padding-left: 30pt'>
+cd mingw
+make -f Makefile.win32
+</pre>
+
+<p>
+<ol type="1" start="2">
+<li><strong>Build a setup program:</strong></li>
+</ol>
+<div style='padding-left: 30pt'>
+It's boring to collect all necessary files for a Windows distribution. We need a lot of library files, icons, etc.  Files have to reside in specific directories and the directories have to be arranged in a special order.<br>
+For this process I deliver the script '<code>get_win32_deps.sh</code>' that collects the files and creates a windows setup program:<br>
+</div>
+<ul style='padding-left: 60pt'>
+<li>Resolve dependencies:</li>
+</ul>
+</p>
+
+<p>
+<ul style='padding-left: 90pt'>
+<li>We need an installation of Wine:</li>
+</ul>
+</p>
+<pre style='padding-left: 30pt'>
+	sudo apt-get install wine
+</pre>
+<p>
+<ul style='padding-left: 90pt'>
+<li>A Windows version of <strong>Python</strong>, <strong>pyPdf</strong> and <strong>'Inno Setup'</strong> needs to be installed:</li>
+</ul>
+</p>
+<pre style='padding-left: 30pt'>
+	./get_win32_deps.sh depload
+	./get_win32_deps.sh depinst
+</pre>
+
+<p>
+<ul style='padding-left: 60pt'>
+<li>Start the build process:</li>
+</ul>
+</p>
+<pre style='padding-left: 30pt'>
+	./get_win32_deps.sh buildsetup
+</pre>
+<p>
+<ul style='padding-left: 60pt'>
+<li>The target file structure is colleced in '<code>mingw/dist</code>'.</li>
+<li>The setup program is copied to '<code>mingw/output</code>'.</li>
+</ul>
+</p>
+
+
+			<br>
+			<hr class='footnotes'>
+			<span class="backlinks">
+				Backlinks:
+								<a href='/pdfMelange/Home/Development.html'>Home:Development</a>
+			</span>
+		</div>
+	</div>
+</body>
+</html>
+
