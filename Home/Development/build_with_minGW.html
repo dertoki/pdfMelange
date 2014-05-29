@@ -178,9 +178,6 @@ The Windows binaries are created in a cross compiling environment on a linux hos
 <ol type="a" start="1" style='padding-left: 60pt'>
 <li>Ubuntu 14.04:</li>
 </ol>
-</p>
-
-<p>
 <div style='padding-left: 90pt'>
 <code>sudo apt install mingw-w64 mingw-w64-x86-64-dev</code><br>
 </div>
@@ -190,9 +187,6 @@ The Windows binaries are created in a cross compiling environment on a linux hos
 <ol type="a" start="2" style='padding-left: 60pt'>
 <li>Fedora f20:</li>
 </ol>
-</p>
-
-<p>
 <div style='padding-left: 90pt'>
 <code>sudo yum install wget mingw-gcc</code><br>
 </div>
@@ -266,10 +260,11 @@ For this process I deliver the script '<code>get_win32_deps.sh</code>' that coll
 <ul style='padding-left: 90pt'>
 <li>We need an installation of Wine:</li>
 </ul>
+<div style='padding-left: 120pt'>
+<code>sudo apt-get install wine</code><br>
+</div>
 </p>
-<pre style='padding-left: 30pt'>
-	sudo apt-get install wine
-</pre>
+				
 <p>
 <ul style='padding-left: 90pt'>
 <li>A Windows version of <strong>Python</strong>, <strong>pyPdf</strong> and <strong>'Inno Setup'</strong> needs to be installed:</li>
@@ -287,6 +282,7 @@ For this process I deliver the script '<code>get_win32_deps.sh</code>' that coll
 </p>
 <pre style='padding-left: 30pt'>
 	./get_win32_deps.sh buildsetup
+
 </pre>
 <p>
 <ul style='padding-left: 60pt'>
