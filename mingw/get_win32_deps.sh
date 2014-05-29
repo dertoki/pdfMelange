@@ -42,7 +42,8 @@ M_GTK3_prefix='/opt/gtk38'
 ##########################################################################################################
 
 # download the dependencies for windows.
-function _download_deps {
+function _download_deps 
+{
 	if [ ! -f download ] ; then  mkdir download ; fi
 	wget "http://www.python.org/ftp/python/2.7.3/python-2.7.3.msi" -P download
 	wget "http://www.jrsoftware.org/download.php/is.exe" -P download
@@ -50,7 +51,8 @@ function _download_deps {
 }
 
 # install the dependencies for windows.
-function _install_deps {
+function _install_deps 
+{
 	if [ ! -f download ] ; then  mkdir download ; fi
 
 	# a simple check if wine is installed.
@@ -67,7 +69,8 @@ function _install_deps {
 }
 
 # create a windows setup program. 
-function _build_setup {
+function _build_setup 
+{
 #	if [ ! -f output ] ; then  mkdir output ; fi
 
 	# modify the root of "Inno Setup" if necessarry:
@@ -78,7 +81,8 @@ function _build_setup {
 }
 
 # create a portable program. 
-function _build_portable {
+function _build_portable 
+{
 	if [ ! -f output ] ; then  mkdir output ; fi
 
 	echo "Install:" >  dist/readme.txt
@@ -106,8 +110,8 @@ function _build_portable {
 # 1. Collect all necessary files for the project
 ################################################
 
-function _collect_dlls {
-
+function _collect_dlls 
+{
 	# expand this list of additional libraries when you get error messages complaining missing libraries. 
 #	M_GTK3dll="libatk-1.0-0.dll libatkmm-1.6-1.dll libcairo-2.dll libcairo-gobject-2.dll libcairomm-1.0-1.dll libffi-6.dll libfontconfig-1.dll  libfreetype-6.dll libgdk-3-0.dll libgdkmm-3.0-1.dll libgdk_pixbuf-2.0-0.dll libgio-2.0-0.dll libgiomm-2.4-1.dll libglib-2.0-0.dll libglibmm-2.4-1.dll libgmodule-2.0-0.dll libgobject-2.0-0.dll libgtk-3-0.dll libgtkmm-3.0-1.dll libiconv-2.dll libintl-8.dll libjpeg-9.dll libpango-1.0-0.dll libpangocairo-1.0-0.dll libpangomm-1.4-1.dll libpangowin32-1.0-0.dll libpixman-1-0.dll libpng16-16.dll libpoppler-44.dll libpoppler-glib-8.dll libsigc-2.0-0.dll libtiff-5.dll libxml2-2.dll zlib1.dll"
 	# Fedora f20 DLL collection	
@@ -135,8 +139,8 @@ function _collect_dlls {
 	cp -v $(find '/usr/i686-w64-mingw32/' -name libwinpthread-1.dll) $M_prefix/bin
 }
 
-function _collect_theme_adwaita {
-
+function _collect_theme_adwaita 
+{
 	# copy theme
 
 	M_theme='/Adwaita'
@@ -153,8 +157,8 @@ function _collect_theme_adwaita {
 	cp -v $M_GTK3_prefix$M_relativpath_themeengine/$M_themeengine $M_prefix$M_relativpath_themeengine
 }
  
-function _collect_icons_adwaita {
-
+function _collect_icons_adwaita 
+{
 	# copy icons
 
 	M_main_icon='pdfMelange.png'
@@ -184,8 +188,8 @@ function _collect_icons_adwaita {
 	gtk-update-icon-cache -t $M_prefix/share/icons/oxygen
 }
 
-function _collect_std_icons {
-
+function _collect_std_icons 
+{
 	# copy icons
 
 	M_main_icon='pdfMelange.png'
@@ -199,11 +203,10 @@ function _collect_std_icons {
 	cp -v $M_GTK3_prefix/share/icons/gnome/32x32/actions/object-rotate-left.png $M_prefix/share/icons
 	cp -v $M_GTK3_prefix/share/icons/gnome/32x32/actions/object-rotate-right.png $M_prefix/share/icons
 	cp -v $M_main_icon $M_prefix/share/icons
-
 }
 
-function _collect_settings {
-
+function _collect_settings 
+{
 	# update settings
 	# edit /etc/gtk-3.0/settings.ini
 	mkdir -vp $M_prefix/etc/gtk-3.0
@@ -212,15 +215,16 @@ function _collect_settings {
 	echo 'gtk-icon-theme-name = oxygen'  	>> $M_prefix/etc/gtk-3.0/settings.ini
 }
 
-function _collect_GSettingsSchemas {
-
+function _collect_GSettingsSchemas 
+{
 	M_GSettingsSchemas_path='/share/glib-2.0/schemas/'
 
 	mkdir -vp $M_prefix$M_GSettingsSchemas_path
 	cp -v $M_GTK3_prefix$M_GSettingsSchemas_path/* $M_prefix$M_GSettingsSchemas_path
 }
 
-function _collect_pythons {
+function _collect_pythons 
+{
 
 	# modify the destination of your windows-python installation if necessary:
 	M_python_root="$HOME/.wine/drive_c/Python27"
@@ -267,7 +271,40 @@ function _collect_pythons {
 	do
 		cp -v $M_python_root/Lib/site-packages/pyPdf/$i $M_prefix/bin/Lib/pyPdf
 	done
+}
 
+
+function _collect_copyright_notes 
+{
+	# pyPdf copyright notes.
+
+	mkdir -vp $M_prefix/share/doc/python-pypdf
+	cp -v /usr/share/doc/python-pypdf/copyright $M_prefix/share/doc/python-pypdf
+
+	# python copyright notes.
+
+	mkdir -vp $M_prefix/share/doc/libpython
+	cp -v /usr/share/doc/libpython2.7/copyright $M_prefix/share/doc/libpython
+
+	# GTKmm copyright notes.
+
+	mkdir -vp $M_prefix/share/doc/libgtkmm-3
+	cp -v /usr/share/doc/libgtkmm-3.0-1/copyright $M_prefix/share/doc/libgtkmm-3
+
+	# poppler copyright notes.
+
+	mkdir -vp $M_prefix/share/doc/libpoppler
+	cp -v /usr/share/doc/libpoppler-glib8/copyright $M_prefix/share/doc/libpoppler
+
+	# glib copyright notes.
+
+	mkdir -vp $M_prefix/share/doc/libglib
+	cp -v /usr/share/doc/libglib2.0-0/copyright $M_prefix/share/doc/libglib
+
+	# cairo copyright notes.
+
+	mkdir -vp $M_prefix/share/doc/libcairo
+	cp -v /usr/share/doc/libcairo2/copyright $M_prefix/share/doc/libcairo
 }
 
 case "$1" in
@@ -278,7 +315,8 @@ case "$1" in
 		_collect_dlls
 		_collect_GSettingsSchemas
 		_collect_std_icons
-		_collect_pythons 
+		_collect_pythons
+		_collect_copyright_notes 
 		;;
         buildsetup)
 		make -f Makefile.win32 melange

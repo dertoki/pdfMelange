@@ -1,2 +1,0 @@
-pdfMelange is stable, but little tested and should therefore not be used in a production environment. 
-
