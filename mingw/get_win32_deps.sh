@@ -78,6 +78,10 @@ function _build_setup
 
 	wineconsole --backend=curses $M_inno_root\\iscc $M_project.iss
 	mv -v output/setup.exe output/$M_project$M_version.setup.exe
+	
+	md5sum    --tag output/$M_project$M_version.setup.exe >  output/hash
+	sha1sum   --tag output/$M_project$M_version.setup.exe >> output/hash
+	sha256sum --tag output/$M_project$M_version.setup.exe >> output/hash
 }
 
 # create a portable program. 
