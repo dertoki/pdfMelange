@@ -405,7 +405,7 @@ mingw_FILES = \
 	mingw/icons.lst \
 	mingw/launcher.c \
 	mingw/launcher-resource.rc \
-	mingw/install.txt \
+	mingw/info.rtf \
 	mingw/licence.txt \
 	mingw/Makefile.win32 \
 	mingw/pdfMelange.ico \
