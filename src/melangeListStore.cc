@@ -350,6 +350,13 @@ void melangeListStore::write_pdf_document( const char *outfilename )
         pdfWriter.push_back(page);
     }
     pdfWriter.writePdf(outfilename);
+
+	/** ToDo:
+	 *  BUG: wrong pages and/or wrong orientation of pages when owerwriting pdfs when outfilename is in row[m_Columns.uri].
+	 * 
+	 *  check if outfilename is in row[m_Columns.uri] 
+	 *      if true, do a reload of outfilename
+	 */
 }
 
 /**
