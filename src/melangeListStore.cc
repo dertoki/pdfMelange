@@ -349,14 +349,25 @@ void melangeListStore::write_pdf_document( const char *outfilename )
 
         pdfWriter.push_back(page);
     }
-    pdfWriter.writePdf(outfilename);
+
+	pdfWriter.writePdf(outfilename);
 
 	/** ToDo:
 	 *  BUG: wrong pages and/or wrong orientation of pages when owerwriting pdfs when outfilename is in row[m_Columns.uri].
-	 * 
-	 *  check if outfilename is in row[m_Columns.uri] 
-	 *      if true, do a reload of outfilename
 	 */
+	int i = 0;
+    for (iter = children().begin() ; iter != children().end(); iter++, i++)
+    {
+        row = *iter;
+
+		row[m_Columns.filename] =  Glib::filename_display_basename(outfilename);
+        row[m_Columns.uri] = Glib::filename_to_uri (outfilename);
+        //row[m_Columns.password] = "";
+        //row[m_Columns.permissions] = sPermissions;
+        //row[m_Columns.encrypted] = sEncrypted;
+        row[m_Columns.page] = 1+i;
+        row[m_Columns.angle] = 0;
+    }
 }
 
 /**
