@@ -42,6 +42,9 @@ LT_INIT
 
 
 
+PKG_CHECK_MODULES(PYTHONPDFWRITER_DEPS,gtkmm-3.0
+python-2.7)
+
 PKG_CHECK_MODULES(TREEVIEW_DEPS,gtkmm-3.0
 python-2.7
 poppler-glib)

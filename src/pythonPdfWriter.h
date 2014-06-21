@@ -52,9 +52,9 @@ struct Page
  * Example:
  *
  *       pythonPdfWriter pdfWriter;
- *       pdfWriter.push_back((Page){"gpl.pdf", "", 1, 0});
- *       pdfWriter.push_back((Page){"gpl.pdf", "", 2, 90});
- *       pdfWriter.push_back((Page){"gpl.pdf", "", 3, 180});
+ *       pdfWriter.push_back( (Page){"gpl.pdf", "", 1, 0} );
+ *       pdfWriter.push_back( (Page){"gpl.pdf", "", 2, 90} );
+ *       pdfWriter.push_back( (Page){"gpl.pdf", "", 3, 180} );
  *       pdfWriter.writePdf("test.pdf");
  *
  */

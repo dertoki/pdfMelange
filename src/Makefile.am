@@ -19,7 +19,7 @@ AM_CFLAGS =\
 	 -g
 
 if ENABLE_TESTAPPS
-TEST_APPS = gtkbuilder2ustring preferencesDialog passwordDialog drawingArea treeView
+TEST_APPS = gtkbuilder2ustring preferencesDialog passwordDialog drawingArea treeView pyPdfWriter
 else
 TEST_APPS =
 endif
@@ -140,5 +140,21 @@ treeView_CPPFLAGS = -DTEST_TREEVIEW \
 treeView_CXXFLAGS = -std=c++0x 
 
 treeView_LDADD = $(TREEVIEW_DEPS_LIBS) 
+
+# pyPdfWriter test scenario
+
+pyPdfWriter_SOURCES =  \
+	pythonPdfWriter.h \
+	pythonPdfWriter.cc 
+
+pyPdfWriter_CPPFLAGS = -DTEST_PYTHONPDFWRITER \
+	-DPACKAGE_SRC_DIR=\""$(srcdir)"\" \
+	-DPACKAGE_DATA_DIR=\""$(pkgdatadir)"\" \
+	-DPROGRAMNAME_LOCALEDIR=\""${PROGRAMNAME_LOCALEDIR}"\" \
+	$(PYTHONPDFWRITER_DEPS_CFLAGS)
+
+pyPdfWriter_CXXFLAGS = -std=c++0x 
+
+pyPdfWriter_LDADD = $(PYTHONPDFWRITER_DEPS_LIBS) 
 
 

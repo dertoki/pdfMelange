@@ -164,6 +164,8 @@ void pythonPdfWriter::writePdf(const char* outFileName)
     char* tmpFileName = PyString_AS_STRING(my_tmpFileName);
     g_message("   python generated temp file: %s", tmpFileName);
 
+	g_message("   merge completed to %s", outFileName);
+
     return;
 }
 
@@ -330,3 +332,43 @@ void pythonPdfWriter::onErrorThrow(const char* message)
 
     return;
 }
+
+/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~| Test Scenario |~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+/*~ To create the test scenario, do configure pdfmelange with "./configure --enable-testapps" ~*/
+
+#ifdef TEST_PYTHONPDFWRITER
+
+#include <iostream>
+
+/**
+ *  \brief Entry point of the test program.
+ *
+ *  Workflow:
+ *  1. Create a pdfWriter instance.
+ *  2. Add some elements to the pdfWriter instance, that is a std::list.
+ *  3. Execute the write.
+ *
+ * \param argc: argument count, number of arguments on the command line.
+ * \param *argv[]: argument vector, array of null-terminated strings,
+ *                 representing the arguments that were entered on the command line
+ *                 when the program was started.
+ * \return -
+ */
+int main (int argc, char *argv[])
+{
+	pythonPdfWriter pdfWriter;
+
+	pdfWriter.push_back( (Page){"gpl.pdf", "", 1, 0} );
+	pdfWriter.push_back( (Page){"gpl.pdf", "", 2, 90} );
+	pdfWriter.push_back( (Page){"gpl.pdf", "", 3, 180} );
+
+	//pdfWriter.setPageModeAndLayout(pythonPdfWriter::UseThumbs, pythonPdfWriter::SinglePage);
+	//pdfWriter.setPageModeAndLayout(pythonPdfWriter::UseNone, pythonPdfWriter::OneColumn);
+	pdfWriter.setPageModeAndLayout("UseThumbs", "SinglePage");
+
+	pdfWriter.writePdf("test.pdf");
+
+    return 0;
+}
+
+#endif

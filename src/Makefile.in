@@ -93,7 +93,8 @@ CONFIG_CLEAN_VPATH_FILES =
 @ENABLE_TESTAPPS_TRUE@am__EXEEXT_1 = gtkbuilder2ustring$(EXEEXT) \
 @ENABLE_TESTAPPS_TRUE@	preferencesDialog$(EXEEXT) \
 @ENABLE_TESTAPPS_TRUE@	passwordDialog$(EXEEXT) \
-@ENABLE_TESTAPPS_TRUE@	drawingArea$(EXEEXT) treeView$(EXEEXT)
+@ENABLE_TESTAPPS_TRUE@	drawingArea$(EXEEXT) treeView$(EXEEXT) \
+@ENABLE_TESTAPPS_TRUE@	pyPdfWriter$(EXEEXT)
 am__installdirs = "$(DESTDIR)$(bindir)"
 PROGRAMS = $(bin_PROGRAMS)
 am_drawingArea_OBJECTS = drawingArea-melangeDrawingArea.$(OBJEXT)
@@ -141,6 +142,12 @@ preferencesDialog_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CXX \
 	$(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=link $(CXXLD) \
 	$(preferencesDialog_CXXFLAGS) $(CXXFLAGS) $(AM_LDFLAGS) \
 	$(LDFLAGS) -o $@
+am_pyPdfWriter_OBJECTS = pyPdfWriter-pythonPdfWriter.$(OBJEXT)
+pyPdfWriter_OBJECTS = $(am_pyPdfWriter_OBJECTS)
+pyPdfWriter_DEPENDENCIES = $(am__DEPENDENCIES_1)
+pyPdfWriter_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) \
+	$(LIBTOOLFLAGS) --mode=link $(CXXLD) $(pyPdfWriter_CXXFLAGS) \
+	$(CXXFLAGS) $(AM_LDFLAGS) $(LDFLAGS) -o $@
 am_treeView_OBJECTS = treeView-melangeTreeView.$(OBJEXT) \
 	treeView-melangeListStore.$(OBJEXT) \
 	treeView-pythonPdfWriter.$(OBJEXT) \
@@ -204,10 +211,12 @@ am__v_CCLD_0 = @echo "  CCLD    " $@;
 am__v_CCLD_1 = 
 SOURCES = $(drawingArea_SOURCES) $(gtkbuilder2ustring_SOURCES) \
 	$(passwordDialog_SOURCES) $(pdfmelange_SOURCES) \
-	$(preferencesDialog_SOURCES) $(treeView_SOURCES)
+	$(preferencesDialog_SOURCES) $(pyPdfWriter_SOURCES) \
+	$(treeView_SOURCES)
 DIST_SOURCES = $(drawingArea_SOURCES) $(gtkbuilder2ustring_SOURCES) \
 	$(passwordDialog_SOURCES) $(pdfmelange_SOURCES) \
-	$(preferencesDialog_SOURCES) $(treeView_SOURCES)
+	$(preferencesDialog_SOURCES) $(pyPdfWriter_SOURCES) \
+	$(treeView_SOURCES)
 am__can_run_installinfo = \
   case $$AM_UPDATE_INFO_DIR in \
     n|no|NO) false;; \
@@ -328,6 +337,8 @@ PO_IN_DATADIR_TRUE = @PO_IN_DATADIR_TRUE@
 PREF_DIALOG_DEPS_CFLAGS = @PREF_DIALOG_DEPS_CFLAGS@
 PREF_DIALOG_DEPS_LIBS = @PREF_DIALOG_DEPS_LIBS@
 PROGRAMNAME_LOCALEDIR = @PROGRAMNAME_LOCALEDIR@
+PYTHONPDFWRITER_DEPS_CFLAGS = @PYTHONPDFWRITER_DEPS_CFLAGS@
+PYTHONPDFWRITER_DEPS_LIBS = @PYTHONPDFWRITER_DEPS_LIBS@
 RANLIB = @RANLIB@
 SED = @SED@
 SET_MAKE = @SET_MAKE@
@@ -409,7 +420,7 @@ AM_CFLAGS = \
 	 -g
 
 @ENABLE_TESTAPPS_FALSE@TEST_APPS = 
-@ENABLE_TESTAPPS_TRUE@TEST_APPS = gtkbuilder2ustring preferencesDialog passwordDialog drawingArea treeView
+@ENABLE_TESTAPPS_TRUE@TEST_APPS = gtkbuilder2ustring preferencesDialog passwordDialog drawingArea treeView pyPdfWriter
 pdfmelange_SOURCES = \
 	pythonPdfWriter.h \
 	pythonPdfWriter.cc \
@@ -514,6 +525,20 @@ treeView_CPPFLAGS = -DTEST_TREEVIEW \
 
 treeView_CXXFLAGS = -std=c++0x 
 treeView_LDADD = $(TREEVIEW_DEPS_LIBS) 
+
+# pyPdfWriter test scenario
+pyPdfWriter_SOURCES = \
+	pythonPdfWriter.h \
+	pythonPdfWriter.cc 
+
+pyPdfWriter_CPPFLAGS = -DTEST_PYTHONPDFWRITER \
+	-DPACKAGE_SRC_DIR=\""$(srcdir)"\" \
+	-DPACKAGE_DATA_DIR=\""$(pkgdatadir)"\" \
+	-DPROGRAMNAME_LOCALEDIR=\""${PROGRAMNAME_LOCALEDIR}"\" \
+	$(PYTHONPDFWRITER_DEPS_CFLAGS)
+
+pyPdfWriter_CXXFLAGS = -std=c++0x 
+pyPdfWriter_LDADD = $(PYTHONPDFWRITER_DEPS_LIBS) 
 all: all-am
 
 .SUFFIXES:
@@ -618,6 +643,10 @@ preferencesDialog$(EXEEXT): $(preferencesDialog_OBJECTS) $(preferencesDialog_DEP
 	@rm -f preferencesDialog$(EXEEXT)
 	$(AM_V_CXXLD)$(preferencesDialog_LINK) $(preferencesDialog_OBJECTS) $(preferencesDialog_LDADD) $(LIBS)
 
+pyPdfWriter$(EXEEXT): $(pyPdfWriter_OBJECTS) $(pyPdfWriter_DEPENDENCIES) $(EXTRA_pyPdfWriter_DEPENDENCIES) 
+	@rm -f pyPdfWriter$(EXEEXT)
+	$(AM_V_CXXLD)$(pyPdfWriter_LINK) $(pyPdfWriter_OBJECTS) $(pyPdfWriter_LDADD) $(LIBS)
+
 treeView$(EXEEXT): $(treeView_OBJECTS) $(treeView_DEPENDENCIES) $(EXTRA_treeView_DEPENDENCIES) 
 	@rm -f treeView$(EXEEXT)
 	$(AM_V_CXXLD)$(treeView_LINK) $(treeView_OBJECTS) $(treeView_LDADD) $(LIBS)
@@ -644,6 +673,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/pdfmelange-pythonPdfWriter.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/preferencesDialog-melangeKeyFile.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/preferencesDialog-melangePreferences.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/pyPdfWriter-pythonPdfWriter.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/treeView-melangeListStore.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/treeView-melangePassword.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/treeView-melangeTreeView.Po@am__quote@
@@ -879,6 +909,20 @@ preferencesDialog-melangeKeyFile.obj: melangeKeyFile.cc
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='melangeKeyFile.cc' object='preferencesDialog-melangeKeyFile.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(preferencesDialog_CPPFLAGS) $(CPPFLAGS) $(preferencesDialog_CXXFLAGS) $(CXXFLAGS) -c -o preferencesDialog-melangeKeyFile.obj `if test -f 'melangeKeyFile.cc'; then $(CYGPATH_W) 'melangeKeyFile.cc'; else $(CYGPATH_W) '$(srcdir)/melangeKeyFile.cc'; fi`
+
+pyPdfWriter-pythonPdfWriter.o: pythonPdfWriter.cc
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(pyPdfWriter_CPPFLAGS) $(CPPFLAGS) $(pyPdfWriter_CXXFLAGS) $(CXXFLAGS) -MT pyPdfWriter-pythonPdfWriter.o -MD -MP -MF $(DEPDIR)/pyPdfWriter-pythonPdfWriter.Tpo -c -o pyPdfWriter-pythonPdfWriter.o `test -f 'pythonPdfWriter.cc' || echo '$(srcdir)/'`pythonPdfWriter.cc
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/pyPdfWriter-pythonPdfWriter.Tpo $(DEPDIR)/pyPdfWriter-pythonPdfWriter.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='pythonPdfWriter.cc' object='pyPdfWriter-pythonPdfWriter.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(pyPdfWriter_CPPFLAGS) $(CPPFLAGS) $(pyPdfWriter_CXXFLAGS) $(CXXFLAGS) -c -o pyPdfWriter-pythonPdfWriter.o `test -f 'pythonPdfWriter.cc' || echo '$(srcdir)/'`pythonPdfWriter.cc
+
+pyPdfWriter-pythonPdfWriter.obj: pythonPdfWriter.cc
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(pyPdfWriter_CPPFLAGS) $(CPPFLAGS) $(pyPdfWriter_CXXFLAGS) $(CXXFLAGS) -MT pyPdfWriter-pythonPdfWriter.obj -MD -MP -MF $(DEPDIR)/pyPdfWriter-pythonPdfWriter.Tpo -c -o pyPdfWriter-pythonPdfWriter.obj `if test -f 'pythonPdfWriter.cc'; then $(CYGPATH_W) 'pythonPdfWriter.cc'; else $(CYGPATH_W) '$(srcdir)/pythonPdfWriter.cc'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/pyPdfWriter-pythonPdfWriter.Tpo $(DEPDIR)/pyPdfWriter-pythonPdfWriter.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='pythonPdfWriter.cc' object='pyPdfWriter-pythonPdfWriter.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(pyPdfWriter_CPPFLAGS) $(CPPFLAGS) $(pyPdfWriter_CXXFLAGS) $(CXXFLAGS) -c -o pyPdfWriter-pythonPdfWriter.obj `if test -f 'pythonPdfWriter.cc'; then $(CYGPATH_W) 'pythonPdfWriter.cc'; else $(CYGPATH_W) '$(srcdir)/pythonPdfWriter.cc'; fi`
 
 treeView-melangeTreeView.o: melangeTreeView.cc
 @am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(treeView_CPPFLAGS) $(CPPFLAGS) $(treeView_CXXFLAGS) $(CXXFLAGS) -MT treeView-melangeTreeView.o -MD -MP -MF $(DEPDIR)/treeView-melangeTreeView.Tpo -c -o treeView-melangeTreeView.o `test -f 'melangeTreeView.cc' || echo '$(srcdir)/'`melangeTreeView.cc
