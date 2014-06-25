@@ -194,13 +194,13 @@ void melangeTreeView::delete_selected()
         Gtk::TreeModel::iterator iter = m_refModel->get_iter(pathlist[ip]);
         Gtk::TreeModel::Row row = *iter;
 
-        m_refModel->erase(iter);
-
         Glib::ustring name = row[m_refModel->m_Columns.filename];
         int i = row[m_refModel->m_Columns.page];
         Glib::ustring pathName = (pathlist[ip]).to_string();
 
         g_message("   delete in path %s page %i file %s",  pathName.c_str(), i, name.c_str());
+
+        m_refModel->erase(iter);
     }
     m_refSelection->set_mode(Gtk::SELECTION_MULTIPLE);
     signal_list_modified.emit();
