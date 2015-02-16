@@ -27,8 +27,12 @@ endif
 bin_PROGRAMS = pdfmelange $(TEST_APPS)
 
 pdfmelange_SOURCES =  \
-	pythonPdfWriter.h \
-	pythonPdfWriter.cc \
+	melangePdfWriter.h \
+	melangePdfWriter.cc \
+	melangePopplerWriter.h \
+	melangePopplerWriter.cc \
+	melangePyPdfWriter.h \
+	melangePyPdfWriter.cc \
 	melangeWindow.h \
 	melangeWindow.cc \
 	melangeListStore.h \

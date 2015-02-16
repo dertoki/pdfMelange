@@ -17,26 +17,20 @@
  * with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef PYTHONPDFWRITER_H
-#define PYTHONPDFWRITER_H
+#ifndef MELANGEPYPDFWRITER_H
+#define MELANGEPYPDFWRITER_H
+
+#include "melangePdfWriter.h"
 
 #include "Python.h"
-#include <gtkmm.h>
+
 #include <iostream>
 #include <string>
 #include <sstream>
 #include <list>
 
-struct Page
-{
-    std::string fileName;
-    std::string passWordDecrypt;
-    int pageNumber;
-    int pageRotate;
-};
-
 /**
- * \class pythonPdfWriter
+ * \class melangePyPdfWriter
  *
  * \brief A class to merge "pdf" files.
  *
@@ -51,7 +45,7 @@ struct Page
  *
  * Example:
  *
- *       pythonPdfWriter pdfWriter;
+ *       melangePyPdfWriter pdfWriter;
  *       pdfWriter.push_back( (Page){"gpl.pdf", "", 1, 0} );
  *       pdfWriter.push_back( (Page){"gpl.pdf", "", 2, 90} );
  *       pdfWriter.push_back( (Page){"gpl.pdf", "", 3, 180} );
@@ -59,15 +53,13 @@ struct Page
  *
  */
 
-class pythonPdfWriter: public std::list<Page>
+class melangePyPdfWriter: public melangePdfWriter
 {
 public:
-    pythonPdfWriter();
-    virtual ~pythonPdfWriter();
+    melangePyPdfWriter();
+    virtual ~melangePyPdfWriter();
     void writePdf(const char* outFileName);
 
-    enum PageMode	{ NoMode, UseNone, UseOutlines, UseThumbs, FullScreen, UseOC, UseAttachments};
-    enum PageLayout	{ NoLayout, SinglePage, OneColumn, TwoColumnLeft, TwoColumnRight, TwoPageLeft, TwoPageRight};
     void setPageModeAndLayout(PageMode mode, PageLayout layout);
     void setPageModeAndLayout(const char* PageMode, const char* PageLayout);
 
@@ -77,8 +69,6 @@ private:
     PyObject* m_dict; ///< the python main dictionary
     PyObject* getVariable(const char* variableName); ///< Extract a variable from the interpreter.
     void onErrorThrow(const char* message); ///< handles python errors.
-
-    Glib::ustring m_strPageModeAndLayout;
 };
 
-#endif // pythonPdfWriter_H
+#endif // MELANGEPYPDFWRITER_H

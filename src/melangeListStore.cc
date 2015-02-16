@@ -22,7 +22,8 @@
  * http://git.gnome.org/browse/gtkmm-documentation/tree/examples/book/treeview/drag_and_drop/treemodel_dnd.h?h=gtkmm-2-24
  */
 
-#include "pythonPdfWriter.h"
+#include "melangePyPdfWriter.h"
+#include "melangePopplerWriter.h"
 
 #include "melangeListStore.h"
 #include "melangeWindow.h"
@@ -321,6 +322,8 @@ GError* melangeListStore::read_pdf_document(
     return err;
 }
 
+#include <PDFDoc.h>
+#include <GlobalParams.h>
 /**
  * /brief Merge all pages of the list, write the merge to a PDF document.
  *
@@ -333,7 +336,8 @@ void melangeListStore::write_pdf_document( const char *outfilename )
 
     Gtk::TreeModel::Children::iterator iter;
     Gtk::TreeModel::Row row;
-    pythonPdfWriter pdfWriter;
+    melangePopplerWriter pdfWriter;
+    //melangePyPdfWriter pdfWriter;
 
     pdfWriter.setPageModeAndLayout(m_strPageMode, m_strPageLayout);
 
@@ -345,7 +349,7 @@ void melangeListStore::write_pdf_document( const char *outfilename )
         Glib::ustring passWord = row[m_Columns.password];
         int pageNumber = row[m_Columns.page];
         int pageRotate = row[m_Columns.angle];
-        Page page = {fileName, passWord, pageNumber, pageRotate};
+        pageItem page = {fileName, passWord, pageNumber, pageRotate};
 
         pdfWriter.push_back(page);
     }

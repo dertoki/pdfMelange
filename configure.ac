@@ -55,6 +55,7 @@ poppler-glib)
 PKG_CHECK_MODULES(PREF_DIALOG_DEPS,gtkmm-3.0)
 
 PKG_CHECK_MODULES(MELANGE_DEPS,python-2.7
+poppler
 poppler-glib
 gtkmm-3.0)
 

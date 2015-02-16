@@ -17,15 +17,15 @@
  * with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "pythonPdfWriter.h"
+#include "melangePyPdfWriter.h"
 #include "glib.h"
 
 /**
  * \brief Default constructor.
  */
-pythonPdfWriter::pythonPdfWriter()
+melangePyPdfWriter::melangePyPdfWriter()
 {
-    g_message("pythonPdfWriter constructor");
+    g_message("melangePyPdfWriter constructor");
     /* Initialize the Python interpreter. */
     Py_Initialize();
 
@@ -38,9 +38,9 @@ pythonPdfWriter::pythonPdfWriter()
 /**
  * \brief Default destructor.
  */
-pythonPdfWriter::~pythonPdfWriter()
+melangePyPdfWriter::~melangePyPdfWriter()
 {
-    g_message("pythonPdfWriter destructor");
+    g_message("melangePyPdfWriter destructor");
     /* Undo all initializations made by Py_Initialize() */
     Py_Finalize();
 }
@@ -51,11 +51,11 @@ pythonPdfWriter::~pythonPdfWriter()
  * \param const char* outFileName: Name of the output file. Must have extension ".pdf".
  * \return void
  */
-void pythonPdfWriter::writePdf(const char* outFileName)
+void melangePyPdfWriter::writePdf(const char* outFileName)
 {
-    g_message("pythonPdfWriter::writePdf");
+    g_message("melangePyPdfWriter::writePdf");
 
-    pythonPdfWriter::iterator iter;
+    melangePyPdfWriter::iterator iter;
 
     /** include the python libraries (in module __main__) */
     /** create a PdfFileWriter. */
@@ -113,7 +113,7 @@ void pythonPdfWriter::writePdf(const char* outFileName)
                      "   inputFile = inputFileList[ fileName ]        \n"
                      /** do the pdf merge. */
                      "pdfInput = PdfFileReader( inputFile )           \n"
-                     "if passWordDecrypt:				                \n"
+                     "if passWordDecrypt:				              \n"
                      "   print pdfInput.isEncrypted                   \n"
                      "   pdfInput.decrypt( passWordDecrypt )          \n"
                      "   print pdfInput.isEncrypted                   \n"
@@ -173,7 +173,7 @@ void pythonPdfWriter::writePdf(const char* outFileName)
  * \brief Set the pdf viewer start configuration.
  *
  *    This method creates a string (m_strPageModeAndLayout) for pyPdf (1.3) to edit the pdf header.
- *    m_strPageModeAndLayout is applied to PyRun_String, see pythonPdfWriter::writePdf.
+ *    m_strPageModeAndLayout is applied to PyRun_String, see melangePyPdfWriter::writePdf.
  *
  *    Result example:
  *      "root = pdfOutput.getObject(pdfOutput._root)\n"
@@ -183,10 +183,10 @@ void pythonPdfWriter::writePdf(const char* outFileName)
  * \param PageLayout layout: see Page 140 @ http://www.adobe.com/content/dam/Adobe/en/devnet/acrobat/pdfs/pdf_reference_1-7.pdf
  * \return void.
  */
-void pythonPdfWriter::setPageModeAndLayout(PageMode mode, PageLayout layout)
+void melangePyPdfWriter::setPageModeAndLayout(PageMode mode, PageLayout layout)
 {
+    m_strPageModeAndLayout.clear();
     if (mode == NoMode && layout == NoLayout) {
-        m_strPageModeAndLayout.clear();
         return;
     }
 
@@ -194,51 +194,51 @@ void pythonPdfWriter::setPageModeAndLayout(PageMode mode, PageLayout layout)
     m_strPageModeAndLayout += "root.update({";
 
     switch (layout) {
-    case NoMode:
-        break;
-    case SinglePage:
-        m_strPageModeAndLayout += "NameObject('/PageLayout'): NameObject('/SinglePage')";
-        break;
-    case OneColumn:
-        m_strPageModeAndLayout += "NameObject('/PageLayout'): NameObject('/OneColumn')";
-        break;
-    case TwoColumnLeft:
-        m_strPageModeAndLayout += "NameObject('/PageLayout'): NameObject('/TwoColumnLeft')";
-        break;
-    case TwoColumnRight:
-        m_strPageModeAndLayout += "NameObject('/PageLayout'): NameObject('/TwoColumnRight')";
-        break;
-    case TwoPageLeft:
-        m_strPageModeAndLayout += "NameObject('/PageLayout'): NameObject('/TwoPageLeft')";
-        break;
-    case TwoPageRight:
-        m_strPageModeAndLayout += "NameObject('/PageLayout'): NameObject('/TwoPageRight')";
-        break;
+        case NoMode:
+            break;
+        case SinglePage:
+            m_strPageModeAndLayout += "NameObject('/PageLayout'): NameObject('/SinglePage')";
+            break;
+        case OneColumn:
+            m_strPageModeAndLayout += "NameObject('/PageLayout'): NameObject('/OneColumn')";
+            break;
+        case TwoColumnLeft:
+            m_strPageModeAndLayout += "NameObject('/PageLayout'): NameObject('/TwoColumnLeft')";
+            break;
+        case TwoColumnRight:
+            m_strPageModeAndLayout += "NameObject('/PageLayout'): NameObject('/TwoColumnRight')";
+            break;
+        case TwoPageLeft:
+            m_strPageModeAndLayout += "NameObject('/PageLayout'): NameObject('/TwoPageLeft')";
+            break;
+        case TwoPageRight:
+            m_strPageModeAndLayout += "NameObject('/PageLayout'): NameObject('/TwoPageRight')";
+            break;
     }
 
     if (mode != NoMode && layout != NoLayout) m_strPageModeAndLayout += ", ";
 
     switch (mode) {
-    case NoLayout:
-        break;
-    case UseNone:
-        m_strPageModeAndLayout += "NameObject('/PageMode'): NameObject('/UseNone')";
-        break;
-    case UseOutlines:
-        m_strPageModeAndLayout += "NameObject('/PageMode'): NameObject('/UseOutlines')";
-        break;
-    case UseThumbs:
-        m_strPageModeAndLayout += "NameObject('/PageMode'): NameObject('/UseThumbs')";
-        break;
-    case FullScreen:
-        m_strPageModeAndLayout += "NameObject('/PageMode'): NameObject('/FullScreen')";
-        break;
-    case UseOC:
-        m_strPageModeAndLayout += "NameObject('/PageMode'): NameObject('/UseOC')";
-        break;
-    case UseAttachments:
-        m_strPageModeAndLayout += "NameObject('/PageMode'): NameObject('/UseAttachments')";
-        break;
+        case NoLayout:
+            break;
+        case UseNone:
+            m_strPageModeAndLayout += "NameObject('/PageMode'): NameObject('/UseNone')";
+            break;
+        case UseOutlines:
+            m_strPageModeAndLayout += "NameObject('/PageMode'): NameObject('/UseOutlines')";
+            break;
+        case UseThumbs:
+            m_strPageModeAndLayout += "NameObject('/PageMode'): NameObject('/UseThumbs')";
+            break;
+        case FullScreen:
+            m_strPageModeAndLayout += "NameObject('/PageMode'): NameObject('/FullScreen')";
+            break;
+        case UseOC:
+            m_strPageModeAndLayout += "NameObject('/PageMode'): NameObject('/UseOC')";
+            break;
+        case UseAttachments:
+            m_strPageModeAndLayout += "NameObject('/PageMode'): NameObject('/UseAttachments')";
+            break;
     }
     m_strPageModeAndLayout += "})";
 }
@@ -247,7 +247,7 @@ void pythonPdfWriter::setPageModeAndLayout(PageMode mode, PageLayout layout)
  * \brief Set the pdf viewer start configuration.
  *
  *  This method creates a string (m_strPageModeAndLayout) for pyPdf (1.3) to edit the pdf header.
- *  m_strPageModeAndLayout is applied to PyRun_String, see pythonPdfWriter::writePdf.
+ *  m_strPageModeAndLayout is applied to PyRun_String, see melangePyPdfWriter::writePdf.
  *  If both PageMode and PageLayout are NULL then m_strPageModeAndLayout is cleared (set to "").
  *
  *  Result example:
@@ -258,12 +258,12 @@ void pythonPdfWriter::setPageModeAndLayout(PageMode mode, PageLayout layout)
  * \param const char* PageLayout (NULL if not set), see Page 140 @ http://www.adobe.com/content/dam/Adobe/en/devnet/acrobat/pdfs/pdf_reference_1-7.pdf
  * \return void.
  */
-void pythonPdfWriter::setPageModeAndLayout(const char* PageMode, const char* PageLayout)
+void melangePyPdfWriter::setPageModeAndLayout(const char* PageMode, const char* PageLayout)
 {
     //printf("mode %s layout %s\n", PageMode, PageLayout);
 
+    m_strPageModeAndLayout.clear();
     if (PageMode == NULL && PageLayout == NULL) {
-        m_strPageModeAndLayout.clear();
         return;
     }
 
@@ -295,7 +295,7 @@ void pythonPdfWriter::setPageModeAndLayout(const char* PageMode, const char* Pag
  * \param const char* valueName: the name of the variable
  * \return PyObject*: the current pointer to the variable.
  */
-PyObject* pythonPdfWriter::getVariable(const char* variableName)
+PyObject* melangePyPdfWriter::getVariable(const char* variableName)
 {
     PyObject* evalModule = PyImport_AddModule( (char*)"__main__" );
     PyObject* evalDict   = PyModule_GetDict( evalModule );
@@ -312,7 +312,7 @@ PyObject* pythonPdfWriter::getVariable(const char* variableName)
  * \throw char* : error message text.
  * \return void
  */
-void pythonPdfWriter::onErrorThrow(const char* message)
+void melangePyPdfWriter::onErrorThrow(const char* message)
 {
     PyObject *error = PyErr_Occurred();
     if (error != NULL) {
@@ -344,8 +344,8 @@ void pythonPdfWriter::onErrorThrow(const char* message)
  *  \brief Entry point of the test program.
  *
  *  Workflow:
- *  1. Create a pdfWriter instance.
- *  2. Add some elements to the pdfWriter instance, that is a std::list.
+ *  1. Create a melangePdfWriter instance.
+ *  2. Add some elements to the melangePdfWriter instance, that is a std::list.
  *  3. Execute the write.
  *
  * \param argc: argument count, number of arguments on the command line.
@@ -356,14 +356,14 @@ void pythonPdfWriter::onErrorThrow(const char* message)
  */
 int main (int argc, char *argv[])
 {
-	pythonPdfWriter pdfWriter;
+	melangePyPdfWriter pdfWriter;
 
 	pdfWriter.push_back( (Page){"gpl.pdf", "", 1, 0} );
 	pdfWriter.push_back( (Page){"gpl.pdf", "", 2, 90} );
 	pdfWriter.push_back( (Page){"gpl.pdf", "", 3, 180} );
 
-	//pdfWriter.setPageModeAndLayout(pythonPdfWriter::UseThumbs, pythonPdfWriter::SinglePage);
-	//pdfWriter.setPageModeAndLayout(pythonPdfWriter::UseNone, pythonPdfWriter::OneColumn);
+	//pdfWriter.setPageModeAndLayout(melangePyPdfWriter::UseThumbs, melangePyPdfWriter::SinglePage);
+	//pdfWriter.setPageModeAndLayout(melangePyPdfWriter::UseNone, melangePyPdfWriter::OneColumn);
 	pdfWriter.setPageModeAndLayout("UseThumbs", "SinglePage");
 
 	pdfWriter.writePdf("test.pdf");
