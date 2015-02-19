@@ -208,14 +208,29 @@ void melangePopplerWriter::writePdf(const char* outFileName)
         objectsCount++;
     }
 
-    // write xref table.
+	// write info object. 
+	// <pdf_reference 1.7 - 10.2.1 Document Information Dictionary>.
+	// Date format: <pdf_reference 1.7 - 3.8.3> #include"DateInfo.h".
+    yRef->add(rootNum + 2 + back().targetNumber, 0, outStr->getPos(), gTrue);
+    outStr->printf("%d 0 obj\n", rootNum + 2 + back().targetNumber);
+    outStr->printf("<< /Producer (pdfMelange)");
+    outStr->printf(">>\nendobj\n");
+    objectsCount++;
+
+    // create the trailer.
+	// <pdf_reference 1.7 - 3.4.4 File Trailer>.
     Goffset uxrefOffset = outStr->getPos();
     Ref ref;
     ref.num = rootNum;
     ref.gen = 0;
     Dict *trailerDict = PDFDoc::createTrailerDict(objectsCount, gFalse, 0, &ref, yRef,
                         outFileName, outStr->getPos());
+	Object info_obj;
+    info_obj.initRef(rootNum + 2 + back().targetNumber, 0);
+    trailerDict->add(strdup("Info"), &info_obj);
 
+    // write xref table and trailer.
+	// <pdf_reference 1.7 - 3.4.3 Cross-Reference Table>.
     PDFDoc::writeXRefTableTrailer(trailerDict, yRef, gFalse /* do not write unnecessary entries */,
                                   uxrefOffset, outStr, yRef);
     g_message("   Wrote %i objects in %i pages to file %s", objectsCount, size(), outFileName);

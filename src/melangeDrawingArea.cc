@@ -57,6 +57,7 @@ melangeDrawingArea::melangeDrawingArea(BaseObjectType* cobject, const Glib::RefP
  */
 melangeDrawingArea::~melangeDrawingArea()
 {
+	
 }
 
 /**
@@ -116,7 +117,7 @@ void melangeDrawingArea::set_page(PopplerDocument* pDoc, PopplerPage* pPage, int
  */
 void melangeDrawingArea::unset_page()
 {
-    //if (this->m_pPage) g_object_unref(this->m_pPage);
+    if (this->m_pPage) g_object_unref(this->m_pPage); // With gtk 3.10, this creates an error.
     if (this->m_pDoc) g_object_unref(this->m_pDoc);
     this->m_pPage = NULL;
     this->m_pDoc = NULL;
