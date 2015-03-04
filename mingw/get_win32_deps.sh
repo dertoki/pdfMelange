@@ -34,7 +34,8 @@ M_applauncher='set-up.exe'
 M_prefix="$PWD/dist"
 
 # System Root
-M_GTK3_prefix='/opt/gtk38'
+M_GTK3_prefix='/opt/mingw'
+#M_GTK3_prefix='/opt/gtk38'
 #M_GTK3_prefix='/usr/i686-w64-mingw32/sys-root/mingw'  # Fedora f20 
 
 ##########################################################################################################
@@ -119,7 +120,7 @@ function _collect_dlls
 	# expand this list of additional libraries when you get error messages complaining missing libraries. 
 #	M_GTK3dll="libatk-1.0-0.dll libatkmm-1.6-1.dll libcairo-2.dll libcairo-gobject-2.dll libcairomm-1.0-1.dll libffi-6.dll libfontconfig-1.dll  libfreetype-6.dll libgdk-3-0.dll libgdkmm-3.0-1.dll libgdk_pixbuf-2.0-0.dll libgio-2.0-0.dll libgiomm-2.4-1.dll libglib-2.0-0.dll libglibmm-2.4-1.dll libgmodule-2.0-0.dll libgobject-2.0-0.dll libgtk-3-0.dll libgtkmm-3.0-1.dll libiconv-2.dll libintl-8.dll libjpeg-9.dll libpango-1.0-0.dll libpangocairo-1.0-0.dll libpangomm-1.4-1.dll libpangowin32-1.0-0.dll libpixman-1-0.dll libpng16-16.dll libpoppler-44.dll libpoppler-glib-8.dll libsigc-2.0-0.dll libtiff-5.dll libxml2-2.dll zlib1.dll"
 	# Fedora f20 DLL collection	
-	M_GTK3dll="libatk-1.0-0.dll libatkmm-1.6-1.dll libcairo-2.dll libcairo-gobject-2.dll libcairomm-1.0-1.dll libffi-6.dll libfontconfig-1.dll  libfreetype-6.dll libgdk-3-0.dll libgdkmm-3.0-1.dll libgdk_pixbuf-2.0-0.dll libgio-2.0-0.dll libgiomm-2.4-1.dll libglib-2.0-0.dll libglibmm-2.4-1.dll libgmodule-2.0-0.dll libgobject-2.0-0.dll libgtk-3-0.dll libgtkmm-3.0-1.dll libintl-8.dll libpango-1.0-0.dll libpangocairo-1.0-0.dll libpangomm-1.4-1.dll libpangowin32-1.0-0.dll libpixman-1-0.dll libpng16-16.dll  libpoppler-glib-8.dll libsigc-2.0-0.dll libtiff-5.dll zlib1.dll libpoppler-glib-8.dll iconv.dll libintl-8.dll libglib-2.0-0.dll libwinpthread-1.dll libgcc_s_sjlj-1.dll libffi-6.dll libgobject-2.0-0.dll libpoppler-44.dll libbz2-1.dll libjpeg-62.dll liblcms2-2.dll libopenjpeg-1.dll libexpat-1.dll"
+	M_GTK3dll="libatk-1.0-0.dll libatkmm-1.6-1.dll libcairo-2.dll libcairo-gobject-2.dll libcairomm-1.0-1.dll libffi-6.dll libfontconfig-1.dll  libfreetype-6.dll libgdk-3-0.dll libgdkmm-3.0-1.dll libgdk_pixbuf-2.0-0.dll libgio-2.0-0.dll libgiomm-2.4-1.dll libglib-2.0-0.dll libglibmm-2.4-1.dll libgmodule-2.0-0.dll libgobject-2.0-0.dll libgtk-3-0.dll libgtkmm-3.0-1.dll libintl-8.dll libpango-1.0-0.dll libpangocairo-1.0-0.dll libpangomm-1.4-1.dll libpangowin32-1.0-0.dll libpixman-1-0.dll libpng16-16.dll  libpoppler-glib-8.dll libsigc-2.0-0.dll libtiff-5.dll zlib1.dll libpoppler-glib-8.dll iconv.dll libintl-8.dll libglib-2.0-0.dll libwinpthread-1.dll libgcc_s_sjlj-1.dll libffi-6.dll libgobject-2.0-0.dll libpoppler-46.dll libbz2-1.dll libjpeg-62.dll liblcms2-2.dll libopenjpeg-1.dll libexpat-1.dll"
 
 
 	# copy GTK3 libraries. 

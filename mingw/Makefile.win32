@@ -1,5 +1,5 @@
-PREFIX=/opt/gtk38
-#PREFIX=/opt/gtk36
+PREFIX=/opt/mingw
+#PREFIX=/opt/gtk38
 
 INCLUDEDIR=$(PREFIX)/include
 LIBDIR=$(PREFIX)/lib
@@ -10,6 +10,7 @@ CC=i686-w64-mingw32-g++
 RC=i686-w64-mingw32-windres
 
 CFLAGS := $(shell $(PKG_CONFIG) --cflags gtkmm-3.0 poppler-glib) \
+          -I../mingw \
  		-I/home/tobi/.wine/drive_c/Python27/include -Isrc -include cmath \
 		-std=c++0x -Os -s -Wall \
 		-Duse_python 
@@ -20,10 +21,14 @@ LDFLAGS = -Os -s -mms-bitfields -mwindows
 #
 # pdfMelange:
 #
-M_LIBS := $(shell $(PKG_CONFIG) --libs gtkmm-3.0 poppler-glib) -lpython27
+M_PACKAGE_NAME="pdfMelange"
+M_VERSION="0.4.1"
+M_PACKAGE_STRING=$(M_PACKAGE_NAME)" "$(M_VERSION)
+
+M_LIBS := $(shell $(PKG_CONFIG) --libs gtkmm-3.0 poppler poppler-glib) -lpython27
 M_LDFLAGS = $(LDFLAGS) -L$(PKG_PREFIX)/lib -L/home/tobi/.wine/drive_c/Python27/libs
 M_OBJDIR := ../src
-M_OBJS := $(addprefix $(M_OBJDIR)/,main.o  melangeAboutDialog.o  melangeDrawingArea.o  melangeListStore.o  melangeTreeView.o  melangeWindow.o  pythonPdfWriter.o melangeKeyFile.o melangeLogging.o melangePreferences.o melangePassword.o) pdfMelange-resource.o
+M_OBJS := $(addprefix $(M_OBJDIR)/,main.o  melangeAboutDialog.o  melangeDrawingArea.o  melangeListStore.o  melangeTreeView.o  melangeWindow.o  melangePdfWriter.o melangePyPdfWriter.o melangePopplerWriter.o copyfile.o melangeKeyFile.o melangeLogging.o melangePreferences.o melangePassword.o) pdfMelange-resource.o
 M_BIN := ./dist/bin/pdfMelange.exe
 
 # 
@@ -49,11 +54,11 @@ P_LDFLAGS = $(LDFLAGS)
 P_OBJS := portable_set-up.o portable_set-up_resource.o
 P_BIN := ./dist/bin/portable_set-up.exe
 
-all: mkdir $(M_BIN) $(L_BIN) $(P_BIN) $(M_MO_DE)
+all: mkdir config $(M_BIN) $(L_BIN) $(P_BIN) $(M_MO_DE)
 
-melange: mkdir $(M_BIN) $(M_MO_DE)
+melange: mkdir config $(M_BIN) $(M_MO_DE)
 
-portable: mkdir $(M_BIN) $(L_BIN) $(P_BIN)
+portable: mkdir config $(M_BIN) $(L_BIN) $(P_BIN)
 
 $(P_BIN): mkdir $(P_OBJS)
 	$(CC) -o $@ $(P_OBJS) $(P_LIBS) $(P_LDFLAGS)
@@ -75,6 +80,11 @@ $(M_MO_DE): $(M_POS)
 
 %.o: %.rc
 	$(RC) $< -o $@
+
+config:
+	@echo '#define PACKAGE_NAME "'$(M_PACKAGE_NAME)'"'      > config.h
+	@echo '#define VERSION "'$(M_VERSION)'"'               >> config.h
+	@echo '#define PACKAGE_STRING "'$(M_PACKAGE_STRING)'"' >> config.h
 
 mkdir:
 	mkdir -vp ./dist/bin

@@ -17,11 +17,13 @@
  * with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include "config.h"
+#include "copyfile.h"
 #include "melangePopplerWriter.h"
-#include <glib.h>
 
+#include <glib.h>
 #include <goo/GooString.h>
-#include <goo/GooMutex.h>
+#include <goo/GooTimer.h>
 #include <PDFDoc.h>
 #include <GlobalParams.h>
 #include "XRef.h"
@@ -58,6 +60,8 @@ melangePopplerWriter::~melangePopplerWriter()
 void melangePopplerWriter::writePdf(const char* outFileName)
 {
     g_message("melangePopplerWriter::writePdf");
+	GooTimer timer;
+	timer.start();
 
     GooString *inFileName;
     GooString *passWord = new GooString("");
@@ -74,6 +78,11 @@ void melangePopplerWriter::writePdf(const char* outFileName)
         // open pdf document.
         inFileName = new GooString(diter->fileName.c_str());
         PDFDoc *doc = new PDFDoc(inFileName, passWord);
+		if (!doc) {
+			GooString errorMessage;
+			errorMessage.appendf("Error on opening file {0:t}", inFileName);
+			onErrorThrow(errorMessage.getCString());
+		}
         diter->doc = doc;
         // set document pointers in each page.
         for (std::list<pageItem*>::iterator piter = diter->pages.begin(); piter != diter->pages.end(); piter++) {
@@ -92,19 +101,18 @@ void melangePopplerWriter::writePdf(const char* outFileName)
         }
     }
 
-    FILE *outFile;
-    OutStream *outStr;
     int objectsCount = 0;
     Guint numOffset = 0;
 
-    // open output file and stream.
-    if (!(outFile = fopen(outFileName, "wb"))) {
-        error(errIO, -1, "Could not open file '{0:s}'", outFileName);
-        g_message("   Could not open file  %s", outFileName);
+    // open output file.
+    FILE* tempFile = tmpfile();
+	if (!tempFile) {
+        error(errIO, -1, "Could not open temfile");
+        onErrorThrow("Could not open tempfile");
         return;
     }
-    outStr = new FileOutStream(outFile, 0);
-    g_message("   opened for writing: %s", outFileName);
+    OutStream* outStr = new FileOutStream(tempFile, 0);
+    g_message("   opened tempfile for writing");
 
     XRef *yRef = new XRef();
     XRef *countRef = new XRef();
@@ -213,7 +221,7 @@ void melangePopplerWriter::writePdf(const char* outFileName)
 	// Date format: <pdf_reference 1.7 - 3.8.3> #include"DateInfo.h".
     yRef->add(rootNum + 2 + back().targetNumber, 0, outStr->getPos(), gTrue);
     outStr->printf("%d 0 obj\n", rootNum + 2 + back().targetNumber);
-    outStr->printf("<< /Producer (pdfMelange)");
+    outStr->printf("<< /Producer (%s)",PACKAGE_STRING);
     outStr->printf(">>\nendobj\n");
     objectsCount++;
 
@@ -233,12 +241,10 @@ void melangePopplerWriter::writePdf(const char* outFileName)
 	// <pdf_reference 1.7 - 3.4.3 Cross-Reference Table>.
     PDFDoc::writeXRefTableTrailer(trailerDict, yRef, gFalse /* do not write unnecessary entries */,
                                   uxrefOffset, outStr, yRef);
-    g_message("   Wrote %i objects in %i pages to file %s", objectsCount, size(), outFileName);
+    g_message("   Wrote %i objects in %i pages", objectsCount, size());
 
     delete trailerDict;
 
-    outStr->close();
-    fclose(outFile);
     delete yRef;
     delete countRef;
     for (melangePopplerWriter::iterator iter = begin(); iter != end(); iter++) {
@@ -248,6 +254,25 @@ void melangePopplerWriter::writePdf(const char* outFileName)
     for (diter = docs.begin(); diter != docs.end(); diter++) {
         delete (PDFDoc*) diter->doc;
 	}
+
+	outStr->close();
+	
+	// copy temp file to output
+	rewind(tempFile); // positions the stream tempFile at its beginning.
+	
+	FILE* outFile = fopen(outFileName, "wb");
+	if (!outFile) {
+		GooString errorMessage;
+		errorMessage.appendf("Error on opening file {0:s}", outFileName);
+		onErrorThrow(errorMessage.getCString());
+	}
+	copyfile(tempFile, outFile);
+
+	fclose(tempFile);
+	fclose(outFile);
+	
+	timer.stop();
+	g_message("%f seconds for writing %s", timer.getElapsed(), outFileName);
 }
 
 /** \brief Create the document tree.
@@ -394,6 +419,22 @@ void melangePopplerWriter::setPageModeAndLayout(const char* PageMode, const char
     if (PageMode)
         m_strPageModeAndLayout += " /PageMode /" + Glib::ustring(PageMode);
 
+}
+
+/**
+ * \brief A wrapper to throw.
+ *
+ *     If there are errors on poppler send a g_message and throw an exception.
+ *
+ * \param const char* : intro text for the error message.
+ * \throw char* : error message text.
+ * \return void
+ */
+void melangePopplerWriter::onErrorThrow(const char* message)
+{
+    g_message("  popplerWriter Error: %s", message);
+    throw strdup(message);
+    return;
 }
 
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~| Test Scenario |~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/

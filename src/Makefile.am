@@ -58,7 +58,9 @@ pdfmelange_SOURCES =  \
 	melangePassword.h \
 	melange_pixbuf-inline.h \
 	melangeTreeView.cc \
-	melangeTreeView.h
+	melangeTreeView.h \
+	copyfile.cc \
+	copyfile.h
 
 pdfmelange_LDFLAGS = 
 

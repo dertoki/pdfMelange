@@ -59,14 +59,15 @@ class melangePopplerWriter : public melangePdfWriter
         virtual ~melangePopplerWriter();
 
         void writePdf(const char* outFileName);
-
         void setPageModeAndLayout(PageMode mode, PageLayout layout);
         void setPageModeAndLayout(const char* PageMode, const char* PageLayout);
         void printInfo(void);
 
     protected:
-        void setTreeList(void);
         std::list<docItem> docs;   // source documents tree
+
+		void onErrorThrow(const char* message);
+        void setTreeList(void);
 
     private:
 };

@@ -129,7 +129,8 @@ am_pdfmelange_OBJECTS = pdfmelange-melangePdfWriter.$(OBJEXT) \
 	pdfmelange-melangePreferences.$(OBJEXT) \
 	pdfmelange-melangeLogging.$(OBJEXT) \
 	pdfmelange-melangePassword.$(OBJEXT) \
-	pdfmelange-melangeTreeView.$(OBJEXT)
+	pdfmelange-melangeTreeView.$(OBJEXT) \
+	pdfmelange-copyfile.$(OBJEXT)
 pdfmelange_OBJECTS = $(am_pdfmelange_OBJECTS)
 pdfmelange_DEPENDENCIES = $(am__DEPENDENCIES_1)
 pdfmelange_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) \
@@ -455,7 +456,9 @@ pdfmelange_SOURCES = \
 	melangePassword.h \
 	melange_pixbuf-inline.h \
 	melangeTreeView.cc \
-	melangeTreeView.h
+	melangeTreeView.h \
+	copyfile.cc \
+	copyfile.h
 
 pdfmelange_LDFLAGS = 
 pdfmelange_LDADD = $(MELANGE_DEPS_LIBS) 
@@ -666,6 +669,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/drawingArea-melangeDrawingArea.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/gtkbuilder2ustring.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/passwordDialog-melangePassword.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/pdfmelange-copyfile.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/pdfmelange-main.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/pdfmelange-melangeAboutDialog.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/pdfmelange-melangeDrawingArea.Po@am__quote@
@@ -917,6 +921,20 @@ pdfmelange-melangeTreeView.obj: melangeTreeView.cc
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='melangeTreeView.cc' object='pdfmelange-melangeTreeView.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pdfmelange_CXXFLAGS) $(CXXFLAGS) -c -o pdfmelange-melangeTreeView.obj `if test -f 'melangeTreeView.cc'; then $(CYGPATH_W) 'melangeTreeView.cc'; else $(CYGPATH_W) '$(srcdir)/melangeTreeView.cc'; fi`
+
+pdfmelange-copyfile.o: copyfile.cc
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pdfmelange_CXXFLAGS) $(CXXFLAGS) -MT pdfmelange-copyfile.o -MD -MP -MF $(DEPDIR)/pdfmelange-copyfile.Tpo -c -o pdfmelange-copyfile.o `test -f 'copyfile.cc' || echo '$(srcdir)/'`copyfile.cc
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/pdfmelange-copyfile.Tpo $(DEPDIR)/pdfmelange-copyfile.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='copyfile.cc' object='pdfmelange-copyfile.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pdfmelange_CXXFLAGS) $(CXXFLAGS) -c -o pdfmelange-copyfile.o `test -f 'copyfile.cc' || echo '$(srcdir)/'`copyfile.cc
+
+pdfmelange-copyfile.obj: copyfile.cc
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pdfmelange_CXXFLAGS) $(CXXFLAGS) -MT pdfmelange-copyfile.obj -MD -MP -MF $(DEPDIR)/pdfmelange-copyfile.Tpo -c -o pdfmelange-copyfile.obj `if test -f 'copyfile.cc'; then $(CYGPATH_W) 'copyfile.cc'; else $(CYGPATH_W) '$(srcdir)/copyfile.cc'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/pdfmelange-copyfile.Tpo $(DEPDIR)/pdfmelange-copyfile.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='copyfile.cc' object='pdfmelange-copyfile.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pdfmelange_CXXFLAGS) $(CXXFLAGS) -c -o pdfmelange-copyfile.obj `if test -f 'copyfile.cc'; then $(CYGPATH_W) 'copyfile.cc'; else $(CYGPATH_W) '$(srcdir)/copyfile.cc'; fi`
 
 preferencesDialog-melangePreferences.o: melangePreferences.cc
 @am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(preferencesDialog_CPPFLAGS) $(CPPFLAGS) $(preferencesDialog_CXXFLAGS) $(CXXFLAGS) -MT preferencesDialog-melangePreferences.o -MD -MP -MF $(DEPDIR)/preferencesDialog-melangePreferences.Tpo -c -o preferencesDialog-melangePreferences.o `test -f 'melangePreferences.cc' || echo '$(srcdir)/'`melangePreferences.cc

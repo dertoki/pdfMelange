@@ -62,13 +62,14 @@ public:
 
     void setPageModeAndLayout(PageMode mode, PageLayout layout);
     void setPageModeAndLayout(const char* PageMode, const char* PageLayout);
-
+ 
 protected:
+    void onErrorThrow(const char* message);
+ 
 private:
     PyObject* m_main; ///< the python main module
     PyObject* m_dict; ///< the python main dictionary
     PyObject* getVariable(const char* variableName); ///< Extract a variable from the interpreter.
-    void onErrorThrow(const char* message); ///< handles python errors.
 };
 
 #endif // MELANGEPYPDFWRITER_H

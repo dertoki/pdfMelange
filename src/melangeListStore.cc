@@ -280,8 +280,8 @@ GError* melangeListStore::read_pdf_document(
 
             cr->scale(thumpScale,thumpScale);
             poppler_page_render(pPage, cr->cobj());
-            // this creates an error on gtk 3.10
-            // g_object_unref(pPage);
+            // With gtk 3.10, this creates an error.
+            g_object_unref(pPage);
 
             /// Draw a black border around the thumbnail.
             cr->set_source_rgb (0.0, 0.0, 0.0);

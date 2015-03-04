@@ -64,7 +64,8 @@ class melangePdfWriter: public std::list<pageItem>
         virtual void setPageModeAndLayout(const char* PageMode, const char* PageLayout) = 0;
 
     protected:
-    Glib::ustring m_strPageModeAndLayout;
+        Glib::ustring m_strPageModeAndLayout;
+        virtual void onErrorThrow(const char* message) = 0; ///< handles errors.
 
     private:
 };

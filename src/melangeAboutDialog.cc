@@ -16,15 +16,12 @@
  * You should have received a copy of the GNU General Public License along
  * with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+#include "config.h"
 #include "melangeAboutDialog.h"
 
 #ifdef __WIN32
     #include <windows.h>
     #include <shellapi.h>
-    #define PACKAGE_NAME "pdfMelange"
-    #define VERSION "0.4.1"
-#else
-    #include "config.h"
 #endif
 
 /**
