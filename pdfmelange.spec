@@ -1,5 +1,5 @@
 Name:           pdfmelange
-Version:        0.4.1
+Version:        0.4.2
 Release:        1%{?dist}
 Summary:        A program to modify PDF documents.
 

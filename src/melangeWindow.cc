@@ -18,7 +18,7 @@
  */
 
 
-#include "Python.h"
+//#include "Python.h"
 
 #include "melangeWindow.h"
 #include "melangeAboutDialog.h"
@@ -365,8 +365,8 @@ void melangeWindow::on_action_system_info()
     g_free(cstr);
     infoText += cstr = g_strdup_printf("     poppler-%i.%i.%i\n", POPPLER_MAJOR_VERSION, POPPLER_MINOR_VERSION, POPPLER_MICRO_VERSION);
     g_free(cstr);
-    infoText += cstr = g_strdup_printf("     python-%i.%i.%i", PY_MAJOR_VERSION, PY_MINOR_VERSION, PY_MICRO_VERSION);
-    g_free(cstr);
+    //infoText += cstr = g_strdup_printf("     python-%i.%i.%i", PY_MAJOR_VERSION, PY_MINOR_VERSION, PY_MICRO_VERSION);
+    //g_free(cstr);
     infoText += "</small>";
 
     Gtk::MessageDialog dialog(*this, "", false, Gtk::MESSAGE_INFO, Gtk::BUTTONS_OK);

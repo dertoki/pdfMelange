@@ -1,7 +1,7 @@
 dnl Process this file with autoconf to produce a configure script.
 dnl Created by Anjuta application wizard.
 
-AC_INIT(pdfMelange, 0.4.1)
+AC_INIT(pdfMelange, 0.4.2)
 
 AC_CONFIG_HEADERS([config.h])
 

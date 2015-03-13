@@ -132,8 +132,8 @@ treeView_SOURCES =  \
 	melangeTreeView.h \
 	melangeListStore.cc \
 	melangeListStore.h \
-	pythonPdfWriter.h \
-	pythonPdfWriter.cc \
+	melangePopplerWriter.h \
+	melangePopplerWriter.cc \
 	melangePassword.cc \
 	melangePassword.h
 
@@ -150,8 +150,8 @@ treeView_LDADD = $(TREEVIEW_DEPS_LIBS)
 # pyPdfWriter test scenario
 
 pyPdfWriter_SOURCES =  \
-	pythonPdfWriter.h \
-	pythonPdfWriter.cc 
+	melangePyPdfWriter.h \
+	melangePyPdfWriter.cc 
 
 pyPdfWriter_CPPFLAGS = -DTEST_PYTHONPDFWRITER \
 	-DPACKAGE_SRC_DIR=\""$(srcdir)"\" \

@@ -2,7 +2,7 @@ Format: 3.0 (quilt)
 Source: pdfmelange
 Binary: pdfmelange
 Architecture: any
-Version: 0.4.1-1
+Version: 0.4.2-1
 Maintainer: Tobias Tandetzki <tobzki@googlemail.com>
 Homepage: http://dertoki.github.io/pdfMelange/
 Standards-Version: 3.9.2

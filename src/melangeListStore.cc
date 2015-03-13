@@ -22,7 +22,7 @@
  * http://git.gnome.org/browse/gtkmm-documentation/tree/examples/book/treeview/drag_and_drop/treemodel_dnd.h?h=gtkmm-2-24
  */
 
-#include "melangePyPdfWriter.h"
+//#include "melangePyPdfWriter.h"
 #include "melangePopplerWriter.h"
 
 #include "melangeListStore.h"

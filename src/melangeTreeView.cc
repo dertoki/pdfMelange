@@ -622,6 +622,7 @@ void melangeTreeView::on_drop_drag_data_received(
             std::vector<Glib::ustring> uri_list;
             uri_list = selection_data.get_uris();
 
+            // use filename of DND to set in melangeWindow if melangeListStore is empty.
             if (m_refModel->children().empty())
             {
                 Glib::ustring uri = uri_list[0];
@@ -629,12 +630,13 @@ void melangeTreeView::on_drop_drag_data_received(
                     signal_new.emit(Glib::filename_from_uri(uri));
             }
 
+            // fill melangeListStore with received files from DND. 
             Gtk::TreeModel::Row destRow;
             for (int i = 0; i < uri_list.size(); i++)
             {
-                Glib::ustring uri = uri_list[0];
+                Glib::ustring uri = uri_list[i];
                 if ( Glib::str_has_suffix(uri, ".pdf") || Glib::str_has_suffix(uri, ".PDF") )
-                    get_pdf_document(uri_list[0].c_str(), destIter, pos);
+                    get_pdf_document(uri.c_str(), destIter, pos);
                 else
                     g_message("   error: \"%s\" : file extension incorrect!", uri_list[i].c_str());
             }

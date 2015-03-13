@@ -19,8 +19,10 @@ pdfmelangeDesktopdir = $(prefix)/share/applications
 pdfmelangeDesktop_DATA = extra/pdfmelange.desktop
 
 mingw_FILES = \
+	mingw/crossBuild-poppler-win32.sh \
 	mingw/get_win32_deps.sh \
 	mingw/icons.lst \
+	mingw/gtk+-3.10.4-dlls.lst \
 	mingw/launcher.c \
 	mingw/launcher-resource.rc \
 	mingw/info.rtf \

@@ -251,9 +251,14 @@ void melangePopplerWriter::writePdf(const char* outFileName)
         ((Object*) iter->page)->free();
         delete (Object*) iter->page;
     }
+#ifndef __WIN32
+    // @fixme: does not work with mingw:
+	//         This chauses a crash with poppler 0.24.5 and mingw (gtk+ 3.10.4).
+	// @todo: check with current poppler version. 
     for (diter = docs.begin(); diter != docs.end(); diter++) {
         delete (PDFDoc*) diter->doc;
 	}
+#endif
 
 	outStr->close();
 	
