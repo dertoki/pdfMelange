@@ -8,13 +8,13 @@ URL:            http://dertoki.github.io/pdfMelange/
 Source0:        %{name}-%{version}.tar.gz
 
 %if 0%{?fedora}
-BuildRequires:  gcc-c++,intltool,gtkmm30-devel,poppler-glib-devel,python2-devel
-Requires:       gtkmm30,poppler-glib,python,pyPdf
+BuildRequires:  gcc-c++,intltool,gtkmm30-devel,poppler-glib-devel
+Requires:       gtkmm30,poppler-glib
 %endif
 
 %if 0%{?suse_version} == 1310
-BuildRequires:  gcc-c++,intltool,gtkmm3-devel,libpoppler-glib-devel,python-devel,update-desktop-files
-Requires:       libpoppler-glib8,libpython2_7-1_0,python-pypdf
+BuildRequires:  gcc-c++,intltool,gtkmm3-devel,libpoppler-glib-devel,update-desktop-files
+Requires:       libpoppler-glib8
 %endif
 
 %description

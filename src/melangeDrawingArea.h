@@ -54,6 +54,7 @@ public:
     void draw_fitted_to_window();
     void draw_zoom_in();
     void draw_zoom_out();
+    void set_cairo_debug(bool debug);
 
 protected:
     /** all constructors have to call init() to share the same content. */
@@ -63,15 +64,8 @@ protected:
     /** calculate a transformation matrix to scale at a particular point. */
     Cairo::Matrix calculate_zoom_matrix(double x, double y, double zoom);
 
-#if   GDKMM_MAJOR_VERSION == 2
-    /** Override default signal handler. */
-    virtual bool on_expose_event(GdkEventExpose* event);
-    Glib::RefPtr<Gdk::Window> m_refWindow;
-    Cairo::RefPtr<Cairo::Context> m_refCr;
-#elif GDKMM_MAJOR_VERSION == 3
     /** Override the default handler for the signal signal_draw(). */
     virtual bool on_draw(const Cairo::RefPtr<Cairo::Context>& m_refCr);
-#endif
 
 private:
     PopplerDocument* m_pDoc;
@@ -79,6 +73,8 @@ private:
     int m_width;
     int m_height;
     int m_pdfRotation;
+
+    bool m_cairo_debug;
 
     double m_pdfScale;
     double m_zoom;
@@ -89,6 +85,7 @@ private:
     int m_dx, m_dy;
     Cairo::Matrix m_mtx;
     Cairo::Matrix m_mtx_zero;
+    Cairo::Matrix m_mtx_virgin;
     bool m_button1;
 
     bool on_event_scroll(GdkEventScroll *e);

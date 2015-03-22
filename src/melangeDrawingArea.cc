@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU General Public License along
  * with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
+#include "melangeKeyFile.h"
 #include "melangeDrawingArea.h"
 #include <cairomm/context.h>
 #include <cairomm/matrix.h>
@@ -71,6 +71,8 @@ void melangeDrawingArea::init()
     this->m_pPage = NULL;
     this->m_pDoc = NULL;
 
+	this->m_cairo_debug = false;
+
     this->m_button1 = false;
     this->m_x = 0;
     this->m_y = 0;
@@ -80,7 +82,6 @@ void melangeDrawingArea::init()
     this->m_pdfScale = 1;
     this->m_mtx = Cairo::translation_matrix (0, 0);
     this->m_mtx_zero = Cairo::translation_matrix (0, 0);
-
 
     add_events(Gdk::SCROLL_MASK);
     add_events(Gdk::BUTTON_PRESS_MASK);
@@ -106,8 +107,8 @@ void melangeDrawingArea::set_page(PopplerDocument* pDoc, PopplerPage* pPage, int
     this->m_pDoc = pDoc;
     this->m_pPage = pPage;
     this->m_pdfRotation = angle;
-    this->m_mtx = Cairo::identity_matrix();
     this->m_mtx_zero = calculate_init_matrix();
+    this->m_mtx = m_mtx_zero * Cairo::identity_matrix();
 
     this->queue_draw ();
 }
@@ -117,57 +118,13 @@ void melangeDrawingArea::set_page(PopplerDocument* pDoc, PopplerPage* pPage, int
  */
 void melangeDrawingArea::unset_page()
 {
-    if (this->m_pPage) g_object_unref(this->m_pPage); // With gtk 3.10, this creates an error.
+    if (this->m_pPage) g_object_unref(this->m_pPage); // this creates an error with gtk 3.10
     if (this->m_pDoc) g_object_unref(this->m_pDoc);
     this->m_pPage = NULL;
     this->m_pDoc = NULL;
 
     this->queue_draw ();
 }
-
-#if   GDKMM_MAJOR_VERSION == 2
-
-/**
- * \brief Override default signal handler.
- *
- * \deprecated Widget::on_expose_event() was replaced by Widget::on_draw() in gtkmm 3.
- *
- * \param GdkEventExpose* event
- * \return true
- */
-bool melangeDrawingArea::on_expose_event(GdkEventExpose* event)
-{
-    // This is where we draw on the window
-    m_refWindow = get_window();
-    if(m_refWindow)
-    {
-        Gtk::Allocation allocation = get_allocation();
-        m_width = allocation.get_width();
-        m_height = allocation.get_height();
-
-        m_refCr = m_refWindow->create_cairo_context();
-        // save the state of the context
-//        m_refCr->save();
-
-        // set background color
-        m_refCr->set_source_rgb(1.0, 1.0, 1.0);
-        m_refCr->paint();
-
-        // draw into context
-        if (m_pPage) poppler_render_rotated( m_refCr );
-//        test_draw( m_refCr );
-
-        // clip to the area indicated by the expose event so that we only redraw
-        // the portion of the window that needs to be redrawn
-        m_refCr->rectangle(event->area.x, event->area.y, event->area.width, event->area.height);
-        m_refCr->clip();
-
-//        m_refCr->restore();  // color is back to black now
-    }
-    return true;
-}
-
-#elif GDKMM_MAJOR_VERSION == 3
 
 /**
  * \brief Override the default handler for the signal signal_draw().
@@ -185,20 +142,17 @@ bool melangeDrawingArea::on_draw(const Cairo::RefPtr<Cairo::Context>& m_refCr)
     m_refCr->set_source_rgb(1.0, 1.0, 1.0);
     m_refCr->paint();
 
-    /// draw into context
+ 	this->m_mtx_virgin = m_refCr->get_matrix();
+	/// draw into context
     if (m_pPage) {
-        //m_refCr->save(); // uncomment for _test_draw
-        m_refCr->set_matrix (m_mtx_zero * m_mtx * m_refCr->get_matrix());
-        poppler_page_render(m_pPage, m_refCr->cobj());
+        m_refCr->set_matrix ( m_mtx * m_refCr->get_matrix() );
         draw_page_frame(m_refCr);
-        //m_refCr->restore(); // uncomment for _test_draw
+		poppler_page_render(m_pPage, m_refCr->cobj());
     }
-    //_test_draw( m_refCr );
+    if (m_cairo_debug) _test_draw( m_refCr );
 
     return true;
 }
-
-#endif
 
 /**
  * \brief Draws a rectangle that surrounds the pdf page.
@@ -228,8 +182,8 @@ void melangeDrawingArea::draw_page_frame(const Cairo::RefPtr<Cairo::Context>& m_
 void melangeDrawingArea::draw_fitted_to_window()
 {
     if (m_pPage) {
-        this->m_mtx = Cairo::translation_matrix (0, 0);
         this->m_mtx_zero = calculate_init_matrix();
+        this->m_mtx = m_mtx_zero * Cairo::translation_matrix (0, 0);
         this->queue_draw ();
     }
 }
@@ -382,13 +336,15 @@ void melangeDrawingArea::_test_draw(const Cairo::RefPtr<Cairo::Context>& m_refCr
 {
     // dimension of the infobox.
     const double FONT_SIZE = 14.0;
-    int bw =  14*FONT_SIZE;
-    int bh = 2.5*FONT_SIZE;
+	int bw, bh;
     if (m_pPage)
     {
-        bw =  17*FONT_SIZE;
-        bh = 5.5*FONT_SIZE;
-    }
+        bw =  23*FONT_SIZE;
+        bh = 8.0*FONT_SIZE;
+    } else {
+		bw =  23*FONT_SIZE;
+		bh = 5.0*FONT_SIZE;
+	}
 
     struct cpoint
     {
@@ -405,8 +361,9 @@ void melangeDrawingArea::_test_draw(const Cairo::RefPtr<Cairo::Context>& m_refCr
         { m_width/2 + bw/2,  m_height/2 + bh/2 },
         { m_width/2 - bw/2,  m_height/2 + bh/2 }
     };
-    m_refCr->save();
-    m_refCr->set_matrix (Cairo::translation_matrix (0, 0));
+
+	// set the virgin transformation matrix.
+	m_refCr->set_matrix (m_mtx_virgin);
 
     // draw red lines out from the center of the window
     m_refCr->set_source_rgb(0.8, 0.0, 0.0);
@@ -433,8 +390,12 @@ void melangeDrawingArea::_test_draw(const Cairo::RefPtr<Cairo::Context>& m_refCr
     m_refCr->stroke();
 
     // draw some text
-    std::stringstream t1, t2;
-
+    std::stringstream t1, t2, t3, t4;
+    t1.width(8); t1.precision(2); t1.setf(std::ios::fixed);
+    t2.width(8); t2.precision(2); t2.setf(std::ios::fixed);
+    t3.width(8); t3.precision(2); t3.setf(std::ios::fixed);
+    t4.width(8); t4.precision(2); t4.setf(std::ios::fixed);
+    
     Cairo::RefPtr<Cairo::ToyFontFace> font =
         Cairo::ToyFontFace::create("Bitstream Charter",
                                    Cairo::FONT_SLANT_ITALIC,
@@ -451,6 +412,16 @@ void melangeDrawingArea::_test_draw(const Cairo::RefPtr<Cairo::Context>& m_refCr
     m_refCr->move_to(p[4].x + FONT_SIZE, p[4].y + 2*FONT_SIZE);
     m_refCr->show_text(t2.str());
 
+    Cairo::Matrix mtx = m_mtx * m_refCr->get_matrix();
+
+	t3 << "matrix xx=" <<  mtx.xx << " xy=" << mtx.xy << " x0="<< mtx.x0;
+    m_refCr->move_to(p[4].x + FONT_SIZE, p[4].y + 3*FONT_SIZE);
+    m_refCr->show_text(t3.str());
+
+	t4 << "            yx=" <<  mtx.yx << " yy=" << mtx.yy << " y0="<< mtx.y0;
+    m_refCr->move_to(p[4].x + FONT_SIZE, p[4].y + 4*FONT_SIZE);
+    m_refCr->show_text(t4.str());
+
     if (m_pPage)
     {
         // calculate dimensions of the PDF page.
@@ -460,19 +431,17 @@ void melangeDrawingArea::_test_draw(const Cairo::RefPtr<Cairo::Context>& m_refCr
         std::stringstream t3, t4, t5;
 
         t3 << "PDF dimensions";
-        m_refCr->move_to(p[4].x + FONT_SIZE/2, p[4].y + 3*FONT_SIZE);
+        m_refCr->move_to(p[4].x + FONT_SIZE/2, p[4].y + 5*FONT_SIZE);
         m_refCr->show_text(t3.str());
 
-        t4 << "width = " << std::setprecision(5) << pdfwidth  << ", height = " << std::setprecision(5) << pdfheight;
-        m_refCr->move_to(p[4].x + FONT_SIZE, p[4].y + 4*FONT_SIZE);
+        t4 << "width = " << pdfwidth  << ", height = " << pdfheight;
+        m_refCr->move_to(p[4].x + FONT_SIZE, p[4].y + 6*FONT_SIZE);
         m_refCr->show_text(t4.str());
 
-        t5 << "scale = " << std::setprecision(5) << m_pdfScale;
-        m_refCr->move_to(p[4].x + FONT_SIZE, p[4].y + 5*FONT_SIZE);
+        t5 << "scale = " <<  m_pdfScale;
+        m_refCr->move_to(p[4].x + FONT_SIZE, p[4].y + 7*FONT_SIZE);
         m_refCr->show_text(t5.str());
     }
-    m_refCr->restore();
-
 }
 
 /**
@@ -491,8 +460,6 @@ void melangeDrawingArea::on_my_size_allocate(Gtk::Allocation& allocation)
 
     // do some calculation
     if (m_pPage) {
-        double pdfwidth, pdfheight;
-        poppler_page_get_size(m_pPage, &pdfwidth, &pdfheight);
         m_mtx_zero = calculate_init_matrix();
     }
 }
@@ -589,6 +556,17 @@ bool melangeDrawingArea::on_motion_notify_event(GdkEventMotion* event)
     else
         return false;
 }
+
+/**
+ * \brief setter for debugging.
+ *
+ * \param debug
+ */
+void melangeDrawingArea::set_cairo_debug(bool debug)
+{
+    m_cairo_debug = debug;
+}
+
 
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~| Test Scenario |~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 /*~ To create the test scenario, do configure pdfmelange with "./configure --enable-testapps" ~*/

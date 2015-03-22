@@ -65,6 +65,7 @@ melangeWindow::melangeWindow(BaseObjectType* cobject, const Glib::RefPtr<Gtk::Bu
     //Get a drawingareaPDF.
     m_pPdfarea = NULL;
     m_refGlade->get_widget_derived("drawingareaPDF", m_pPdfarea);
+    m_pPdfarea->set_cairo_debug(m_settings.getCairoDebug());
 
     //Get the Spinner.
     m_pSpinner = NULL;
@@ -503,19 +504,11 @@ void melangeWindow::on_action_save_as()
 
     //Add filters, so that only certain file types can be selected:
 
-#if   GDKMM_MAJOR_VERSION == 2
-    Gtk::FileFilter filter_pdf;
-    filter_pdf.set_name("PDF files");
-    filter_pdf.add_mime_type("application/pdf");
-    filter_pdf.add_pattern("*.pdf");
-    filter_pdf.add_pattern("*.PDF");
-#elif GDKMM_MAJOR_VERSION == 3
     Glib::RefPtr<Gtk::FileFilter> filter_pdf = Gtk::FileFilter::create();
     filter_pdf->set_name("PDF files");
     filter_pdf->add_mime_type("application/pdf");
     filter_pdf->add_pattern("*.pdf");
     filter_pdf->add_pattern("*.PDF");
-#endif
     filedialog.add_filter(filter_pdf);
     filedialog.set_filter(filter_pdf);
 
@@ -612,28 +605,20 @@ bool melangeWindow::file_open_dialog(std::string &filename, Glib::ustring &uri)
 {
     g_message("melangeWindow::file_open_dialog");
 
-    Gtk::FileChooserDialog dialog(*this, _("Please choose a file"), Gtk::FILE_CHOOSER_ACTION_OPEN);
+    Gtk::FileChooserDialog dialog(_("Please choose a file"), Gtk::FILE_CHOOSER_ACTION_OPEN);
     dialog.set_transient_for(*this);
-
+	
     //Add response buttons the the dialog:
     dialog.add_button(Gtk::Stock::CANCEL, Gtk::RESPONSE_CANCEL);
     dialog.add_button(Gtk::Stock::OPEN, Gtk::RESPONSE_OK);
 
     //Add filters, so that only certain file types can be selected:
 
-#if   GDKMM_MAJOR_VERSION == 2
-    Gtk::FileFilter filter_pdf;
-    filter_pdf.set_name("PDF files");
-    filter_pdf.add_mime_type("application/pdf");
-    filter_pdf.add_pattern("*.pdf");
-    filter_pdf.add_pattern("*.PDF");
-#elif GDKMM_MAJOR_VERSION == 3
     Glib::RefPtr<Gtk::FileFilter> filter_pdf = Gtk::FileFilter::create();
     filter_pdf->set_name("PDF files");
     filter_pdf->add_mime_type("application/pdf");
     filter_pdf->add_pattern("*.pdf");
     filter_pdf->add_pattern("*.PDF");
-#endif
     dialog.add_filter(filter_pdf);
     dialog.set_filter(filter_pdf);
 
@@ -716,7 +701,7 @@ void melangeWindow::set_pdf_preview()
     Glib::ustring uri		= row[m_refTreeModel->m_Columns.uri];
     Glib::ustring password  = row[m_refTreeModel->m_Columns.password];
     PopplerPermissions perm = row[m_refTreeModel->m_Columns.permissions];
-    bool encrypted = row[m_refTreeModel->m_Columns.encrypted];
+    bool encrypted          = row[m_refTreeModel->m_Columns.encrypted];
 
     PopplerDocument* pDoc = NULL;
     PopplerPage* pPage = NULL;

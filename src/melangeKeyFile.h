@@ -46,6 +46,8 @@ public:
     int				getIconSize();
     void			setLogging(bool value);
     const bool		getLogging();
+    void			setCairoDebug(bool value);
+    const bool		getCairoDebug();
     void			setPageMode(Glib::ustring value);
     const char*	getPageMode();
     void			setPageLayout(Glib::ustring value);
@@ -62,6 +64,7 @@ private:
     gchar*			m_fileName;
 
     bool			m_logging;				// Wether use logging or not.
+    bool			m_cairo_debug;			// Wether use logging or not.
     char*			m_pageMode;				// PageMode mode: see Page 140 @ pdf_reference_1-7.
     char*			m_pageLayout;			// PageLayout mode: see Page 140 @ pdf_reference_1-7.
     int				m_iconSize;				// Size of icons.

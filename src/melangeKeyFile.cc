@@ -36,6 +36,7 @@ melangeKeyFile::melangeKeyFile()
 {
     // default values:
     m_logging = false;
+    m_cairo_debug = false;
     m_iconSize = 80;
     m_pageMode = strdup(m_pageModes[2]);
     m_pageLayout = strdup(m_pageLayouts[0]);
@@ -65,6 +66,7 @@ melangeKeyFile::~melangeKeyFile()
 melangeKeyFile::melangeKeyFile(const melangeKeyFile& value)
 {
     m_logging = value.m_logging;
+    m_cairo_debug = value.m_cairo_debug;
     m_iconSize = value.m_iconSize;
     m_pageMode = strdup(value.m_pageMode);
     m_pageLayout = strdup(value.m_pageLayout);
@@ -77,6 +79,7 @@ melangeKeyFile::melangeKeyFile(const melangeKeyFile& value)
 melangeKeyFile& melangeKeyFile::operator = (const melangeKeyFile& value)
 {
     m_logging = value.m_logging;
+    m_cairo_debug = value.m_cairo_debug;
     m_iconSize = value.m_iconSize;
 
     free(m_pageMode);
@@ -111,15 +114,25 @@ void melangeKeyFile::loadFromFile()
         printf("%s\n", error.what().c_str());
         printf("'iconsize' was set to default: %i\n", m_iconSize);
     }
+	
     try {
         m_logging = m_settings.get_boolean("pdfmelange", "logging");
     } catch (Glib::KeyFileError error) {
         printf("%s\n", error.what().c_str());
         printf("'logging' was set to default: %s\n", m_logging ? "true" : "false");
     }
-    free(m_pageLayout);
+
+    try {
+        m_cairo_debug = m_settings.get_boolean("pdfmelange", "cairodebug");
+    } catch (Glib::KeyFileError error) {
+        printf("%s\n", error.what().c_str());
+        printf("'logging' was set to default: %s\n", m_cairo_debug ? "true" : "false");
+    }
+
+	free(m_pageLayout);
     m_pageLayout = getValidString("pageLayout", m_pageLayouts, sizeof(m_pageLayouts) / sizeof(*m_pageLayouts), m_pageLayouts[0]);
-    free(m_pageMode);
+
+	free(m_pageMode);
     m_pageMode = getValidString("pageMode", m_pageModes, sizeof(m_pageModes) / sizeof(*m_pageModes), m_pageModes[2]);
 }
 
@@ -138,6 +151,7 @@ gchar* melangeKeyFile::getFileName()
  */
 void melangeKeyFile::write()
 {
+    m_settings.set_boolean("pdfmelange", "cairodebug",  m_cairo_debug);
     m_settings.set_boolean("pdfmelange", "logging",  m_logging);
     m_settings.set_integer("pdfmelange", "iconsize", m_iconSize);
     m_settings.set_string("pdfmelange", "pageMode", m_pageMode);
@@ -269,6 +283,18 @@ void melangeKeyFile::setIconSize(int value)
 const bool melangeKeyFile::getLogging()
 {
     return m_logging;
+}
+
+/**
+ * \brief Get the value for key "cairodebug" from the configfile.
+ *
+ *  Get the value, set default on error.
+ *
+ * \return true when cairodebug was set, otherwise false.
+ */
+const bool melangeKeyFile::getCairoDebug()
+{
+    return m_cairo_debug;
 }
 
 /**
