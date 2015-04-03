@@ -120,7 +120,7 @@ public:
     /** Set size of thumbnails. */
     void setIconSize(int size);
     /** Set viewer preferences */
-    void setViewerPreferences(char* PageMode, char* PageLayout);
+    void setViewerPreferences(const char* PageMode, const char* PageLayout);
 
     static PopplerPermissions sPermissions;
     static bool sEncrypted;

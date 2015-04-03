@@ -426,11 +426,11 @@ void melangeListStore::setIconSize(int size)
  * \param const char* PageLayout see Page 140 @ pdf_reference_1-7.
  * \return void.
  */
-void melangeListStore::setViewerPreferences(char* PageMode, char* PageLayout)
+void melangeListStore::setViewerPreferences(const char* PageMode, const char* PageLayout)
 {
     free(m_strPageMode);
-    m_strPageMode = PageMode;
+    m_strPageMode = strdup(PageMode);
     free(m_strPageLayout);
-    m_strPageLayout = PageLayout;
+    m_strPageLayout = strdup(PageLayout);
 }
 

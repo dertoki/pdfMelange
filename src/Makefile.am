@@ -19,7 +19,7 @@ AM_CFLAGS =\
 	 -g
 
 if ENABLE_TESTAPPS
-TEST_APPS = gtkbuilder2ustring preferencesDialog passwordDialog drawingArea treeView pyPdfWriter
+TEST_APPS = gtkbuilder2ustring preferencesDialog passwordDialog saveAsDialog drawingArea treeView pyPdfWriter
 else
 TEST_APPS =
 endif
@@ -41,6 +41,8 @@ pdfmelange_SOURCES =  \
 	melangeDrawingArea.cc \
 	melangeAboutDialog.h \
 	melangeAboutDialog.cc \
+	melangeSaveAsDialog.h \
+	melangeSaveAsDialog.cc \
 	melange.ui.h \
 	main.cc \
 	melange.ui \
@@ -108,6 +110,24 @@ passwordDialog_CPPFLAGS = -DTEST_PASSWORD \
 passwordDialog_CXXFLAGS = -std=c++0x 
 
 passwordDialog_LDADD = $(PREF_DIALOG_DEPS_LIBS) 
+
+# saveAsDialog test scenario
+
+saveAsDialog_SOURCES =  \
+	melangeSaveAsDialog.cc \
+	melangeSaveAsDialog.h \
+	melangeKeyFile.cc \
+	melangeKeyFile.h
+
+saveAsDialog_CPPFLAGS = -DTEST_SAVEAS \
+	-DPACKAGE_SRC_DIR=\""$(srcdir)"\" \
+	-DPACKAGE_DATA_DIR=\""$(pkgdatadir)"\" \
+	-DPROGRAMNAME_LOCALEDIR=\""${PROGRAMNAME_LOCALEDIR}"\" \
+	$(PREF_DIALOG_DEPS_CFLAGS)
+
+saveAsDialog_CXXFLAGS = -std=c++0x 
+
+saveAsDialog_LDADD = $(PREF_DIALOG_DEPS_LIBS) 
 
 # drawingArea test scenario
 

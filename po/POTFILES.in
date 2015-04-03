@@ -3,6 +3,7 @@
 src/main.cc
 src/melangeWindow.cc
 src/melangeAboutDialog.cc
+src/melangeSaveAsDialog.cc
 src/pythonPdfWriter.cc
 src/melangeListStore.cc
 src/gtkbuilder2ustring.cc

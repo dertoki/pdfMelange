@@ -25,6 +25,7 @@
 #include "melangePreferences.h"
 #include "melangeLogging.h"
 #include "melangePassword.h"
+#include "melangeSaveAsDialog.h"
 
 #include <iostream>
 #include <gtkmm.h>
@@ -492,28 +493,11 @@ void melangeWindow::on_action_save_as()
 
     clear_pdf_preview();
 
-    Gtk::FileChooserDialog filedialog(_("Save file"), Gtk::FILE_CHOOSER_ACTION_SAVE);
-    filedialog.set_transient_for(*this);
+    melangeSaveAsDialog filedialog(_("Save file"), this);
     filedialog.set_filename(m_MainFileName);
-    //filedialog.set_current_name("Untitled.pdf");
-
-    //Add response buttons the the filedialog:
-
-    filedialog.add_button(Gtk::Stock::CANCEL, Gtk::RESPONSE_CANCEL);
-    filedialog.add_button(Gtk::Stock::SAVE_AS, Gtk::RESPONSE_OK);
-
-    //Add filters, so that only certain file types can be selected:
-
-    Glib::RefPtr<Gtk::FileFilter> filter_pdf = Gtk::FileFilter::create();
-    filter_pdf->set_name("PDF files");
-    filter_pdf->add_mime_type("application/pdf");
-    filter_pdf->add_pattern("*.pdf");
-    filter_pdf->add_pattern("*.PDF");
-    filedialog.add_filter(filter_pdf);
-    filedialog.set_filter(filter_pdf);
+	filedialog.setConfig(m_settings);
 
     // Loop the filedialog while messagedialog "File already exists. Replace the old one?" responses OK.
-
     bool doLoop = true;
     while (doLoop)
     {
@@ -548,6 +532,8 @@ void melangeWindow::on_action_save_as()
                 {
 		            case(Gtk::RESPONSE_OK):
 		            {
+						m_settings = filedialog.getConfig();
+						m_refTreeModel->setViewerPreferences(m_settings.getPageMode(), m_settings.getPageLayout());
 		                this->set_mainFileName(filedialog.get_filename());
 		                this->write_document();
 		                this->set_mainFile_is_modified(false);

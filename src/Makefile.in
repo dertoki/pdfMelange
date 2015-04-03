@@ -93,6 +93,7 @@ CONFIG_CLEAN_VPATH_FILES =
 @ENABLE_TESTAPPS_TRUE@am__EXEEXT_1 = gtkbuilder2ustring$(EXEEXT) \
 @ENABLE_TESTAPPS_TRUE@	preferencesDialog$(EXEEXT) \
 @ENABLE_TESTAPPS_TRUE@	passwordDialog$(EXEEXT) \
+@ENABLE_TESTAPPS_TRUE@	saveAsDialog$(EXEEXT) \
 @ENABLE_TESTAPPS_TRUE@	drawingArea$(EXEEXT) treeView$(EXEEXT) \
 @ENABLE_TESTAPPS_TRUE@	pyPdfWriter$(EXEEXT)
 am__installdirs = "$(DESTDIR)$(bindir)"
@@ -125,6 +126,7 @@ am_pdfmelange_OBJECTS = pdfmelange-melangePdfWriter.$(OBJEXT) \
 	pdfmelange-melangeListStore.$(OBJEXT) \
 	pdfmelange-melangeDrawingArea.$(OBJEXT) \
 	pdfmelange-melangeAboutDialog.$(OBJEXT) \
+	pdfmelange-melangeSaveAsDialog.$(OBJEXT) \
 	pdfmelange-main.$(OBJEXT) pdfmelange-melangeKeyFile.$(OBJEXT) \
 	pdfmelange-melangePreferences.$(OBJEXT) \
 	pdfmelange-melangeLogging.$(OBJEXT) \
@@ -150,6 +152,13 @@ pyPdfWriter_OBJECTS = $(am_pyPdfWriter_OBJECTS)
 pyPdfWriter_DEPENDENCIES = $(am__DEPENDENCIES_1)
 pyPdfWriter_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) \
 	$(LIBTOOLFLAGS) --mode=link $(CXXLD) $(pyPdfWriter_CXXFLAGS) \
+	$(CXXFLAGS) $(AM_LDFLAGS) $(LDFLAGS) -o $@
+am_saveAsDialog_OBJECTS = saveAsDialog-melangeSaveAsDialog.$(OBJEXT) \
+	saveAsDialog-melangeKeyFile.$(OBJEXT)
+saveAsDialog_OBJECTS = $(am_saveAsDialog_OBJECTS)
+saveAsDialog_DEPENDENCIES = $(am__DEPENDENCIES_1)
+saveAsDialog_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) \
+	$(LIBTOOLFLAGS) --mode=link $(CXXLD) $(saveAsDialog_CXXFLAGS) \
 	$(CXXFLAGS) $(AM_LDFLAGS) $(LDFLAGS) -o $@
 am_treeView_OBJECTS = treeView-melangeTreeView.$(OBJEXT) \
 	treeView-melangeListStore.$(OBJEXT) \
@@ -215,11 +224,11 @@ am__v_CCLD_1 =
 SOURCES = $(drawingArea_SOURCES) $(gtkbuilder2ustring_SOURCES) \
 	$(passwordDialog_SOURCES) $(pdfmelange_SOURCES) \
 	$(preferencesDialog_SOURCES) $(pyPdfWriter_SOURCES) \
-	$(treeView_SOURCES)
+	$(saveAsDialog_SOURCES) $(treeView_SOURCES)
 DIST_SOURCES = $(drawingArea_SOURCES) $(gtkbuilder2ustring_SOURCES) \
 	$(passwordDialog_SOURCES) $(pdfmelange_SOURCES) \
 	$(preferencesDialog_SOURCES) $(pyPdfWriter_SOURCES) \
-	$(treeView_SOURCES)
+	$(saveAsDialog_SOURCES) $(treeView_SOURCES)
 am__can_run_installinfo = \
   case $$AM_UPDATE_INFO_DIR in \
     n|no|NO) false;; \
@@ -423,7 +432,7 @@ AM_CFLAGS = \
 	 -g
 
 @ENABLE_TESTAPPS_FALSE@TEST_APPS = 
-@ENABLE_TESTAPPS_TRUE@TEST_APPS = gtkbuilder2ustring preferencesDialog passwordDialog drawingArea treeView pyPdfWriter
+@ENABLE_TESTAPPS_TRUE@TEST_APPS = gtkbuilder2ustring preferencesDialog passwordDialog saveAsDialog drawingArea treeView pyPdfWriter
 pdfmelange_SOURCES = \
 	melangePdfWriter.h \
 	melangePdfWriter.cc \
@@ -439,6 +448,8 @@ pdfmelange_SOURCES = \
 	melangeDrawingArea.cc \
 	melangeAboutDialog.h \
 	melangeAboutDialog.cc \
+	melangeSaveAsDialog.h \
+	melangeSaveAsDialog.cc \
 	melange.ui.h \
 	main.cc \
 	melange.ui \
@@ -500,6 +511,22 @@ passwordDialog_CPPFLAGS = -DTEST_PASSWORD \
 
 passwordDialog_CXXFLAGS = -std=c++0x 
 passwordDialog_LDADD = $(PREF_DIALOG_DEPS_LIBS) 
+
+# saveAsDialog test scenario
+saveAsDialog_SOURCES = \
+	melangeSaveAsDialog.cc \
+	melangeSaveAsDialog.h \
+	melangeKeyFile.cc \
+	melangeKeyFile.h
+
+saveAsDialog_CPPFLAGS = -DTEST_SAVEAS \
+	-DPACKAGE_SRC_DIR=\""$(srcdir)"\" \
+	-DPACKAGE_DATA_DIR=\""$(pkgdatadir)"\" \
+	-DPROGRAMNAME_LOCALEDIR=\""${PROGRAMNAME_LOCALEDIR}"\" \
+	$(PREF_DIALOG_DEPS_CFLAGS)
+
+saveAsDialog_CXXFLAGS = -std=c++0x 
+saveAsDialog_LDADD = $(PREF_DIALOG_DEPS_LIBS) 
 
 # drawingArea test scenario
 drawingArea_SOURCES = \
@@ -656,6 +683,10 @@ pyPdfWriter$(EXEEXT): $(pyPdfWriter_OBJECTS) $(pyPdfWriter_DEPENDENCIES) $(EXTRA
 	@rm -f pyPdfWriter$(EXEEXT)
 	$(AM_V_CXXLD)$(pyPdfWriter_LINK) $(pyPdfWriter_OBJECTS) $(pyPdfWriter_LDADD) $(LIBS)
 
+saveAsDialog$(EXEEXT): $(saveAsDialog_OBJECTS) $(saveAsDialog_DEPENDENCIES) $(EXTRA_saveAsDialog_DEPENDENCIES) 
+	@rm -f saveAsDialog$(EXEEXT)
+	$(AM_V_CXXLD)$(saveAsDialog_LINK) $(saveAsDialog_OBJECTS) $(saveAsDialog_LDADD) $(LIBS)
+
 treeView$(EXEEXT): $(treeView_OBJECTS) $(treeView_DEPENDENCIES) $(EXTRA_treeView_DEPENDENCIES) 
 	@rm -f treeView$(EXEEXT)
 	$(AM_V_CXXLD)$(treeView_LINK) $(treeView_OBJECTS) $(treeView_LDADD) $(LIBS)
@@ -681,11 +712,14 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/pdfmelange-melangePopplerWriter.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/pdfmelange-melangePreferences.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/pdfmelange-melangePyPdfWriter.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/pdfmelange-melangeSaveAsDialog.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/pdfmelange-melangeTreeView.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/pdfmelange-melangeWindow.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/preferencesDialog-melangeKeyFile.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/preferencesDialog-melangePreferences.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/pyPdfWriter-melangePyPdfWriter.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/saveAsDialog-melangeKeyFile.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/saveAsDialog-melangeSaveAsDialog.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/treeView-melangeListStore.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/treeView-melangePassword.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/treeView-melangePopplerWriter.Po@am__quote@
@@ -838,6 +872,20 @@ pdfmelange-melangeAboutDialog.obj: melangeAboutDialog.cc
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pdfmelange_CXXFLAGS) $(CXXFLAGS) -c -o pdfmelange-melangeAboutDialog.obj `if test -f 'melangeAboutDialog.cc'; then $(CYGPATH_W) 'melangeAboutDialog.cc'; else $(CYGPATH_W) '$(srcdir)/melangeAboutDialog.cc'; fi`
 
+pdfmelange-melangeSaveAsDialog.o: melangeSaveAsDialog.cc
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pdfmelange_CXXFLAGS) $(CXXFLAGS) -MT pdfmelange-melangeSaveAsDialog.o -MD -MP -MF $(DEPDIR)/pdfmelange-melangeSaveAsDialog.Tpo -c -o pdfmelange-melangeSaveAsDialog.o `test -f 'melangeSaveAsDialog.cc' || echo '$(srcdir)/'`melangeSaveAsDialog.cc
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/pdfmelange-melangeSaveAsDialog.Tpo $(DEPDIR)/pdfmelange-melangeSaveAsDialog.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='melangeSaveAsDialog.cc' object='pdfmelange-melangeSaveAsDialog.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pdfmelange_CXXFLAGS) $(CXXFLAGS) -c -o pdfmelange-melangeSaveAsDialog.o `test -f 'melangeSaveAsDialog.cc' || echo '$(srcdir)/'`melangeSaveAsDialog.cc
+
+pdfmelange-melangeSaveAsDialog.obj: melangeSaveAsDialog.cc
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pdfmelange_CXXFLAGS) $(CXXFLAGS) -MT pdfmelange-melangeSaveAsDialog.obj -MD -MP -MF $(DEPDIR)/pdfmelange-melangeSaveAsDialog.Tpo -c -o pdfmelange-melangeSaveAsDialog.obj `if test -f 'melangeSaveAsDialog.cc'; then $(CYGPATH_W) 'melangeSaveAsDialog.cc'; else $(CYGPATH_W) '$(srcdir)/melangeSaveAsDialog.cc'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/pdfmelange-melangeSaveAsDialog.Tpo $(DEPDIR)/pdfmelange-melangeSaveAsDialog.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='melangeSaveAsDialog.cc' object='pdfmelange-melangeSaveAsDialog.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pdfmelange_CXXFLAGS) $(CXXFLAGS) -c -o pdfmelange-melangeSaveAsDialog.obj `if test -f 'melangeSaveAsDialog.cc'; then $(CYGPATH_W) 'melangeSaveAsDialog.cc'; else $(CYGPATH_W) '$(srcdir)/melangeSaveAsDialog.cc'; fi`
+
 pdfmelange-main.o: main.cc
 @am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pdfmelange_CXXFLAGS) $(CXXFLAGS) -MT pdfmelange-main.o -MD -MP -MF $(DEPDIR)/pdfmelange-main.Tpo -c -o pdfmelange-main.o `test -f 'main.cc' || echo '$(srcdir)/'`main.cc
 @am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/pdfmelange-main.Tpo $(DEPDIR)/pdfmelange-main.Po
@@ -977,6 +1025,34 @@ pyPdfWriter-melangePyPdfWriter.obj: melangePyPdfWriter.cc
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='melangePyPdfWriter.cc' object='pyPdfWriter-melangePyPdfWriter.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(pyPdfWriter_CPPFLAGS) $(CPPFLAGS) $(pyPdfWriter_CXXFLAGS) $(CXXFLAGS) -c -o pyPdfWriter-melangePyPdfWriter.obj `if test -f 'melangePyPdfWriter.cc'; then $(CYGPATH_W) 'melangePyPdfWriter.cc'; else $(CYGPATH_W) '$(srcdir)/melangePyPdfWriter.cc'; fi`
+
+saveAsDialog-melangeSaveAsDialog.o: melangeSaveAsDialog.cc
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(saveAsDialog_CPPFLAGS) $(CPPFLAGS) $(saveAsDialog_CXXFLAGS) $(CXXFLAGS) -MT saveAsDialog-melangeSaveAsDialog.o -MD -MP -MF $(DEPDIR)/saveAsDialog-melangeSaveAsDialog.Tpo -c -o saveAsDialog-melangeSaveAsDialog.o `test -f 'melangeSaveAsDialog.cc' || echo '$(srcdir)/'`melangeSaveAsDialog.cc
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/saveAsDialog-melangeSaveAsDialog.Tpo $(DEPDIR)/saveAsDialog-melangeSaveAsDialog.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='melangeSaveAsDialog.cc' object='saveAsDialog-melangeSaveAsDialog.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(saveAsDialog_CPPFLAGS) $(CPPFLAGS) $(saveAsDialog_CXXFLAGS) $(CXXFLAGS) -c -o saveAsDialog-melangeSaveAsDialog.o `test -f 'melangeSaveAsDialog.cc' || echo '$(srcdir)/'`melangeSaveAsDialog.cc
+
+saveAsDialog-melangeSaveAsDialog.obj: melangeSaveAsDialog.cc
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(saveAsDialog_CPPFLAGS) $(CPPFLAGS) $(saveAsDialog_CXXFLAGS) $(CXXFLAGS) -MT saveAsDialog-melangeSaveAsDialog.obj -MD -MP -MF $(DEPDIR)/saveAsDialog-melangeSaveAsDialog.Tpo -c -o saveAsDialog-melangeSaveAsDialog.obj `if test -f 'melangeSaveAsDialog.cc'; then $(CYGPATH_W) 'melangeSaveAsDialog.cc'; else $(CYGPATH_W) '$(srcdir)/melangeSaveAsDialog.cc'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/saveAsDialog-melangeSaveAsDialog.Tpo $(DEPDIR)/saveAsDialog-melangeSaveAsDialog.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='melangeSaveAsDialog.cc' object='saveAsDialog-melangeSaveAsDialog.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(saveAsDialog_CPPFLAGS) $(CPPFLAGS) $(saveAsDialog_CXXFLAGS) $(CXXFLAGS) -c -o saveAsDialog-melangeSaveAsDialog.obj `if test -f 'melangeSaveAsDialog.cc'; then $(CYGPATH_W) 'melangeSaveAsDialog.cc'; else $(CYGPATH_W) '$(srcdir)/melangeSaveAsDialog.cc'; fi`
+
+saveAsDialog-melangeKeyFile.o: melangeKeyFile.cc
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(saveAsDialog_CPPFLAGS) $(CPPFLAGS) $(saveAsDialog_CXXFLAGS) $(CXXFLAGS) -MT saveAsDialog-melangeKeyFile.o -MD -MP -MF $(DEPDIR)/saveAsDialog-melangeKeyFile.Tpo -c -o saveAsDialog-melangeKeyFile.o `test -f 'melangeKeyFile.cc' || echo '$(srcdir)/'`melangeKeyFile.cc
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/saveAsDialog-melangeKeyFile.Tpo $(DEPDIR)/saveAsDialog-melangeKeyFile.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='melangeKeyFile.cc' object='saveAsDialog-melangeKeyFile.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(saveAsDialog_CPPFLAGS) $(CPPFLAGS) $(saveAsDialog_CXXFLAGS) $(CXXFLAGS) -c -o saveAsDialog-melangeKeyFile.o `test -f 'melangeKeyFile.cc' || echo '$(srcdir)/'`melangeKeyFile.cc
+
+saveAsDialog-melangeKeyFile.obj: melangeKeyFile.cc
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(saveAsDialog_CPPFLAGS) $(CPPFLAGS) $(saveAsDialog_CXXFLAGS) $(CXXFLAGS) -MT saveAsDialog-melangeKeyFile.obj -MD -MP -MF $(DEPDIR)/saveAsDialog-melangeKeyFile.Tpo -c -o saveAsDialog-melangeKeyFile.obj `if test -f 'melangeKeyFile.cc'; then $(CYGPATH_W) 'melangeKeyFile.cc'; else $(CYGPATH_W) '$(srcdir)/melangeKeyFile.cc'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/saveAsDialog-melangeKeyFile.Tpo $(DEPDIR)/saveAsDialog-melangeKeyFile.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='melangeKeyFile.cc' object='saveAsDialog-melangeKeyFile.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(saveAsDialog_CPPFLAGS) $(CPPFLAGS) $(saveAsDialog_CXXFLAGS) $(CXXFLAGS) -c -o saveAsDialog-melangeKeyFile.obj `if test -f 'melangeKeyFile.cc'; then $(CYGPATH_W) 'melangeKeyFile.cc'; else $(CYGPATH_W) '$(srcdir)/melangeKeyFile.cc'; fi`
 
 treeView-melangeTreeView.o: melangeTreeView.cc
 @am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(treeView_CPPFLAGS) $(CPPFLAGS) $(treeView_CXXFLAGS) $(CXXFLAGS) -MT treeView-melangeTreeView.o -MD -MP -MF $(DEPDIR)/treeView-melangeTreeView.Tpo -c -o treeView-melangeTreeView.o `test -f 'melangeTreeView.cc' || echo '$(srcdir)/'`melangeTreeView.cc
