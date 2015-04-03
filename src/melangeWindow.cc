@@ -167,7 +167,6 @@ melangeWindow::melangeWindow(BaseObjectType* cobject, const Glib::RefPtr<Gtk::Bu
     m_pTreeView->set_model(m_refTreeModel);
 
     m_refTreeModel->setIconSize(m_settings.getIconSize());
-    m_refTreeModel->setViewerPreferences(strdup(m_settings.getPageMode()), strdup(m_settings.getPageLayout()));
 
     m_refCursor = Gdk::Cursor::create(get_display(), Gdk::WATCH);
 
@@ -299,7 +298,6 @@ void melangeWindow::on_action_preferences()
         m_settings = pDialog->getConfig();
         m_settings.write();
         m_refTreeModel->setIconSize(m_settings.getIconSize());
-        m_refTreeModel->setViewerPreferences(strdup(m_settings.getPageMode()), strdup(m_settings.getPageLayout()));
         if (m_settings.getLogging()) melangeLogging::setLogging(m_settings.getLogging());
         g_message("logging was set to: %s", m_settings.getLogging() ? "true" : "false");
         g_message("Iconsize          : %i", m_settings.getIconSize());
@@ -462,7 +460,7 @@ void melangeWindow::write_document()
 
     try
     {
-        this->m_refTreeModel->write_pdf_document(m_MainFileName.c_str());
+        this->m_refTreeModel->write_pdf_document(m_MainFileName.c_str(), m_settings);
         m_pStatusbar->push(_("saved file ") + Glib::ustring("\"") + m_MainFileName + Glib::ustring("\""));
     }
     catch (char* msg)
@@ -533,7 +531,6 @@ void melangeWindow::on_action_save_as()
 		            case(Gtk::RESPONSE_OK):
 		            {
 						m_settings = filedialog.getConfig();
-						m_refTreeModel->setViewerPreferences(m_settings.getPageMode(), m_settings.getPageLayout());
 		                this->set_mainFileName(filedialog.get_filename());
 		                this->write_document();
 		                this->set_mainFile_is_modified(false);

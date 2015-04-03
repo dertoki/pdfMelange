@@ -20,6 +20,7 @@
 #ifndef MELANGELISTSTORE_H
 #define MELANGELISTSTORE_H
 
+#include "melangeKeyFile.h"
 #include <gtkmm.h>
 #include <fstream>
 #include <iostream>
@@ -115,12 +116,13 @@ public:
     );
 
     /**  Merge all pages of the list, write the merge to a PDF document. */
-    void write_pdf_document(const char *outfilename);
+    void write_pdf_document(const char *outfilename, melangeKeyFile settings);
 
     /** Set size of thumbnails. */
     void setIconSize(int size);
+
     /** Set viewer preferences */
-    void setViewerPreferences(const char* PageMode, const char* PageLayout);
+    void setViewerPreferences(melangeKeyFile settings);
 
     static PopplerPermissions sPermissions;
     static bool sEncrypted;
@@ -132,8 +134,6 @@ public:
 
 private:
     int m_iconSize;
-    char* m_strPageMode;
-    char* m_strPageLayout;
 
 };
 

@@ -49,9 +49,9 @@ public:
     void			setCairoDebug(bool value);
     const bool		getCairoDebug();
     void			setPageMode(Glib::ustring value);
-    const char*	getPageMode();
+    char*			getPageMode();
     void			setPageLayout(Glib::ustring value);
-    const char*	getPageLayout();
+    char*			getPageLayout();
 
     static const char* m_pageLayouts[];	// { "NoLayout", "UseOutlines", "UseThumbs", "FullScreen", "UseOC", "UseAttachments"}
     static const char* m_pageModes[];		// { "NoMode", "SinglePage", "OneColumn", "TwoColumnLeft", "TwoColumnRight", "TwoPageLeft", "TwoPageRight"}

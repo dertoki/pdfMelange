@@ -315,7 +315,7 @@ void melangeKeyFile::setLogging(bool value)
  *
  * \return a new allocated string (default value on error) or NULL if key was not found.
  */
-const char* melangeKeyFile::getPageMode()
+char* melangeKeyFile::getPageMode()
 {
     return strdup(m_pageMode);
 }
@@ -346,7 +346,7 @@ void melangeKeyFile::setPageMode(Glib::ustring value)
  *
  * \return a new allocated string (default value on error) or NULL if key was not found.
  */
-const char* melangeKeyFile::getPageLayout()
+char* melangeKeyFile::getPageLayout()
 {
     return strdup(m_pageLayout);
 }

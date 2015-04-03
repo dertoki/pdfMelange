@@ -43,8 +43,6 @@ melangeListStore::melangeListStore()
 {
     set_column_types(m_Columns);
     m_iconSize = 60;
-    m_strPageLayout = NULL;
-    m_strPageMode = NULL;
 }
 
 /**
@@ -52,8 +50,6 @@ melangeListStore::melangeListStore()
  */
 melangeListStore::~melangeListStore()
 {
-    free(m_strPageMode);
-    free(m_strPageLayout);
 }
 
 /**
@@ -330,7 +326,7 @@ GError* melangeListStore::read_pdf_document(
  * \param char* output pdf filename.
  * \return void
  */
-void melangeListStore::write_pdf_document( const char *outfilename )
+void melangeListStore::write_pdf_document( const char *outfilename, melangeKeyFile settings )
 {
     g_message("melangeListStore::write_pdf_document");
 
@@ -339,7 +335,7 @@ void melangeListStore::write_pdf_document( const char *outfilename )
     melangePopplerWriter pdfWriter;
     //melangePyPdfWriter pdfWriter;
 
-    pdfWriter.setPageModeAndLayout(m_strPageMode, m_strPageLayout);
+    pdfWriter.setPageModeAndLayout(settings.getPageMode(), settings.getPageLayout());
 
     for (iter = children().begin() ; iter != children().end(); iter++)
     {
@@ -416,21 +412,3 @@ void melangeListStore::setIconSize(int size)
 {
     m_iconSize = size;
 }
-
-/**
- * \brief Set viewer preferences.
- *
- * This is used in melangeListStore::write_pdf_document, where the pdf is written with pythonPdfWriter.
- *
- * \param const char* PageMode see Page 140 @ pdf_reference_1-7.
- * \param const char* PageLayout see Page 140 @ pdf_reference_1-7.
- * \return void.
- */
-void melangeListStore::setViewerPreferences(const char* PageMode, const char* PageLayout)
-{
-    free(m_strPageMode);
-    m_strPageMode = strdup(PageMode);
-    free(m_strPageLayout);
-    m_strPageLayout = strdup(PageLayout);
-}
-
