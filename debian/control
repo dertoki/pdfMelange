@@ -10,7 +10,7 @@ Vcs-Browser: https://github.com/dertoki/pdfMelange
 
 Package: pdfmelange
 Architecture: any
-Depends: ${shlibs:Depends}, ${misc:Depends}, python-pypdf
+Depends: ${shlibs:Depends}, ${misc:Depends}
 Description: A program to modify PDF documents.
  + Merging PDF documents.
  + Erasing pages.

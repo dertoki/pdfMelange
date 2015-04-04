@@ -1,5 +1,5 @@
-pdfmelange (0.4.1-1) unstable; urgency=low
+pdfmelange (0.4.2-1) unstable; urgency=low
 
   * Initial release (Closes: #nnnn)  <nnnn is the bug number of your ITP>
 
- -- Tobias Tandetzki <tobzki@googlemail.com>  Sat, 29 Mar 2014 21:14:57 +0100
+ -- Tobias Tandetzki <tobzki@googlemail.com>  Sat, 04 Apr 2015 16:37:30 +0100

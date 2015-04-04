@@ -42,20 +42,16 @@ LT_INIT
 
 
 
-PKG_CHECK_MODULES(PYTHONPDFWRITER_DEPS,gtkmm-3.0
-python-2.7)
-
-PKG_CHECK_MODULES(TREEVIEW_DEPS,gtkmm-3.0
-python-2.7
-poppler-glib)
+PKG_CHECK_MODULES(POPPLERWRITER_DEPS,poppler
+poppler-glib
+glibmm-2.4)
 
 PKG_CHECK_MODULES(DRAWINGAREA_DEPS,gtkmm-3.0
 poppler-glib)
 
 PKG_CHECK_MODULES(PREF_DIALOG_DEPS,gtkmm-3.0)
 
-PKG_CHECK_MODULES(MELANGE_DEPS,python-2.7
-poppler
+PKG_CHECK_MODULES(MELANGE_DEPS,poppler
 poppler-glib
 gtkmm-3.0)
 

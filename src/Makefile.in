@@ -95,17 +95,26 @@ CONFIG_CLEAN_VPATH_FILES =
 @ENABLE_TESTAPPS_TRUE@	passwordDialog$(EXEEXT) \
 @ENABLE_TESTAPPS_TRUE@	saveAsDialog$(EXEEXT) \
 @ENABLE_TESTAPPS_TRUE@	drawingArea$(EXEEXT) treeView$(EXEEXT) \
-@ENABLE_TESTAPPS_TRUE@	pyPdfWriter$(EXEEXT)
+@ENABLE_TESTAPPS_TRUE@	PopplerWriter$(EXEEXT)
 am__installdirs = "$(DESTDIR)$(bindir)"
 PROGRAMS = $(bin_PROGRAMS)
-am_drawingArea_OBJECTS = drawingArea-melangeDrawingArea.$(OBJEXT)
-drawingArea_OBJECTS = $(am_drawingArea_OBJECTS)
+am_PopplerWriter_OBJECTS = PopplerWriter-copyfile.$(OBJEXT) \
+	PopplerWriter-melangePdfWriter.$(OBJEXT) \
+	PopplerWriter-melangePopplerWriter.$(OBJEXT)
+PopplerWriter_OBJECTS = $(am_PopplerWriter_OBJECTS)
 am__DEPENDENCIES_1 =
-drawingArea_DEPENDENCIES = $(am__DEPENDENCIES_1)
+PopplerWriter_DEPENDENCIES = $(am__DEPENDENCIES_1)
 AM_V_lt = $(am__v_lt_@AM_V@)
 am__v_lt_ = $(am__v_lt_@AM_DEFAULT_V@)
 am__v_lt_0 = --silent
 am__v_lt_1 = 
+PopplerWriter_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CXX \
+	$(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=link $(CXXLD) \
+	$(PopplerWriter_CXXFLAGS) $(CXXFLAGS) $(AM_LDFLAGS) $(LDFLAGS) \
+	-o $@
+am_drawingArea_OBJECTS = drawingArea-melangeDrawingArea.$(OBJEXT)
+drawingArea_OBJECTS = $(am_drawingArea_OBJECTS)
+drawingArea_DEPENDENCIES = $(am__DEPENDENCIES_1)
 drawingArea_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) \
 	$(LIBTOOLFLAGS) --mode=link $(CXXLD) $(drawingArea_CXXFLAGS) \
 	$(CXXFLAGS) $(AM_LDFLAGS) $(LDFLAGS) -o $@
@@ -121,7 +130,6 @@ passwordDialog_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CXX \
 	$(LDFLAGS) -o $@
 am_pdfmelange_OBJECTS = pdfmelange-melangePdfWriter.$(OBJEXT) \
 	pdfmelange-melangePopplerWriter.$(OBJEXT) \
-	pdfmelange-melangePyPdfWriter.$(OBJEXT) \
 	pdfmelange-melangeWindow.$(OBJEXT) \
 	pdfmelange-melangeListStore.$(OBJEXT) \
 	pdfmelange-melangeDrawingArea.$(OBJEXT) \
@@ -147,12 +155,6 @@ preferencesDialog_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CXX \
 	$(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=link $(CXXLD) \
 	$(preferencesDialog_CXXFLAGS) $(CXXFLAGS) $(AM_LDFLAGS) \
 	$(LDFLAGS) -o $@
-am_pyPdfWriter_OBJECTS = pyPdfWriter-melangePyPdfWriter.$(OBJEXT)
-pyPdfWriter_OBJECTS = $(am_pyPdfWriter_OBJECTS)
-pyPdfWriter_DEPENDENCIES = $(am__DEPENDENCIES_1)
-pyPdfWriter_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) \
-	$(LIBTOOLFLAGS) --mode=link $(CXXLD) $(pyPdfWriter_CXXFLAGS) \
-	$(CXXFLAGS) $(AM_LDFLAGS) $(LDFLAGS) -o $@
 am_saveAsDialog_OBJECTS = saveAsDialog-melangeSaveAsDialog.$(OBJEXT) \
 	saveAsDialog-melangeKeyFile.$(OBJEXT)
 saveAsDialog_OBJECTS = $(am_saveAsDialog_OBJECTS)
@@ -162,6 +164,8 @@ saveAsDialog_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) \
 	$(CXXFLAGS) $(AM_LDFLAGS) $(LDFLAGS) -o $@
 am_treeView_OBJECTS = treeView-melangeTreeView.$(OBJEXT) \
 	treeView-melangeListStore.$(OBJEXT) \
+	treeView-melangeKeyFile.$(OBJEXT) treeView-copyfile.$(OBJEXT) \
+	treeView-melangePdfWriter.$(OBJEXT) \
 	treeView-melangePopplerWriter.$(OBJEXT) \
 	treeView-melangePassword.$(OBJEXT)
 treeView_OBJECTS = $(am_treeView_OBJECTS)
@@ -221,13 +225,13 @@ AM_V_CCLD = $(am__v_CCLD_@AM_V@)
 am__v_CCLD_ = $(am__v_CCLD_@AM_DEFAULT_V@)
 am__v_CCLD_0 = @echo "  CCLD    " $@;
 am__v_CCLD_1 = 
-SOURCES = $(drawingArea_SOURCES) $(gtkbuilder2ustring_SOURCES) \
-	$(passwordDialog_SOURCES) $(pdfmelange_SOURCES) \
-	$(preferencesDialog_SOURCES) $(pyPdfWriter_SOURCES) \
+SOURCES = $(PopplerWriter_SOURCES) $(drawingArea_SOURCES) \
+	$(gtkbuilder2ustring_SOURCES) $(passwordDialog_SOURCES) \
+	$(pdfmelange_SOURCES) $(preferencesDialog_SOURCES) \
 	$(saveAsDialog_SOURCES) $(treeView_SOURCES)
-DIST_SOURCES = $(drawingArea_SOURCES) $(gtkbuilder2ustring_SOURCES) \
-	$(passwordDialog_SOURCES) $(pdfmelange_SOURCES) \
-	$(preferencesDialog_SOURCES) $(pyPdfWriter_SOURCES) \
+DIST_SOURCES = $(PopplerWriter_SOURCES) $(drawingArea_SOURCES) \
+	$(gtkbuilder2ustring_SOURCES) $(passwordDialog_SOURCES) \
+	$(pdfmelange_SOURCES) $(preferencesDialog_SOURCES) \
 	$(saveAsDialog_SOURCES) $(treeView_SOURCES)
 am__can_run_installinfo = \
   case $$AM_UPDATE_INFO_DIR in \
@@ -343,21 +347,19 @@ PKG_CONFIG = @PKG_CONFIG@
 PKG_CONFIG_LIBDIR = @PKG_CONFIG_LIBDIR@
 PKG_CONFIG_PATH = @PKG_CONFIG_PATH@
 POFILES = @POFILES@
+POPPLERWRITER_DEPS_CFLAGS = @POPPLERWRITER_DEPS_CFLAGS@
+POPPLERWRITER_DEPS_LIBS = @POPPLERWRITER_DEPS_LIBS@
 POSUB = @POSUB@
 PO_IN_DATADIR_FALSE = @PO_IN_DATADIR_FALSE@
 PO_IN_DATADIR_TRUE = @PO_IN_DATADIR_TRUE@
 PREF_DIALOG_DEPS_CFLAGS = @PREF_DIALOG_DEPS_CFLAGS@
 PREF_DIALOG_DEPS_LIBS = @PREF_DIALOG_DEPS_LIBS@
 PROGRAMNAME_LOCALEDIR = @PROGRAMNAME_LOCALEDIR@
-PYTHONPDFWRITER_DEPS_CFLAGS = @PYTHONPDFWRITER_DEPS_CFLAGS@
-PYTHONPDFWRITER_DEPS_LIBS = @PYTHONPDFWRITER_DEPS_LIBS@
 RANLIB = @RANLIB@
 SED = @SED@
 SET_MAKE = @SET_MAKE@
 SHELL = @SHELL@
 STRIP = @STRIP@
-TREEVIEW_DEPS_CFLAGS = @TREEVIEW_DEPS_CFLAGS@
-TREEVIEW_DEPS_LIBS = @TREEVIEW_DEPS_LIBS@
 USE_NLS = @USE_NLS@
 VERSION = @VERSION@
 XGETTEXT = @XGETTEXT@
@@ -422,24 +424,19 @@ AM_CPPFLAGS = \
 	-DPACKAGE_SRC_DIR=\""$(srcdir)"\" \
 	-DPACKAGE_DATA_DIR=\""$(pkgdatadir)"\" \
 	-DPROGRAMNAME_LOCALEDIR=\""${PROGRAMNAME_LOCALEDIR}"\" \
-	$(MELANGE_DEPS_CFLAGS) \
-	$(PREF_DIALOG_DEPS_CFLAGS) \
-	$(DRAWINGAREA_DEPS_CFLAGS) \
-	$(TREEVIEW_DEPS_CFLAGS)
+	$(MELANGE_DEPS_CFLAGS) 
 
 AM_CFLAGS = \
 	 -Wall\
 	 -g
 
 @ENABLE_TESTAPPS_FALSE@TEST_APPS = 
-@ENABLE_TESTAPPS_TRUE@TEST_APPS = gtkbuilder2ustring preferencesDialog passwordDialog saveAsDialog drawingArea treeView pyPdfWriter
+@ENABLE_TESTAPPS_TRUE@TEST_APPS = gtkbuilder2ustring preferencesDialog passwordDialog saveAsDialog drawingArea treeView PopplerWriter
 pdfmelange_SOURCES = \
 	melangePdfWriter.h \
 	melangePdfWriter.cc \
 	melangePopplerWriter.h \
 	melangePopplerWriter.cc \
-	melangePyPdfWriter.h \
-	melangePyPdfWriter.cc \
 	melangeWindow.h \
 	melangeWindow.cc \
 	melangeListStore.h \
@@ -548,6 +545,12 @@ treeView_SOURCES = \
 	melangeTreeView.h \
 	melangeListStore.cc \
 	melangeListStore.h \
+    melangeKeyFile.h \
+    melangeKeyFile.cc \
+    copyfile.h \
+    copyfile.cc \
+	melangePdfWriter.h \
+	melangePdfWriter.cc \
 	melangePopplerWriter.h \
 	melangePopplerWriter.cc \
 	melangePassword.cc \
@@ -557,24 +560,28 @@ treeView_CPPFLAGS = -DTEST_TREEVIEW \
 	-DPACKAGE_SRC_DIR=\""$(srcdir)"\" \
 	-DPACKAGE_DATA_DIR=\""$(pkgdatadir)"\" \
 	-DPROGRAMNAME_LOCALEDIR=\""${PROGRAMNAME_LOCALEDIR}"\" \
-	$(TREEVIEW_DEPS_CFLAGS)
+	$(MELANGE_DEPS_CFLAGS)
 
 treeView_CXXFLAGS = -std=c++0x 
-treeView_LDADD = $(TREEVIEW_DEPS_LIBS) 
+treeView_LDADD = $(MELANGE_DEPS_LIBS) 
 
-# pyPdfWriter test scenario
-pyPdfWriter_SOURCES = \
-	melangePyPdfWriter.h \
-	melangePyPdfWriter.cc 
+# PopplerWriterWriter test scenario
+PopplerWriter_SOURCES = \
+    copyfile.h \
+    copyfile.cc \
+	melangePdfWriter.h \
+	melangePdfWriter.cc \
+	melangePopplerWriter.h \
+	melangePopplerWriter.cc 
 
-pyPdfWriter_CPPFLAGS = -DTEST_PYTHONPDFWRITER \
+PopplerWriter_CPPFLAGS = -DTEST_PDFPOPPLERWRITER \
 	-DPACKAGE_SRC_DIR=\""$(srcdir)"\" \
 	-DPACKAGE_DATA_DIR=\""$(pkgdatadir)"\" \
 	-DPROGRAMNAME_LOCALEDIR=\""${PROGRAMNAME_LOCALEDIR}"\" \
-	$(PYTHONPDFWRITER_DEPS_CFLAGS)
+	$(POPPLERWRITER_DEPS_CFLAGS)
 
-pyPdfWriter_CXXFLAGS = -std=c++0x 
-pyPdfWriter_LDADD = $(PYTHONPDFWRITER_DEPS_LIBS) 
+PopplerWriter_CXXFLAGS = -std=c++0x 
+PopplerWriter_LDADD = $(POPPLERWRITER_DEPS_LIBS) 
 all: all-am
 
 .SUFFIXES:
@@ -659,6 +666,10 @@ clean-binPROGRAMS:
 	echo " rm -f" $$list; \
 	rm -f $$list
 
+PopplerWriter$(EXEEXT): $(PopplerWriter_OBJECTS) $(PopplerWriter_DEPENDENCIES) $(EXTRA_PopplerWriter_DEPENDENCIES) 
+	@rm -f PopplerWriter$(EXEEXT)
+	$(AM_V_CXXLD)$(PopplerWriter_LINK) $(PopplerWriter_OBJECTS) $(PopplerWriter_LDADD) $(LIBS)
+
 drawingArea$(EXEEXT): $(drawingArea_OBJECTS) $(drawingArea_DEPENDENCIES) $(EXTRA_drawingArea_DEPENDENCIES) 
 	@rm -f drawingArea$(EXEEXT)
 	$(AM_V_CXXLD)$(drawingArea_LINK) $(drawingArea_OBJECTS) $(drawingArea_LDADD) $(LIBS)
@@ -679,10 +690,6 @@ preferencesDialog$(EXEEXT): $(preferencesDialog_OBJECTS) $(preferencesDialog_DEP
 	@rm -f preferencesDialog$(EXEEXT)
 	$(AM_V_CXXLD)$(preferencesDialog_LINK) $(preferencesDialog_OBJECTS) $(preferencesDialog_LDADD) $(LIBS)
 
-pyPdfWriter$(EXEEXT): $(pyPdfWriter_OBJECTS) $(pyPdfWriter_DEPENDENCIES) $(EXTRA_pyPdfWriter_DEPENDENCIES) 
-	@rm -f pyPdfWriter$(EXEEXT)
-	$(AM_V_CXXLD)$(pyPdfWriter_LINK) $(pyPdfWriter_OBJECTS) $(pyPdfWriter_LDADD) $(LIBS)
-
 saveAsDialog$(EXEEXT): $(saveAsDialog_OBJECTS) $(saveAsDialog_DEPENDENCIES) $(EXTRA_saveAsDialog_DEPENDENCIES) 
 	@rm -f saveAsDialog$(EXEEXT)
 	$(AM_V_CXXLD)$(saveAsDialog_LINK) $(saveAsDialog_OBJECTS) $(saveAsDialog_LDADD) $(LIBS)
@@ -697,6 +704,9 @@ mostlyclean-compile:
 distclean-compile:
 	-rm -f *.tab.c
 
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/PopplerWriter-copyfile.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/PopplerWriter-melangePdfWriter.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/PopplerWriter-melangePopplerWriter.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/drawingArea-melangeDrawingArea.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/gtkbuilder2ustring.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/passwordDialog-melangePassword.Po@am__quote@
@@ -711,17 +721,18 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/pdfmelange-melangePdfWriter.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/pdfmelange-melangePopplerWriter.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/pdfmelange-melangePreferences.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/pdfmelange-melangePyPdfWriter.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/pdfmelange-melangeSaveAsDialog.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/pdfmelange-melangeTreeView.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/pdfmelange-melangeWindow.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/preferencesDialog-melangeKeyFile.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/preferencesDialog-melangePreferences.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/pyPdfWriter-melangePyPdfWriter.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/saveAsDialog-melangeKeyFile.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/saveAsDialog-melangeSaveAsDialog.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/treeView-copyfile.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/treeView-melangeKeyFile.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/treeView-melangeListStore.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/treeView-melangePassword.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/treeView-melangePdfWriter.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/treeView-melangePopplerWriter.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/treeView-melangeTreeView.Po@am__quote@
 
@@ -745,6 +756,48 @@ distclean-compile:
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='$<' object='$@' libtool=yes @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(LTCXXCOMPILE) -c -o $@ $<
+
+PopplerWriter-copyfile.o: copyfile.cc
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(PopplerWriter_CPPFLAGS) $(CPPFLAGS) $(PopplerWriter_CXXFLAGS) $(CXXFLAGS) -MT PopplerWriter-copyfile.o -MD -MP -MF $(DEPDIR)/PopplerWriter-copyfile.Tpo -c -o PopplerWriter-copyfile.o `test -f 'copyfile.cc' || echo '$(srcdir)/'`copyfile.cc
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/PopplerWriter-copyfile.Tpo $(DEPDIR)/PopplerWriter-copyfile.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='copyfile.cc' object='PopplerWriter-copyfile.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(PopplerWriter_CPPFLAGS) $(CPPFLAGS) $(PopplerWriter_CXXFLAGS) $(CXXFLAGS) -c -o PopplerWriter-copyfile.o `test -f 'copyfile.cc' || echo '$(srcdir)/'`copyfile.cc
+
+PopplerWriter-copyfile.obj: copyfile.cc
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(PopplerWriter_CPPFLAGS) $(CPPFLAGS) $(PopplerWriter_CXXFLAGS) $(CXXFLAGS) -MT PopplerWriter-copyfile.obj -MD -MP -MF $(DEPDIR)/PopplerWriter-copyfile.Tpo -c -o PopplerWriter-copyfile.obj `if test -f 'copyfile.cc'; then $(CYGPATH_W) 'copyfile.cc'; else $(CYGPATH_W) '$(srcdir)/copyfile.cc'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/PopplerWriter-copyfile.Tpo $(DEPDIR)/PopplerWriter-copyfile.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='copyfile.cc' object='PopplerWriter-copyfile.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(PopplerWriter_CPPFLAGS) $(CPPFLAGS) $(PopplerWriter_CXXFLAGS) $(CXXFLAGS) -c -o PopplerWriter-copyfile.obj `if test -f 'copyfile.cc'; then $(CYGPATH_W) 'copyfile.cc'; else $(CYGPATH_W) '$(srcdir)/copyfile.cc'; fi`
+
+PopplerWriter-melangePdfWriter.o: melangePdfWriter.cc
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(PopplerWriter_CPPFLAGS) $(CPPFLAGS) $(PopplerWriter_CXXFLAGS) $(CXXFLAGS) -MT PopplerWriter-melangePdfWriter.o -MD -MP -MF $(DEPDIR)/PopplerWriter-melangePdfWriter.Tpo -c -o PopplerWriter-melangePdfWriter.o `test -f 'melangePdfWriter.cc' || echo '$(srcdir)/'`melangePdfWriter.cc
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/PopplerWriter-melangePdfWriter.Tpo $(DEPDIR)/PopplerWriter-melangePdfWriter.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='melangePdfWriter.cc' object='PopplerWriter-melangePdfWriter.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(PopplerWriter_CPPFLAGS) $(CPPFLAGS) $(PopplerWriter_CXXFLAGS) $(CXXFLAGS) -c -o PopplerWriter-melangePdfWriter.o `test -f 'melangePdfWriter.cc' || echo '$(srcdir)/'`melangePdfWriter.cc
+
+PopplerWriter-melangePdfWriter.obj: melangePdfWriter.cc
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(PopplerWriter_CPPFLAGS) $(CPPFLAGS) $(PopplerWriter_CXXFLAGS) $(CXXFLAGS) -MT PopplerWriter-melangePdfWriter.obj -MD -MP -MF $(DEPDIR)/PopplerWriter-melangePdfWriter.Tpo -c -o PopplerWriter-melangePdfWriter.obj `if test -f 'melangePdfWriter.cc'; then $(CYGPATH_W) 'melangePdfWriter.cc'; else $(CYGPATH_W) '$(srcdir)/melangePdfWriter.cc'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/PopplerWriter-melangePdfWriter.Tpo $(DEPDIR)/PopplerWriter-melangePdfWriter.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='melangePdfWriter.cc' object='PopplerWriter-melangePdfWriter.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(PopplerWriter_CPPFLAGS) $(CPPFLAGS) $(PopplerWriter_CXXFLAGS) $(CXXFLAGS) -c -o PopplerWriter-melangePdfWriter.obj `if test -f 'melangePdfWriter.cc'; then $(CYGPATH_W) 'melangePdfWriter.cc'; else $(CYGPATH_W) '$(srcdir)/melangePdfWriter.cc'; fi`
+
+PopplerWriter-melangePopplerWriter.o: melangePopplerWriter.cc
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(PopplerWriter_CPPFLAGS) $(CPPFLAGS) $(PopplerWriter_CXXFLAGS) $(CXXFLAGS) -MT PopplerWriter-melangePopplerWriter.o -MD -MP -MF $(DEPDIR)/PopplerWriter-melangePopplerWriter.Tpo -c -o PopplerWriter-melangePopplerWriter.o `test -f 'melangePopplerWriter.cc' || echo '$(srcdir)/'`melangePopplerWriter.cc
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/PopplerWriter-melangePopplerWriter.Tpo $(DEPDIR)/PopplerWriter-melangePopplerWriter.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='melangePopplerWriter.cc' object='PopplerWriter-melangePopplerWriter.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(PopplerWriter_CPPFLAGS) $(CPPFLAGS) $(PopplerWriter_CXXFLAGS) $(CXXFLAGS) -c -o PopplerWriter-melangePopplerWriter.o `test -f 'melangePopplerWriter.cc' || echo '$(srcdir)/'`melangePopplerWriter.cc
+
+PopplerWriter-melangePopplerWriter.obj: melangePopplerWriter.cc
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(PopplerWriter_CPPFLAGS) $(CPPFLAGS) $(PopplerWriter_CXXFLAGS) $(CXXFLAGS) -MT PopplerWriter-melangePopplerWriter.obj -MD -MP -MF $(DEPDIR)/PopplerWriter-melangePopplerWriter.Tpo -c -o PopplerWriter-melangePopplerWriter.obj `if test -f 'melangePopplerWriter.cc'; then $(CYGPATH_W) 'melangePopplerWriter.cc'; else $(CYGPATH_W) '$(srcdir)/melangePopplerWriter.cc'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/PopplerWriter-melangePopplerWriter.Tpo $(DEPDIR)/PopplerWriter-melangePopplerWriter.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='melangePopplerWriter.cc' object='PopplerWriter-melangePopplerWriter.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(PopplerWriter_CPPFLAGS) $(CPPFLAGS) $(PopplerWriter_CXXFLAGS) $(CXXFLAGS) -c -o PopplerWriter-melangePopplerWriter.obj `if test -f 'melangePopplerWriter.cc'; then $(CYGPATH_W) 'melangePopplerWriter.cc'; else $(CYGPATH_W) '$(srcdir)/melangePopplerWriter.cc'; fi`
 
 drawingArea-melangeDrawingArea.o: melangeDrawingArea.cc
 @am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(drawingArea_CPPFLAGS) $(CPPFLAGS) $(drawingArea_CXXFLAGS) $(CXXFLAGS) -MT drawingArea-melangeDrawingArea.o -MD -MP -MF $(DEPDIR)/drawingArea-melangeDrawingArea.Tpo -c -o drawingArea-melangeDrawingArea.o `test -f 'melangeDrawingArea.cc' || echo '$(srcdir)/'`melangeDrawingArea.cc
@@ -801,20 +854,6 @@ pdfmelange-melangePopplerWriter.obj: melangePopplerWriter.cc
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='melangePopplerWriter.cc' object='pdfmelange-melangePopplerWriter.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pdfmelange_CXXFLAGS) $(CXXFLAGS) -c -o pdfmelange-melangePopplerWriter.obj `if test -f 'melangePopplerWriter.cc'; then $(CYGPATH_W) 'melangePopplerWriter.cc'; else $(CYGPATH_W) '$(srcdir)/melangePopplerWriter.cc'; fi`
-
-pdfmelange-melangePyPdfWriter.o: melangePyPdfWriter.cc
-@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pdfmelange_CXXFLAGS) $(CXXFLAGS) -MT pdfmelange-melangePyPdfWriter.o -MD -MP -MF $(DEPDIR)/pdfmelange-melangePyPdfWriter.Tpo -c -o pdfmelange-melangePyPdfWriter.o `test -f 'melangePyPdfWriter.cc' || echo '$(srcdir)/'`melangePyPdfWriter.cc
-@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/pdfmelange-melangePyPdfWriter.Tpo $(DEPDIR)/pdfmelange-melangePyPdfWriter.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='melangePyPdfWriter.cc' object='pdfmelange-melangePyPdfWriter.o' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pdfmelange_CXXFLAGS) $(CXXFLAGS) -c -o pdfmelange-melangePyPdfWriter.o `test -f 'melangePyPdfWriter.cc' || echo '$(srcdir)/'`melangePyPdfWriter.cc
-
-pdfmelange-melangePyPdfWriter.obj: melangePyPdfWriter.cc
-@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pdfmelange_CXXFLAGS) $(CXXFLAGS) -MT pdfmelange-melangePyPdfWriter.obj -MD -MP -MF $(DEPDIR)/pdfmelange-melangePyPdfWriter.Tpo -c -o pdfmelange-melangePyPdfWriter.obj `if test -f 'melangePyPdfWriter.cc'; then $(CYGPATH_W) 'melangePyPdfWriter.cc'; else $(CYGPATH_W) '$(srcdir)/melangePyPdfWriter.cc'; fi`
-@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/pdfmelange-melangePyPdfWriter.Tpo $(DEPDIR)/pdfmelange-melangePyPdfWriter.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='melangePyPdfWriter.cc' object='pdfmelange-melangePyPdfWriter.obj' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pdfmelange_CXXFLAGS) $(CXXFLAGS) -c -o pdfmelange-melangePyPdfWriter.obj `if test -f 'melangePyPdfWriter.cc'; then $(CYGPATH_W) 'melangePyPdfWriter.cc'; else $(CYGPATH_W) '$(srcdir)/melangePyPdfWriter.cc'; fi`
 
 pdfmelange-melangeWindow.o: melangeWindow.cc
 @am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pdfmelange_CXXFLAGS) $(CXXFLAGS) -MT pdfmelange-melangeWindow.o -MD -MP -MF $(DEPDIR)/pdfmelange-melangeWindow.Tpo -c -o pdfmelange-melangeWindow.o `test -f 'melangeWindow.cc' || echo '$(srcdir)/'`melangeWindow.cc
@@ -1012,20 +1051,6 @@ preferencesDialog-melangeKeyFile.obj: melangeKeyFile.cc
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(preferencesDialog_CPPFLAGS) $(CPPFLAGS) $(preferencesDialog_CXXFLAGS) $(CXXFLAGS) -c -o preferencesDialog-melangeKeyFile.obj `if test -f 'melangeKeyFile.cc'; then $(CYGPATH_W) 'melangeKeyFile.cc'; else $(CYGPATH_W) '$(srcdir)/melangeKeyFile.cc'; fi`
 
-pyPdfWriter-melangePyPdfWriter.o: melangePyPdfWriter.cc
-@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(pyPdfWriter_CPPFLAGS) $(CPPFLAGS) $(pyPdfWriter_CXXFLAGS) $(CXXFLAGS) -MT pyPdfWriter-melangePyPdfWriter.o -MD -MP -MF $(DEPDIR)/pyPdfWriter-melangePyPdfWriter.Tpo -c -o pyPdfWriter-melangePyPdfWriter.o `test -f 'melangePyPdfWriter.cc' || echo '$(srcdir)/'`melangePyPdfWriter.cc
-@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/pyPdfWriter-melangePyPdfWriter.Tpo $(DEPDIR)/pyPdfWriter-melangePyPdfWriter.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='melangePyPdfWriter.cc' object='pyPdfWriter-melangePyPdfWriter.o' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(pyPdfWriter_CPPFLAGS) $(CPPFLAGS) $(pyPdfWriter_CXXFLAGS) $(CXXFLAGS) -c -o pyPdfWriter-melangePyPdfWriter.o `test -f 'melangePyPdfWriter.cc' || echo '$(srcdir)/'`melangePyPdfWriter.cc
-
-pyPdfWriter-melangePyPdfWriter.obj: melangePyPdfWriter.cc
-@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(pyPdfWriter_CPPFLAGS) $(CPPFLAGS) $(pyPdfWriter_CXXFLAGS) $(CXXFLAGS) -MT pyPdfWriter-melangePyPdfWriter.obj -MD -MP -MF $(DEPDIR)/pyPdfWriter-melangePyPdfWriter.Tpo -c -o pyPdfWriter-melangePyPdfWriter.obj `if test -f 'melangePyPdfWriter.cc'; then $(CYGPATH_W) 'melangePyPdfWriter.cc'; else $(CYGPATH_W) '$(srcdir)/melangePyPdfWriter.cc'; fi`
-@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/pyPdfWriter-melangePyPdfWriter.Tpo $(DEPDIR)/pyPdfWriter-melangePyPdfWriter.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='melangePyPdfWriter.cc' object='pyPdfWriter-melangePyPdfWriter.obj' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(pyPdfWriter_CPPFLAGS) $(CPPFLAGS) $(pyPdfWriter_CXXFLAGS) $(CXXFLAGS) -c -o pyPdfWriter-melangePyPdfWriter.obj `if test -f 'melangePyPdfWriter.cc'; then $(CYGPATH_W) 'melangePyPdfWriter.cc'; else $(CYGPATH_W) '$(srcdir)/melangePyPdfWriter.cc'; fi`
-
 saveAsDialog-melangeSaveAsDialog.o: melangeSaveAsDialog.cc
 @am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(saveAsDialog_CPPFLAGS) $(CPPFLAGS) $(saveAsDialog_CXXFLAGS) $(CXXFLAGS) -MT saveAsDialog-melangeSaveAsDialog.o -MD -MP -MF $(DEPDIR)/saveAsDialog-melangeSaveAsDialog.Tpo -c -o saveAsDialog-melangeSaveAsDialog.o `test -f 'melangeSaveAsDialog.cc' || echo '$(srcdir)/'`melangeSaveAsDialog.cc
 @am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/saveAsDialog-melangeSaveAsDialog.Tpo $(DEPDIR)/saveAsDialog-melangeSaveAsDialog.Po
@@ -1081,6 +1106,48 @@ treeView-melangeListStore.obj: melangeListStore.cc
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='melangeListStore.cc' object='treeView-melangeListStore.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(treeView_CPPFLAGS) $(CPPFLAGS) $(treeView_CXXFLAGS) $(CXXFLAGS) -c -o treeView-melangeListStore.obj `if test -f 'melangeListStore.cc'; then $(CYGPATH_W) 'melangeListStore.cc'; else $(CYGPATH_W) '$(srcdir)/melangeListStore.cc'; fi`
+
+treeView-melangeKeyFile.o: melangeKeyFile.cc
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(treeView_CPPFLAGS) $(CPPFLAGS) $(treeView_CXXFLAGS) $(CXXFLAGS) -MT treeView-melangeKeyFile.o -MD -MP -MF $(DEPDIR)/treeView-melangeKeyFile.Tpo -c -o treeView-melangeKeyFile.o `test -f 'melangeKeyFile.cc' || echo '$(srcdir)/'`melangeKeyFile.cc
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/treeView-melangeKeyFile.Tpo $(DEPDIR)/treeView-melangeKeyFile.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='melangeKeyFile.cc' object='treeView-melangeKeyFile.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(treeView_CPPFLAGS) $(CPPFLAGS) $(treeView_CXXFLAGS) $(CXXFLAGS) -c -o treeView-melangeKeyFile.o `test -f 'melangeKeyFile.cc' || echo '$(srcdir)/'`melangeKeyFile.cc
+
+treeView-melangeKeyFile.obj: melangeKeyFile.cc
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(treeView_CPPFLAGS) $(CPPFLAGS) $(treeView_CXXFLAGS) $(CXXFLAGS) -MT treeView-melangeKeyFile.obj -MD -MP -MF $(DEPDIR)/treeView-melangeKeyFile.Tpo -c -o treeView-melangeKeyFile.obj `if test -f 'melangeKeyFile.cc'; then $(CYGPATH_W) 'melangeKeyFile.cc'; else $(CYGPATH_W) '$(srcdir)/melangeKeyFile.cc'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/treeView-melangeKeyFile.Tpo $(DEPDIR)/treeView-melangeKeyFile.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='melangeKeyFile.cc' object='treeView-melangeKeyFile.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(treeView_CPPFLAGS) $(CPPFLAGS) $(treeView_CXXFLAGS) $(CXXFLAGS) -c -o treeView-melangeKeyFile.obj `if test -f 'melangeKeyFile.cc'; then $(CYGPATH_W) 'melangeKeyFile.cc'; else $(CYGPATH_W) '$(srcdir)/melangeKeyFile.cc'; fi`
+
+treeView-copyfile.o: copyfile.cc
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(treeView_CPPFLAGS) $(CPPFLAGS) $(treeView_CXXFLAGS) $(CXXFLAGS) -MT treeView-copyfile.o -MD -MP -MF $(DEPDIR)/treeView-copyfile.Tpo -c -o treeView-copyfile.o `test -f 'copyfile.cc' || echo '$(srcdir)/'`copyfile.cc
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/treeView-copyfile.Tpo $(DEPDIR)/treeView-copyfile.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='copyfile.cc' object='treeView-copyfile.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(treeView_CPPFLAGS) $(CPPFLAGS) $(treeView_CXXFLAGS) $(CXXFLAGS) -c -o treeView-copyfile.o `test -f 'copyfile.cc' || echo '$(srcdir)/'`copyfile.cc
+
+treeView-copyfile.obj: copyfile.cc
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(treeView_CPPFLAGS) $(CPPFLAGS) $(treeView_CXXFLAGS) $(CXXFLAGS) -MT treeView-copyfile.obj -MD -MP -MF $(DEPDIR)/treeView-copyfile.Tpo -c -o treeView-copyfile.obj `if test -f 'copyfile.cc'; then $(CYGPATH_W) 'copyfile.cc'; else $(CYGPATH_W) '$(srcdir)/copyfile.cc'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/treeView-copyfile.Tpo $(DEPDIR)/treeView-copyfile.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='copyfile.cc' object='treeView-copyfile.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(treeView_CPPFLAGS) $(CPPFLAGS) $(treeView_CXXFLAGS) $(CXXFLAGS) -c -o treeView-copyfile.obj `if test -f 'copyfile.cc'; then $(CYGPATH_W) 'copyfile.cc'; else $(CYGPATH_W) '$(srcdir)/copyfile.cc'; fi`
+
+treeView-melangePdfWriter.o: melangePdfWriter.cc
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(treeView_CPPFLAGS) $(CPPFLAGS) $(treeView_CXXFLAGS) $(CXXFLAGS) -MT treeView-melangePdfWriter.o -MD -MP -MF $(DEPDIR)/treeView-melangePdfWriter.Tpo -c -o treeView-melangePdfWriter.o `test -f 'melangePdfWriter.cc' || echo '$(srcdir)/'`melangePdfWriter.cc
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/treeView-melangePdfWriter.Tpo $(DEPDIR)/treeView-melangePdfWriter.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='melangePdfWriter.cc' object='treeView-melangePdfWriter.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(treeView_CPPFLAGS) $(CPPFLAGS) $(treeView_CXXFLAGS) $(CXXFLAGS) -c -o treeView-melangePdfWriter.o `test -f 'melangePdfWriter.cc' || echo '$(srcdir)/'`melangePdfWriter.cc
+
+treeView-melangePdfWriter.obj: melangePdfWriter.cc
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(treeView_CPPFLAGS) $(CPPFLAGS) $(treeView_CXXFLAGS) $(CXXFLAGS) -MT treeView-melangePdfWriter.obj -MD -MP -MF $(DEPDIR)/treeView-melangePdfWriter.Tpo -c -o treeView-melangePdfWriter.obj `if test -f 'melangePdfWriter.cc'; then $(CYGPATH_W) 'melangePdfWriter.cc'; else $(CYGPATH_W) '$(srcdir)/melangePdfWriter.cc'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/treeView-melangePdfWriter.Tpo $(DEPDIR)/treeView-melangePdfWriter.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='melangePdfWriter.cc' object='treeView-melangePdfWriter.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(treeView_CPPFLAGS) $(CPPFLAGS) $(treeView_CXXFLAGS) $(CXXFLAGS) -c -o treeView-melangePdfWriter.obj `if test -f 'melangePdfWriter.cc'; then $(CYGPATH_W) 'melangePdfWriter.cc'; else $(CYGPATH_W) '$(srcdir)/melangePdfWriter.cc'; fi`
 
 treeView-melangePopplerWriter.o: melangePopplerWriter.cc
 @am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(treeView_CPPFLAGS) $(CPPFLAGS) $(treeView_CXXFLAGS) $(CXXFLAGS) -MT treeView-melangePopplerWriter.o -MD -MP -MF $(DEPDIR)/treeView-melangePopplerWriter.Tpo -c -o treeView-melangePopplerWriter.o `test -f 'melangePopplerWriter.cc' || echo '$(srcdir)/'`melangePopplerWriter.cc

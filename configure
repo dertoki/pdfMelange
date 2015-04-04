@@ -638,10 +638,8 @@ PREF_DIALOG_DEPS_LIBS
 PREF_DIALOG_DEPS_CFLAGS
 DRAWINGAREA_DEPS_LIBS
 DRAWINGAREA_DEPS_CFLAGS
-TREEVIEW_DEPS_LIBS
-TREEVIEW_DEPS_CFLAGS
-PYTHONPDFWRITER_DEPS_LIBS
-PYTHONPDFWRITER_DEPS_CFLAGS
+POPPLERWRITER_DEPS_LIBS
+POPPLERWRITER_DEPS_CFLAGS
 PKG_CONFIG_LIBDIR
 PKG_CONFIG_PATH
 PKG_CONFIG
@@ -846,10 +844,8 @@ CXXCPP
 PKG_CONFIG
 PKG_CONFIG_PATH
 PKG_CONFIG_LIBDIR
-PYTHONPDFWRITER_DEPS_CFLAGS
-PYTHONPDFWRITER_DEPS_LIBS
-TREEVIEW_DEPS_CFLAGS
-TREEVIEW_DEPS_LIBS
+POPPLERWRITER_DEPS_CFLAGS
+POPPLERWRITER_DEPS_LIBS
 DRAWINGAREA_DEPS_CFLAGS
 DRAWINGAREA_DEPS_LIBS
 PREF_DIALOG_DEPS_CFLAGS
@@ -1514,14 +1510,10 @@ Some influential environment variables:
               directories to add to pkg-config's search path
   PKG_CONFIG_LIBDIR
               path overriding pkg-config's built-in search path
-  PYTHONPDFWRITER_DEPS_CFLAGS
-              C compiler flags for PYTHONPDFWRITER_DEPS, overriding pkg-config
-  PYTHONPDFWRITER_DEPS_LIBS
-              linker flags for PYTHONPDFWRITER_DEPS, overriding pkg-config
-  TREEVIEW_DEPS_CFLAGS
-              C compiler flags for TREEVIEW_DEPS, overriding pkg-config
-  TREEVIEW_DEPS_LIBS
-              linker flags for TREEVIEW_DEPS, overriding pkg-config
+  POPPLERWRITER_DEPS_CFLAGS
+              C compiler flags for POPPLERWRITER_DEPS, overriding pkg-config
+  POPPLERWRITER_DEPS_LIBS
+              linker flags for POPPLERWRITER_DEPS, overriding pkg-config
   DRAWINGAREA_DEPS_CFLAGS
               C compiler flags for DRAWINGAREA_DEPS, overriding pkg-config
   DRAWINGAREA_DEPS_LIBS
@@ -16751,22 +16743,25 @@ $as_echo "no" >&6; }
 fi
 
 pkg_failed=no
-{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for PYTHONPDFWRITER_DEPS" >&5
-$as_echo_n "checking for PYTHONPDFWRITER_DEPS... " >&6; }
+{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for POPPLERWRITER_DEPS" >&5
+$as_echo_n "checking for POPPLERWRITER_DEPS... " >&6; }
 
-if test -n "$PYTHONPDFWRITER_DEPS_CFLAGS"; then
-    pkg_cv_PYTHONPDFWRITER_DEPS_CFLAGS="$PYTHONPDFWRITER_DEPS_CFLAGS"
+if test -n "$POPPLERWRITER_DEPS_CFLAGS"; then
+    pkg_cv_POPPLERWRITER_DEPS_CFLAGS="$POPPLERWRITER_DEPS_CFLAGS"
  elif test -n "$PKG_CONFIG"; then
     if test -n "$PKG_CONFIG" && \
-    { { $as_echo "$as_me:${as_lineno-$LINENO}: \$PKG_CONFIG --exists --print-errors \"gtkmm-3.0
-python-2.7\""; } >&5
-  ($PKG_CONFIG --exists --print-errors "gtkmm-3.0
-python-2.7") 2>&5
+    { { $as_echo "$as_me:${as_lineno-$LINENO}: \$PKG_CONFIG --exists --print-errors \"poppler
+poppler-glib
+glibmm-2.4\""; } >&5
+  ($PKG_CONFIG --exists --print-errors "poppler
+poppler-glib
+glibmm-2.4") 2>&5
   ac_status=$?
   $as_echo "$as_me:${as_lineno-$LINENO}: \$? = $ac_status" >&5
   test $ac_status = 0; }; then
-  pkg_cv_PYTHONPDFWRITER_DEPS_CFLAGS=`$PKG_CONFIG --cflags "gtkmm-3.0
-python-2.7" 2>/dev/null`
+  pkg_cv_POPPLERWRITER_DEPS_CFLAGS=`$PKG_CONFIG --cflags "poppler
+poppler-glib
+glibmm-2.4" 2>/dev/null`
 		      test "x$?" != "x0" && pkg_failed=yes
 else
   pkg_failed=yes
@@ -16774,126 +16769,22 @@ fi
  else
     pkg_failed=untried
 fi
-if test -n "$PYTHONPDFWRITER_DEPS_LIBS"; then
-    pkg_cv_PYTHONPDFWRITER_DEPS_LIBS="$PYTHONPDFWRITER_DEPS_LIBS"
+if test -n "$POPPLERWRITER_DEPS_LIBS"; then
+    pkg_cv_POPPLERWRITER_DEPS_LIBS="$POPPLERWRITER_DEPS_LIBS"
  elif test -n "$PKG_CONFIG"; then
     if test -n "$PKG_CONFIG" && \
-    { { $as_echo "$as_me:${as_lineno-$LINENO}: \$PKG_CONFIG --exists --print-errors \"gtkmm-3.0
-python-2.7\""; } >&5
-  ($PKG_CONFIG --exists --print-errors "gtkmm-3.0
-python-2.7") 2>&5
+    { { $as_echo "$as_me:${as_lineno-$LINENO}: \$PKG_CONFIG --exists --print-errors \"poppler
+poppler-glib
+glibmm-2.4\""; } >&5
+  ($PKG_CONFIG --exists --print-errors "poppler
+poppler-glib
+glibmm-2.4") 2>&5
   ac_status=$?
   $as_echo "$as_me:${as_lineno-$LINENO}: \$? = $ac_status" >&5
   test $ac_status = 0; }; then
-  pkg_cv_PYTHONPDFWRITER_DEPS_LIBS=`$PKG_CONFIG --libs "gtkmm-3.0
-python-2.7" 2>/dev/null`
-		      test "x$?" != "x0" && pkg_failed=yes
-else
-  pkg_failed=yes
-fi
- else
-    pkg_failed=untried
-fi
-
-
-
-if test $pkg_failed = yes; then
-   	{ $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
-$as_echo "no" >&6; }
-
-if $PKG_CONFIG --atleast-pkgconfig-version 0.20; then
-        _pkg_short_errors_supported=yes
-else
-        _pkg_short_errors_supported=no
-fi
-        if test $_pkg_short_errors_supported = yes; then
-	        PYTHONPDFWRITER_DEPS_PKG_ERRORS=`$PKG_CONFIG --short-errors --print-errors --cflags --libs "gtkmm-3.0
-python-2.7" 2>&1`
-        else
-	        PYTHONPDFWRITER_DEPS_PKG_ERRORS=`$PKG_CONFIG --print-errors --cflags --libs "gtkmm-3.0
-python-2.7" 2>&1`
-        fi
-	# Put the nasty error message in config.log where it belongs
-	echo "$PYTHONPDFWRITER_DEPS_PKG_ERRORS" >&5
-
-	as_fn_error $? "Package requirements (gtkmm-3.0
-python-2.7) were not met:
-
-$PYTHONPDFWRITER_DEPS_PKG_ERRORS
-
-Consider adjusting the PKG_CONFIG_PATH environment variable if you
-installed software in a non-standard prefix.
-
-Alternatively, you may set the environment variables PYTHONPDFWRITER_DEPS_CFLAGS
-and PYTHONPDFWRITER_DEPS_LIBS to avoid the need to call pkg-config.
-See the pkg-config man page for more details." "$LINENO" 5
-elif test $pkg_failed = untried; then
-     	{ $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
-$as_echo "no" >&6; }
-	{ { $as_echo "$as_me:${as_lineno-$LINENO}: error: in \`$ac_pwd':" >&5
-$as_echo "$as_me: error: in \`$ac_pwd':" >&2;}
-as_fn_error $? "The pkg-config script could not be found or is too old.  Make sure it
-is in your PATH or set the PKG_CONFIG environment variable to the full
-path to pkg-config.
-
-Alternatively, you may set the environment variables PYTHONPDFWRITER_DEPS_CFLAGS
-and PYTHONPDFWRITER_DEPS_LIBS to avoid the need to call pkg-config.
-See the pkg-config man page for more details.
-
-To get pkg-config, see <http://pkg-config.freedesktop.org/>.
-See \`config.log' for more details" "$LINENO" 5; }
-else
-	PYTHONPDFWRITER_DEPS_CFLAGS=$pkg_cv_PYTHONPDFWRITER_DEPS_CFLAGS
-	PYTHONPDFWRITER_DEPS_LIBS=$pkg_cv_PYTHONPDFWRITER_DEPS_LIBS
-        { $as_echo "$as_me:${as_lineno-$LINENO}: result: yes" >&5
-$as_echo "yes" >&6; }
-
-fi
-
-
-pkg_failed=no
-{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for TREEVIEW_DEPS" >&5
-$as_echo_n "checking for TREEVIEW_DEPS... " >&6; }
-
-if test -n "$TREEVIEW_DEPS_CFLAGS"; then
-    pkg_cv_TREEVIEW_DEPS_CFLAGS="$TREEVIEW_DEPS_CFLAGS"
- elif test -n "$PKG_CONFIG"; then
-    if test -n "$PKG_CONFIG" && \
-    { { $as_echo "$as_me:${as_lineno-$LINENO}: \$PKG_CONFIG --exists --print-errors \"gtkmm-3.0
-python-2.7
-poppler-glib\""; } >&5
-  ($PKG_CONFIG --exists --print-errors "gtkmm-3.0
-python-2.7
-poppler-glib") 2>&5
-  ac_status=$?
-  $as_echo "$as_me:${as_lineno-$LINENO}: \$? = $ac_status" >&5
-  test $ac_status = 0; }; then
-  pkg_cv_TREEVIEW_DEPS_CFLAGS=`$PKG_CONFIG --cflags "gtkmm-3.0
-python-2.7
-poppler-glib" 2>/dev/null`
-		      test "x$?" != "x0" && pkg_failed=yes
-else
-  pkg_failed=yes
-fi
- else
-    pkg_failed=untried
-fi
-if test -n "$TREEVIEW_DEPS_LIBS"; then
-    pkg_cv_TREEVIEW_DEPS_LIBS="$TREEVIEW_DEPS_LIBS"
- elif test -n "$PKG_CONFIG"; then
-    if test -n "$PKG_CONFIG" && \
-    { { $as_echo "$as_me:${as_lineno-$LINENO}: \$PKG_CONFIG --exists --print-errors \"gtkmm-3.0
-python-2.7
-poppler-glib\""; } >&5
-  ($PKG_CONFIG --exists --print-errors "gtkmm-3.0
-python-2.7
-poppler-glib") 2>&5
-  ac_status=$?
-  $as_echo "$as_me:${as_lineno-$LINENO}: \$? = $ac_status" >&5
-  test $ac_status = 0; }; then
-  pkg_cv_TREEVIEW_DEPS_LIBS=`$PKG_CONFIG --libs "gtkmm-3.0
-python-2.7
-poppler-glib" 2>/dev/null`
+  pkg_cv_POPPLERWRITER_DEPS_LIBS=`$PKG_CONFIG --libs "poppler
+poppler-glib
+glibmm-2.4" 2>/dev/null`
 		      test "x$?" != "x0" && pkg_failed=yes
 else
   pkg_failed=yes
@@ -16914,28 +16805,28 @@ else
         _pkg_short_errors_supported=no
 fi
         if test $_pkg_short_errors_supported = yes; then
-	        TREEVIEW_DEPS_PKG_ERRORS=`$PKG_CONFIG --short-errors --print-errors --cflags --libs "gtkmm-3.0
-python-2.7
-poppler-glib" 2>&1`
+	        POPPLERWRITER_DEPS_PKG_ERRORS=`$PKG_CONFIG --short-errors --print-errors --cflags --libs "poppler
+poppler-glib
+glibmm-2.4" 2>&1`
         else
-	        TREEVIEW_DEPS_PKG_ERRORS=`$PKG_CONFIG --print-errors --cflags --libs "gtkmm-3.0
-python-2.7
-poppler-glib" 2>&1`
+	        POPPLERWRITER_DEPS_PKG_ERRORS=`$PKG_CONFIG --print-errors --cflags --libs "poppler
+poppler-glib
+glibmm-2.4" 2>&1`
         fi
 	# Put the nasty error message in config.log where it belongs
-	echo "$TREEVIEW_DEPS_PKG_ERRORS" >&5
+	echo "$POPPLERWRITER_DEPS_PKG_ERRORS" >&5
 
-	as_fn_error $? "Package requirements (gtkmm-3.0
-python-2.7
-poppler-glib) were not met:
+	as_fn_error $? "Package requirements (poppler
+poppler-glib
+glibmm-2.4) were not met:
 
-$TREEVIEW_DEPS_PKG_ERRORS
+$POPPLERWRITER_DEPS_PKG_ERRORS
 
 Consider adjusting the PKG_CONFIG_PATH environment variable if you
 installed software in a non-standard prefix.
 
-Alternatively, you may set the environment variables TREEVIEW_DEPS_CFLAGS
-and TREEVIEW_DEPS_LIBS to avoid the need to call pkg-config.
+Alternatively, you may set the environment variables POPPLERWRITER_DEPS_CFLAGS
+and POPPLERWRITER_DEPS_LIBS to avoid the need to call pkg-config.
 See the pkg-config man page for more details." "$LINENO" 5
 elif test $pkg_failed = untried; then
      	{ $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
@@ -16946,15 +16837,15 @@ as_fn_error $? "The pkg-config script could not be found or is too old.  Make su
 is in your PATH or set the PKG_CONFIG environment variable to the full
 path to pkg-config.
 
-Alternatively, you may set the environment variables TREEVIEW_DEPS_CFLAGS
-and TREEVIEW_DEPS_LIBS to avoid the need to call pkg-config.
+Alternatively, you may set the environment variables POPPLERWRITER_DEPS_CFLAGS
+and POPPLERWRITER_DEPS_LIBS to avoid the need to call pkg-config.
 See the pkg-config man page for more details.
 
 To get pkg-config, see <http://pkg-config.freedesktop.org/>.
 See \`config.log' for more details" "$LINENO" 5; }
 else
-	TREEVIEW_DEPS_CFLAGS=$pkg_cv_TREEVIEW_DEPS_CFLAGS
-	TREEVIEW_DEPS_LIBS=$pkg_cv_TREEVIEW_DEPS_LIBS
+	POPPLERWRITER_DEPS_CFLAGS=$pkg_cv_POPPLERWRITER_DEPS_CFLAGS
+	POPPLERWRITER_DEPS_LIBS=$pkg_cv_POPPLERWRITER_DEPS_LIBS
         { $as_echo "$as_me:${as_lineno-$LINENO}: result: yes" >&5
 $as_echo "yes" >&6; }
 
@@ -17162,19 +17053,16 @@ if test -n "$MELANGE_DEPS_CFLAGS"; then
     pkg_cv_MELANGE_DEPS_CFLAGS="$MELANGE_DEPS_CFLAGS"
  elif test -n "$PKG_CONFIG"; then
     if test -n "$PKG_CONFIG" && \
-    { { $as_echo "$as_me:${as_lineno-$LINENO}: \$PKG_CONFIG --exists --print-errors \"python-2.7
-poppler
+    { { $as_echo "$as_me:${as_lineno-$LINENO}: \$PKG_CONFIG --exists --print-errors \"poppler
 poppler-glib
 gtkmm-3.0\""; } >&5
-  ($PKG_CONFIG --exists --print-errors "python-2.7
-poppler
+  ($PKG_CONFIG --exists --print-errors "poppler
 poppler-glib
 gtkmm-3.0") 2>&5
   ac_status=$?
   $as_echo "$as_me:${as_lineno-$LINENO}: \$? = $ac_status" >&5
   test $ac_status = 0; }; then
-  pkg_cv_MELANGE_DEPS_CFLAGS=`$PKG_CONFIG --cflags "python-2.7
-poppler
+  pkg_cv_MELANGE_DEPS_CFLAGS=`$PKG_CONFIG --cflags "poppler
 poppler-glib
 gtkmm-3.0" 2>/dev/null`
 		      test "x$?" != "x0" && pkg_failed=yes
@@ -17188,19 +17076,16 @@ if test -n "$MELANGE_DEPS_LIBS"; then
     pkg_cv_MELANGE_DEPS_LIBS="$MELANGE_DEPS_LIBS"
  elif test -n "$PKG_CONFIG"; then
     if test -n "$PKG_CONFIG" && \
-    { { $as_echo "$as_me:${as_lineno-$LINENO}: \$PKG_CONFIG --exists --print-errors \"python-2.7
-poppler
+    { { $as_echo "$as_me:${as_lineno-$LINENO}: \$PKG_CONFIG --exists --print-errors \"poppler
 poppler-glib
 gtkmm-3.0\""; } >&5
-  ($PKG_CONFIG --exists --print-errors "python-2.7
-poppler
+  ($PKG_CONFIG --exists --print-errors "poppler
 poppler-glib
 gtkmm-3.0") 2>&5
   ac_status=$?
   $as_echo "$as_me:${as_lineno-$LINENO}: \$? = $ac_status" >&5
   test $ac_status = 0; }; then
-  pkg_cv_MELANGE_DEPS_LIBS=`$PKG_CONFIG --libs "python-2.7
-poppler
+  pkg_cv_MELANGE_DEPS_LIBS=`$PKG_CONFIG --libs "poppler
 poppler-glib
 gtkmm-3.0" 2>/dev/null`
 		      test "x$?" != "x0" && pkg_failed=yes
@@ -17223,21 +17108,18 @@ else
         _pkg_short_errors_supported=no
 fi
         if test $_pkg_short_errors_supported = yes; then
-	        MELANGE_DEPS_PKG_ERRORS=`$PKG_CONFIG --short-errors --print-errors --cflags --libs "python-2.7
-poppler
+	        MELANGE_DEPS_PKG_ERRORS=`$PKG_CONFIG --short-errors --print-errors --cflags --libs "poppler
 poppler-glib
 gtkmm-3.0" 2>&1`
         else
-	        MELANGE_DEPS_PKG_ERRORS=`$PKG_CONFIG --print-errors --cflags --libs "python-2.7
-poppler
+	        MELANGE_DEPS_PKG_ERRORS=`$PKG_CONFIG --print-errors --cflags --libs "poppler
 poppler-glib
 gtkmm-3.0" 2>&1`
         fi
 	# Put the nasty error message in config.log where it belongs
 	echo "$MELANGE_DEPS_PKG_ERRORS" >&5
 
-	as_fn_error $? "Package requirements (python-2.7
-poppler
+	as_fn_error $? "Package requirements (poppler
 poppler-glib
 gtkmm-3.0) were not met:
 

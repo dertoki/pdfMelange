@@ -151,8 +151,8 @@ int main (int argc, char *argv[])
 {
     Gtk::Main kit(argc, argv);
 
-    Gtk::Window *parent = NULL;
-    melangeSaveAsDialog dialog(_("Save file"), parent);
+    Gtk::Window window;
+    melangeSaveAsDialog dialog(_("Save file"), &window);
     melangeKeyFile settings;
     dialog.setConfig(settings);
 

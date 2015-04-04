@@ -9,17 +9,14 @@ AM_CPPFLAGS = \
 	-DPACKAGE_SRC_DIR=\""$(srcdir)"\" \
 	-DPACKAGE_DATA_DIR=\""$(pkgdatadir)"\" \
 	-DPROGRAMNAME_LOCALEDIR=\""${PROGRAMNAME_LOCALEDIR}"\" \
-	$(MELANGE_DEPS_CFLAGS) \
-	$(PREF_DIALOG_DEPS_CFLAGS) \
-	$(DRAWINGAREA_DEPS_CFLAGS) \
-	$(TREEVIEW_DEPS_CFLAGS)
+	$(MELANGE_DEPS_CFLAGS) 
 
 AM_CFLAGS =\
 	 -Wall\
 	 -g
 
 if ENABLE_TESTAPPS
-TEST_APPS = gtkbuilder2ustring preferencesDialog passwordDialog saveAsDialog drawingArea treeView pyPdfWriter
+TEST_APPS = gtkbuilder2ustring preferencesDialog passwordDialog saveAsDialog drawingArea treeView PopplerWriter
 else
 TEST_APPS =
 endif
@@ -31,8 +28,6 @@ pdfmelange_SOURCES =  \
 	melangePdfWriter.cc \
 	melangePopplerWriter.h \
 	melangePopplerWriter.cc \
-	melangePyPdfWriter.h \
-	melangePyPdfWriter.cc \
 	melangeWindow.h \
 	melangeWindow.cc \
 	melangeListStore.h \
@@ -152,6 +147,12 @@ treeView_SOURCES =  \
 	melangeTreeView.h \
 	melangeListStore.cc \
 	melangeListStore.h \
+    melangeKeyFile.h \
+    melangeKeyFile.cc \
+    copyfile.h \
+    copyfile.cc \
+	melangePdfWriter.h \
+	melangePdfWriter.cc \
 	melangePopplerWriter.h \
 	melangePopplerWriter.cc \
 	melangePassword.cc \
@@ -161,26 +162,30 @@ treeView_CPPFLAGS = -DTEST_TREEVIEW \
 	-DPACKAGE_SRC_DIR=\""$(srcdir)"\" \
 	-DPACKAGE_DATA_DIR=\""$(pkgdatadir)"\" \
 	-DPROGRAMNAME_LOCALEDIR=\""${PROGRAMNAME_LOCALEDIR}"\" \
-	$(TREEVIEW_DEPS_CFLAGS)
+	$(MELANGE_DEPS_CFLAGS)
 
 treeView_CXXFLAGS = -std=c++0x 
 
-treeView_LDADD = $(TREEVIEW_DEPS_LIBS) 
+treeView_LDADD = $(MELANGE_DEPS_LIBS) 
 
-# pyPdfWriter test scenario
+# PopplerWriterWriter test scenario
 
-pyPdfWriter_SOURCES =  \
-	melangePyPdfWriter.h \
-	melangePyPdfWriter.cc 
+PopplerWriter_SOURCES =  \
+    copyfile.h \
+    copyfile.cc \
+	melangePdfWriter.h \
+	melangePdfWriter.cc \
+	melangePopplerWriter.h \
+	melangePopplerWriter.cc 
 
-pyPdfWriter_CPPFLAGS = -DTEST_PYTHONPDFWRITER \
+PopplerWriter_CPPFLAGS = -DTEST_PDFPOPPLERWRITER \
 	-DPACKAGE_SRC_DIR=\""$(srcdir)"\" \
 	-DPACKAGE_DATA_DIR=\""$(pkgdatadir)"\" \
 	-DPROGRAMNAME_LOCALEDIR=\""${PROGRAMNAME_LOCALEDIR}"\" \
-	$(PYTHONPDFWRITER_DEPS_CFLAGS)
+	$(POPPLERWRITER_DEPS_CFLAGS)
 
-pyPdfWriter_CXXFLAGS = -std=c++0x 
+PopplerWriter_CXXFLAGS = -std=c++0x 
 
-pyPdfWriter_LDADD = $(PYTHONPDFWRITER_DEPS_LIBS) 
+PopplerWriter_LDADD = $(POPPLERWRITER_DEPS_LIBS) 
 
 
