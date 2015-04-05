@@ -1,30 +1,30 @@
 Name:           pdfmelange
 Version:        0.4.2
 Release:        1%{?dist}
-Summary:        A program to modify PDF documents.
+Summary:        A program to modify PDF documents
 
 License:        GPLv3+
 URL:            http://dertoki.github.io/pdfMelange/
 Source0:        %{name}-%{version}.tar.gz
 
 %if 0%{?fedora}
-BuildRequires:  gcc-c++,intltool,gtkmm30-devel,poppler-glib-devel
-Requires:       gtkmm30,poppler-glib
+BuildRequires:  gcc-c++,intltool,gtkmm30-devel,poppler-glib-devel,poppler-devel
+Requires:       gtkmm30,poppler-glib,poppler
 %endif
 
-%if 0%{?suse_version} == 1310
-BuildRequires:  gcc-c++,intltool,gtkmm3-devel,libpoppler-glib-devel,update-desktop-files
-Requires:       libpoppler-glib8
+%if 0%{?suse_version} >= 1310
+BuildRequires:  gcc-c++,intltool,gtkmm3-devel,libpoppler-glib-devel,libpoppler-devel,update-desktop-files
+Requires:       libpoppler-glib8,libpoppler
 %endif
 
 %description
-A program to modify PDF documents.
- + Merging PDF documents.
- + Erasing pages.
- + Change the page order.
- + Modify the orientation of pages by rotating in 90° steps.
- + Drag an drop files from your file manager.
- + Free and open software.
+A program to modify PDF documents
+ + Merging PDF documents
+ + Erasing pages
+ + Change the page order
+ + Modify the orientation of pages by rotating in 90° steps
+ + Drag an drop files from your file manager
+ + Free and open software
 
 %prep
 %setup -q
@@ -37,6 +37,9 @@ make %{?_smp_mflags}
 
 %install
 %if 0%{?suse_version} == 1310
+%suse_update_desktop_file -r -G 'PDF editor' %{name} Utility DesktopUtility
+%endif
+%if 0%{?suse_version} == 1320
 %suse_update_desktop_file -r -G 'PDF editor' %{name} Utility DesktopUtility
 %endif
 
@@ -60,5 +63,5 @@ rm -rf $RPM_BUILD_ROOT
 %doc /usr/doc/pdfmelange/README
 
 %changelog
-* Sun Apr 13 2014 Tobias
-- 
+* Sun Apr 04 2014 Tobias
+-
