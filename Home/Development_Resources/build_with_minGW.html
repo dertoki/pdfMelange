@@ -123,7 +123,14 @@
 <li><a href="/pdfMelange/index.html" title="Home" class="page">Home</a></li>
 <ul>
 <li><a href="/pdfMelange/Home/Development_Resources.html" title="Development Resources" class="page">Development Resources</a></li>
-<li><strong class="activepage">Download</strong></li>
+<ul>
+<li><a href="/pdfMelange/Home/Development_Resources/build_from_C%2B%2B_sources.html" title="build from C++ sources" class="page">build from C++ sources</a></li>
+<li><a href="/pdfMelange/Home/Development_Resources/build_from_java_sources.html" title="build from java sources" class="page">build from java sources</a></li>
+<li><strong class="activepage">build with minGW</strong></li>
+<li><a href="/pdfMelange/Home/Development_Resources/code_snippets.html" title="code snippets" class="page">code snippets</a></li>
+<li><a href="/pdfMelange/Home/Development_Resources/links.html" title="links" class="page">links</a></li>
+</ul>
+<li><a href="/pdfMelange/Home/Download.html" title="Download" class="page">Download</a></li>
 <li><a href="/pdfMelange/Home/Installation.html" title="Installation" class="page">Installation</a></li>
 <li><a href="/pdfMelange/Home/License.html" title="License" class="page">License</a></li>
 <li><a href="/pdfMelange/Home/News.html" title="News" class="page">News</a></li>
@@ -154,53 +161,162 @@
 			</a>
 		</div>
 		<div id="content">
-						<h1>Download</h1>
+						<h1>build with minGW</h1>
 
 			<p>
-<ul>
-<li><strong>Linux</strong>: </li>
-</ul>
-<div style='padding-left: 30pt'>
-Precompiled packages are available for <a href="http://software.opensuse.org/download.html?project=home%3Adertoki&package=pdfmelange" title="Ubuntu 14.04 LTS, Fedora 20 and openSUSE" class="http">Ubuntu 14.04 LTS, Fedora 20 and openSUSE</a>.<br>
+The Windows binaries are created in a cross compiling environment on a linux host. We neither need a Windows installation nor any non free Windows resources. <br>
+</p>
+
+<h4>Requirements and dependencies:</h4>
+
+<p>
+<ol type="1" start="1">
+<li><strong>MinGW</strong>: </li>
+</ol>
+</p>
+
+<p>
+<ol type="a" start="1" style='padding-left: 60pt'>
+<li>Ubuntu 14.04:</li>
+</ol>
+<div style='padding-left: 90pt'>
+<code>sudo apt install mingw-w64 mingw-w64-x86-64-dev</code><br>
 </div>
 </p>
 
 <p>
-<ul>
-<li><strong>Windows</strong>:</li>
-</ul>
+<ol type="a" start="2" style='padding-left: 60pt'>
+<li>Fedora f20:</li>
+</ol>
+<div style='padding-left: 90pt'>
+<code>sudo yum install wget mingw-gcc</code><br>
+</div>
+</p>
+
+<p>
+<ol type="1" start="2">
+<li><strong>gtkmm</strong>: </li>
+</ol>
 <div style='padding-left: 30pt'>
-A version that has been tested with <a href="https://github.com/dertoki/pdfMelange/releases/download/0.4.2/pdfMelange-2015-04-05.setup.exe" title="XP and Windows 7" class="https">XP and Windows 7</a>.<br>
+There are precompiled editions of <em>gtkmm</em> for <em>mingw</em> in repositories of <em>openSuse</em> and <em>fedora</em>, so we don't need to compile gtkmm from its sources.<br>
+</div>
+</p>
+	
+<p>
+<div style='padding-left: 60pt'>
+<code>sudo yum install mingw32-gtkmm30 mingw32-poppler-glib</code><br>
 </div>
 </p>
 	
 <p>
 <div style='padding-left: 30pt'>
-Checksum (<strong>pdfMelange-2015-04-05.setup.exe</strong>):<br>
+You will find all the files in <code>/usr/i686-w64-mingw32/sys-root/mingw.</code><br>
+</div>
+</p>
+
+<p>
+<div style='padding-left: 30pt'>
+Install additional icons into <code>sys-root</code>:<br>
 </div>
 </p>
 <pre style='padding-left: 30pt'>
-MD5    = b3241abd4a826b3efb8f6e938b4574ab
-SHA1   = 03824de9830f8cce99bad8e84d1e5ebe84c7ff2f
-SHA256 = ff115a432421d34e61cec075039e33841239acb9e2938f518059d314890afe5a
+
+wget ftp://ftp.gnome.org/pub/gnome/sources/gnome-icon-theme/3.6/gnome-icon-theme-3.6.0.tar.xz
+sudo mkdir -p /usr/i686-w64-mingw32/sys-root/mingw/share/icons
+sudo tar xvf gnome-icon-theme-3.6.0.tar.xz \
+	-C /usr/i686-w64-mingw32/sys-root/mingw/share/icons \
+	gnome-icon-theme-3.6.0/gnome/ --strip-components=1
 </pre>
 
+	
 <p>
-<ul>
-<li><strong>Sources</strong>:</li>
-</ul>
 <div style='padding-left: 30pt'>
-You may check out the repository from <a href="https://github.com/dertoki/pdfMelange.git" title="github" class="https">github</a> or <a href="https://github.com/dertoki/pdfMelange/archive/0.4.2.tar.gz" title="download the tarball" class="https">download the tarball</a> 	.<br>
+To use that edition with Ubuntu, take a copy of <code>/usr/i686-w64-mingw32/sys-root/mingw/</code> from a fedora installation to <code>/opt/mingw</code> and modify the pkg-config variables, <br>
 </div>
 </p>
 	
+<pre style='padding-left: 30pt'>
+cd /opt/mingw/lib/pkgconfig
+sed -i "s/usr\/i686-w64-mingw32\/sys-root/opt/g" *.pc
+</pre>
+	
+	
+<p>
+<div style='padding-left: 30pt'>
+so that <code>pkg-config</code> uses a different installation path (check "Makefile.win32" for details).<br>
+</div>
+</p>
+
+
+<h4>Build:</h4>
+
+<p>
+<ol type="1" start="1">
+<li><strong>Compile pdfMelange:</strong></li>
+</ol>
+<div style='padding-left: 30pt'>
+A particular makefile "<code>Makefile.win32</code>" in the subdirectory <code>"./mingw"</code> is used to build the binaries. Check the makefile variable <code>PKG_PREFIX </code>and start the make.<br>
+</div>
+</p>
+<pre style='padding-left: 30pt'>
+cd mingw
+make -f Makefile.win32
+</pre>
+
+<p>
+<ol type="1" start="2">
+<li><strong>Build a setup program:</strong></li>
+</ol>
+<div style='padding-left: 30pt'>
+It's boring to collect all necessary files for a Windows distribution. We need a lot of library files, icons, etc.  Files have to reside in specific directories and the directories have to be arranged in a special order.<br>
+For this process I deliver the script '<code>get_win32_deps.sh</code>' that collects the files and creates a windows setup program:<br>
+</div>
+<ul style='padding-left: 60pt'>
+<li>Resolve dependencies:</li>
+</ul>
+</p>
+
+<p>
+<ul style='padding-left: 90pt'>
+<li>We need an installation of Wine:</li>
+</ul>
+<div style='padding-left: 120pt'>
+<code>sudo apt-get install wine</code><br>
+</div>
+</p>
+				
+<p>
+<ul style='padding-left: 90pt'>
+<li>A Windows version of <strong>'Inno Setup'</strong> needs to be installed:</li>
+</ul>
+</p>
+<pre style='padding-left: 30pt'>
+	./get_win32_deps.sh depload
+	./get_win32_deps.sh depinst
+</pre>
+
+<p>
+<ul style='padding-left: 60pt'>
+<li>Start the build process:</li>
+</ul>
+</p>
+<pre style='padding-left: 30pt'>
+	./get_win32_deps.sh buildsetup
+
+</pre>
+<p>
+<ul style='padding-left: 60pt'>
+<li>The target file structure is colleced in '<code>mingw/dist</code>'.</li>
+<li>The setup program is copied to '<code>mingw/output</code>'.</li>
+</ul>
+</p>
 
 
 			<br>
 			<hr class='footnotes'>
 			<span class="backlinks">
 				Backlinks:
-								<a href='/pdfMelange/Home/Installation/pdfMelange_for_Windows.html'>Home:Installation:pdfMelange for Windows</a>				<a href='/pdfMelange/Home/Installation/pdfMelange_for_GNUs.html'>Home:Installation:pdfMelange for GNUs</a>
+								<a href='/pdfMelange/Home/Development_Resources.html'>Home:Development Resources</a>
 			</span>
 		</div>
 	</div>
