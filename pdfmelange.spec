@@ -12,9 +12,13 @@ BuildRequires:  gcc-c++,intltool,gtkmm30-devel,poppler-glib-devel,poppler-devel
 Requires:       gtkmm30,poppler-glib,poppler
 %endif
 
-%if 0%{?suse_version} >= 1310
+%if 0%{?suse_version} == 1310
 BuildRequires:  gcc-c++,intltool,gtkmm3-devel,libpoppler-glib-devel,libpoppler-devel,update-desktop-files
-Requires:       libpoppler-glib8,libpoppler
+Requires:       libpoppler-glib8,libpoppler43
+%endif
+%if 0%{?suse_version} == 1320
+BuildRequires:  gcc-c++,intltool,gtkmm3-devel,libpoppler-glib-devel,libpoppler-devel,update-desktop-files
+Requires:       libpoppler-glib8,libpoppler46
 %endif
 
 %description
@@ -36,10 +40,7 @@ make %{?_smp_mflags}
 
 
 %install
-%if 0%{?suse_version} == 1310
-%suse_update_desktop_file -r -G 'PDF editor' %{name} Utility DesktopUtility
-%endif
-%if 0%{?suse_version} == 1320
+%if 0%{?suse_version} >= 1310
 %suse_update_desktop_file -r -G 'PDF editor' %{name} Utility DesktopUtility
 %endif
 
