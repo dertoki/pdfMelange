@@ -10,6 +10,10 @@ mingw/download
 mingw/download/*
 mingw/output
 mingw/output/*
+mingw/poppler-0.24.5*
+mingw/poppler-0.24.5/*
+mingw/poppler-0.32.0*
+mingw/poppler-0.32.0/*
 zim-wiki
 zim-wiki/*
 

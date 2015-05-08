@@ -22,6 +22,7 @@
 #include "melangePopplerWriter.h"
 
 #include <glib.h>
+#include <glib/poppler.h>
 #include <goo/GooString.h>
 #include <goo/GooTimer.h>
 #include <PDFDoc.h>
@@ -62,7 +63,7 @@ void melangePopplerWriter::writePdf(const char* outFileName)
     g_message("melangePopplerWriter::writePdf");
 	GooTimer timer;
 	timer.start();
-
+	
     GooString *inFileName;
     GooString *passWord = new GooString("");
     int majorVersion = 0;
@@ -136,12 +137,20 @@ void melangePopplerWriter::writePdf(const char* outFileName)
             if (doc->getCatalog()->getPage(i)->isCropped())
                 cropBox = doc->getCatalog()->getPage(i)->getCropBox();
             // rewrite pageDict with MediaBox, CropBox and new page CTM
+        #if POPPLER_CHECK_VERSION(0, 28, 0)
+            doc->replacePageDict(i,
+                                 doc->getCatalog()->getPage(i)->getRotate(),
+                                 doc->getCatalog()->getPage(i)->getMediaBox(),
+                                 cropBox
+                                );
+        #else
             doc->replacePageDict(i,
                                  doc->getCatalog()->getPage(i)->getRotate(),
                                  doc->getCatalog()->getPage(i)->getMediaBox(),
                                  cropBox,
                                  NULL
                                 );
+        #endif
             Ref *refPage = doc->getCatalog()->getPageRef(i);
             // Fetch the indirect reference of Object page.
             Object *page = new Object();
@@ -149,7 +158,12 @@ void melangePopplerWriter::writePdf(const char* outFileName)
             page_item->page = page;
             page_item->offset = numOffset;
             Dict *pageDict = page->getDict();
+        #if POPPLER_CHECK_VERSION(0, 28, 0)
+            doc->markPageObjects(pageDict, yRef, countRef, numOffset, refPage->num, refPage->num);
+        #else
             doc->markPageObjects(pageDict, yRef, countRef, numOffset);
+        #endif
+
         }
         // write all objects used by pageDict to outStr
         objectsCount += doc->writePageObjects(outStr, yRef, numOffset, gTrue);
