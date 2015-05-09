@@ -22,7 +22,7 @@ LDFLAGS = -Os -s -mms-bitfields -mwindows
 # pdfMelange:
 #
 M_PACKAGE_NAME="pdfMelange"
-M_VERSION="0.4.2"
+M_VERSION="0.4.3"
 M_PACKAGE_STRING=$(M_PACKAGE_NAME)" "$(M_VERSION)
 
 M_LIBS := $(shell $(PKG_CONFIG) --libs gtkmm-3.0 poppler poppler-glib)
