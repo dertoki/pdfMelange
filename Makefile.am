@@ -5,7 +5,7 @@ SUBDIRS = src po
 
 pdfmelangedocdir = ${prefix}/doc/pdfmelange
 pdfmelangedoc_DATA = \
-	README\
+	README.md\
 	COPYING\
 	AUTHORS\
 	ChangeLog\
