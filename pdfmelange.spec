@@ -1,11 +1,11 @@
 Name:           pdfmelange
-Version:        0.4.2
+Version:        0.4.3
 Release:        1%{?dist}
 Summary:        A program to modify PDF documents
 
 License:        GPLv3+
 URL:            http://dertoki.github.io/pdfMelange/
-Source0:        %{name}-%{version}.tar.gz
+Source0:        %{name}-%{version}.tar.xz
 
 %if 0%{?fedora}
 BuildRequires:  gcc-c++,intltool,gtkmm30-devel,poppler-glib-devel,poppler-devel

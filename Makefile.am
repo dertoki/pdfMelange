@@ -47,6 +47,7 @@ EXTRA_DIST = $(pdfmelangedoc_DATA) \
 	$(data_DATA) \
 	debian \
 	extra \
+	distmake.sh \
 	pdfmelange-xUbuntu_14.04.dsc \
 	pdfmelange-xUbuntu_14.10.dsc \
 	pdfmelange-xUbuntu_15.04.dsc \
