@@ -80,11 +80,11 @@ void melangeTreeView::init()
     //Fill popup menu:
     Gtk::MenuItem* item;
     item = Gtk::manage(new Gtk::MenuItem(_("Rotate CW"), true));
-    item->signal_activate().connect( sigc::mem_fun(*this, &melangeTreeView::rotate_selected_cw) );
+    item->signal_activate().connect( sigc::mem_fun(*this, &melangeTreeView::on_rotate_cw_request) );
     m_Menu_Popup.append(*item);
 
     item = Gtk::manage(new Gtk::MenuItem(_("Rotate CCW"), true));
-    item->signal_activate().connect( sigc::mem_fun(*this, &melangeTreeView::rotate_selected_ccw) );
+    item->signal_activate().connect( sigc::mem_fun(*this, &melangeTreeView::on_rotate_ccw_request) );
     m_Menu_Popup.append(*item);
 
     item = Gtk::manage(new Gtk::MenuItem(_("_Copy"), true));
@@ -372,6 +372,7 @@ void melangeTreeView::get_pdf_document(Glib::ustring uri,
     melangeListStore::sPermissions = POPPLER_PERMISSIONS_FULL;
     melangeListStore::sEncrypted = false;
 
+    signal_idle.emit( true );
     do {
         /** read the the file into the model */
         error = m_refModel->read_pdf_document(uri, password, iter, pos);
@@ -422,6 +423,7 @@ void melangeTreeView::get_pdf_document(Glib::ustring uri,
             error = NULL;
         }
     } while (error);
+    signal_idle.emit( false );
 }
 
 /**
@@ -463,7 +465,6 @@ void melangeTreeView::rotate_selected_cw()
     pathlist = m_refSelection->get_selected_rows();
     m_refModel->rotate_cw(pathlist);
     signal_list_modified.emit();
-    signal_item_modified.emit();
 }
 
 /**
@@ -477,7 +478,24 @@ void melangeTreeView::rotate_selected_ccw()
     pathlist = m_refSelection->get_selected_rows();
     m_refModel->rotate_ccw(pathlist);
     signal_list_modified.emit();
-    signal_item_modified.emit();
+}
+
+/**
+ * \brief Rotate the page clockwise.
+ */
+void melangeTreeView::on_rotate_cw_request()
+{
+    g_message("melangeTreeView::on_rotate_cw_request");
+	signal_rotate_cw_request.emit();
+}
+
+/**
+ * \brief Rotate the page counter clockwise.
+ */
+void melangeTreeView::on_rotate_ccw_request()
+{
+    g_message("melangeTreeView::on_rotate_ccw_request");
+	signal_rotate_ccw_request.emit();
 }
 
 /**
@@ -613,6 +631,8 @@ void melangeTreeView::on_drop_drag_data_received(
             Gtk::TreeViewDropPosition pos;
             Gtk::TreeModel::iterator destIter;
 
+            signal_idle.emit( true );
+
             bool is_dest_row_selected = this->get_dest_row_at_pos(x, y, dest_path, pos);
             if (is_dest_row_selected)
             {
@@ -640,6 +660,8 @@ void melangeTreeView::on_drop_drag_data_received(
                 else
                     g_message("   error: \"%s\" : file extension incorrect!", uri_list[i].c_str());
             }
+            
+            signal_idle.emit( false );
         }
         break;
         default:
@@ -786,14 +808,16 @@ public:
         m_refActionGroup->add( m_refAction_Rotate_Ccw = Gtk::Action::create_with_icon_name("RotCcw", "object-rotate-left", "_RotateCcw", "Rotate counter-clockwise"),
                               sigc::mem_fun(m_TreeView, &melangeTreeView::rotate_selected_ccw) 
                               );
+        m_TreeView.signal_rotate_ccw_request.connect( sigc::mem_fun(m_TreeView, &melangeTreeView::rotate_selected_ccw) );
+
         m_refActionGroup->add( m_refAction_Rotate_Cw = Gtk::Action::create_with_icon_name("RotCw", "object-rotate-right", "_RotateCw", "Rotate clockwise"),
                               sigc::mem_fun(m_TreeView, &melangeTreeView::rotate_selected_cw) 
                               );
+        m_TreeView.signal_rotate_cw_request.connect( sigc::mem_fun(m_TreeView, &melangeTreeView::rotate_selected_cw) );
 
 
         m_TreeView.signal_selected.connect( sigc::mem_fun(*this, &TestWindow::on_selected) );
         m_TreeView.signal_list_modified.connect( sigc::mem_fun(*this, &TestWindow::on_modified) );
-        m_TreeView.signal_item_modified.connect( sigc::mem_fun(*this, &TestWindow::on_item_modified) );
         m_TreeView.signal_new.connect( sigc::mem_fun(*this, &TestWindow::on_new) );
         
         m_refUIManager = Gtk::UIManager::create();
@@ -919,19 +943,11 @@ public:
 
         //Add filters, so that only certain file types can be selected:
 
-    #if   GDKMM_MAJOR_VERSION == 2
-        Gtk::FileFilter filter_pdf;
-        filter_pdf.set_name("PDF files");
-        filter_pdf.add_mime_type("application/pdf");
-        filter_pdf.add_pattern("*.pdf");
-        filter_pdf.add_pattern("*.PDF");
-    #elif GDKMM_MAJOR_VERSION == 3
         Glib::RefPtr<Gtk::FileFilter> filter_pdf = Gtk::FileFilter::create();
         filter_pdf->set_name("PDF files");
         filter_pdf->add_mime_type("application/pdf");
         filter_pdf->add_pattern("*.pdf");
         filter_pdf->add_pattern("*.PDF");
-    #endif
         dialog.add_filter(filter_pdf);
         dialog.set_filter(filter_pdf);
 
@@ -986,6 +1002,7 @@ int main (int argc, char *argv[])
 
     //Shows the window and returns when it is closed.
     app->run(window);
+
 
     return 0;
 }

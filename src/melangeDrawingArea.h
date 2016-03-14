@@ -54,11 +54,19 @@ public:
     void draw_fitted_to_window();
     void draw_zoom_in();
     void draw_zoom_out();
+    void rotate_cw();
+    void rotate_ccw();
+    void on_rotate_cw_request();
+    void on_rotate_ccw_request();
     void set_cairo_debug(bool debug);
+    sigc::signal<void, bool> signal_idle;                // send when activity starts (true) / ends (false).
+    sigc::signal<void> signal_rotate_cw_request;         // send when context popup menu item rotate cw was activated.
+    sigc::signal<void> signal_rotate_ccw_request;        // send when context popup menu item rotate ccw was activated.
 
 protected:
     /** all constructors have to call init() to share the same content. */
     void init();
+    void draw_zoom(double zoom);
     /** calculate a transformation matrix to fit the pdf page insize the window. */
     Cairo::Matrix calculate_init_matrix();
     /** calculate a transformation matrix to scale at a particular point. */
@@ -66,6 +74,7 @@ protected:
 
     /** Override the default handler for the signal signal_draw(). */
     virtual bool on_draw(const Cairo::RefPtr<Cairo::Context>& m_refCr);
+    Gtk::Menu m_Menu_Popup;
 
 private:
     PopplerDocument* m_pDoc;

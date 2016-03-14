@@ -1,21 +1,24 @@
-PREFIX=/opt/gtk38
+#PREFIX=/opt/gtk38
 #PREFIX=/opt/mingw
-#PREFIX=/usr/i686-w64-mingw32/sys-root/mingw
+PREFIX=/usr/i686-w64-mingw32/sys-root/mingw
+#PREFIX=/usr/x86_64-w64-mingw32/sys-root/mingw
+CC=i686-w64-mingw32-g++
+#CC=x86_64-w64-mingw32-g++
+RC=i686-w64-mingw32-windres
+#RC=x86_64-w64-mingw32-windres
+
 
 INCLUDEDIR=$(PREFIX)/include
 LIBDIR=$(PREFIX)/lib
 PKG_CONFIG_PATH=$(PREFIX)/lib/pkgconfig
 PKG_CONFIG= PKG_CONFIG_PATH=$(PKG_CONFIG_PATH) pkg-config --define-variable=prefix=$(PREFIX) --define-variable=includedir=$(INCLUDEDIR) --define-variable=libdir=$(LIBDIR)
 
-CC=i686-w64-mingw32-g++
-RC=i686-w64-mingw32-windres
-
 CFLAGS := $(shell $(PKG_CONFIG) --cflags gtkmm-3.0 poppler poppler-glib) \
  		-I../mingw \
  		-Isrc -include cmath \
 		-std=c++0x -Os -s -Wall
-LDFLAGS = -Os -s -mms-bitfields -mwindows
-#LDFLAGS = -Os -s -mms-bitfields -mconsole
+#LDFLAGS = -Os -s -mms-bitfields -mwindows
+LDFLAGS = -Os -s -mms-bitfields -mconsole
 #LDFLAGS = -Os -s -mms-bitfields -mwindows -static-libgcc -static-libstdc++ -lws2_32
 
 #
@@ -59,6 +62,8 @@ all: mkdir config $(M_BIN) $(L_BIN) $(P_BIN) $(M_MO_DE)
 melange: mkdir config $(M_BIN) $(M_MO_DE)
 
 portable: mkdir config $(M_BIN) $(L_BIN) $(P_BIN)
+
+launcher: $(L_BIN)
 
 $(P_BIN): mkdir $(P_OBJS)
 	$(CC) -o $@ $(P_OBJS) $(P_LIBS) $(P_LDFLAGS)

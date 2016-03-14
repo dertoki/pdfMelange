@@ -30,6 +30,7 @@
 #include <iostream>
 #include <gtkmm.h>
 #include <glibmm/i18n.h>
+#include <gdkmm/cursor.h>
 #include <glib.h>
 #include <glib/gprintf.h>
 #include <libintl.h>
@@ -67,10 +68,6 @@ melangeWindow::melangeWindow(BaseObjectType* cobject, const Glib::RefPtr<Gtk::Bu
     m_pPdfarea = NULL;
     m_refGlade->get_widget_derived("drawingareaPDF", m_pPdfarea);
     m_pPdfarea->set_cairo_debug(m_settings.getCairoDebug());
-
-    //Get the Spinner.
-    m_pSpinner = NULL;
-    m_refGlade->get_widget("spinner1", m_pSpinner);
 
     //Get the label FileInfo.
     m_pLabelFileInfo = NULL;
@@ -154,10 +151,18 @@ melangeWindow::melangeWindow(BaseObjectType* cobject, const Glib::RefPtr<Gtk::Bu
     m_refZoom_out = Glib::RefPtr<Gtk::Action>::cast_static(m_refGlade->get_object ("zoom_out"));
     m_refZoom_out->signal_activate().connect( sigc::mem_fun(*m_pPdfarea, &melangeDrawingArea::draw_zoom_out) );
 
+	m_pPdfarea->signal_idle.connect( sigc::mem_fun(*this, &melangeWindow::show_idle) );
+	m_pTreeView->signal_idle.connect( sigc::mem_fun(*this, &melangeWindow::show_idle) );
 	m_pTreeView->signal_selected.connect( sigc::mem_fun(*this, &melangeWindow::set_sensitive_on_selection) );
     m_pTreeView->signal_list_modified.connect( sigc::bind<bool>( sigc::mem_fun(*this, &melangeWindow::set_mainFile_is_modified), true) );
-	m_pTreeView->signal_item_modified.connect( sigc::mem_fun(*this, &melangeWindow::set_pdf_preview) );
 	m_pTreeView->signal_new.connect( sigc::mem_fun(*this, &melangeWindow::set_mainFileName) );
+
+	// Connect own signals to callbacks. 
+	
+	m_pTreeView->signal_rotate_cw_request.connect( sigc::mem_fun(this, &melangeWindow::on_rotate_cw) );
+	m_pTreeView->signal_rotate_ccw_request.connect( sigc::mem_fun(this, &melangeWindow::on_rotate_ccw) );
+	m_pPdfarea->signal_rotate_cw_request.connect( sigc::mem_fun(this, &melangeWindow::on_rotate_cw) );
+	m_pPdfarea->signal_rotate_ccw_request.connect( sigc::mem_fun(this, &melangeWindow::on_rotate_ccw) );
 	
     //this->set_sensitive_on_selection(false);
 
@@ -171,7 +176,6 @@ melangeWindow::melangeWindow(BaseObjectType* cobject, const Glib::RefPtr<Gtk::Bu
     m_refCursor = Gdk::Cursor::create(get_display(), Gdk::WATCH);
 
     this->show_all_children ();
-    m_pSpinner->hide();
 }
 
 /**
@@ -460,12 +464,15 @@ void melangeWindow::write_document()
 
     try
     {
+		show_idle ();
         this->m_refTreeModel->write_pdf_document(m_MainFileName.c_str(), m_settings);
+		show_idle ( false );
         m_pStatusbar->push(_("saved file ") + Glib::ustring("\"") + m_MainFileName + Glib::ustring("\""));
     }
     catch (char* msg)
     {
         g_message("melangeWindow::write_document: catched error <%s>", msg);
+		show_idle ( false );
 
         char* fullMessage = g_strdup_printf("Error while writing output file: %s\n"
                                             "Cached error message: <%s>\n"
@@ -649,9 +656,10 @@ void melangeWindow::on_action_open()
     if (response)
     {
         set_mainFileName(filename);
-
+		show_idle( true );
 		m_pTreeView->clear();
 		m_pTreeView->append(uri);
+		show_idle( false );
     }
 }
 
@@ -673,6 +681,7 @@ void melangeWindow::clear_pdf_preview()
 void melangeWindow::set_pdf_preview()
 {
     g_message("melangeWindow::set_pdf_preview");
+	show_idle ( true );  // this is deactivated by m_pPdfarea->signal_active
 
     //get the first selected row
     std::vector<Gtk::TreeModel::Path> pathlist = m_pTreeView->get_selection()->get_selected_rows();
@@ -689,8 +698,6 @@ void melangeWindow::set_pdf_preview()
     PopplerDocument* pDoc = NULL;
     PopplerPage* pPage = NULL;
     GError* err = NULL;
-
-    show_idle();
 
     pDoc = poppler_document_new_from_file(uri.c_str(), password.c_str(), &err);
     if (pDoc) {
@@ -783,7 +790,6 @@ void melangeWindow::set_pdf_preview()
         m_pStatusbar->push(infoText);
     }
 
-    show_idle( false );
 }
 
 /**
@@ -792,36 +798,24 @@ void melangeWindow::set_pdf_preview()
 void melangeWindow::list_the_tree()
 {
     m_refTreeModel->print();
-};
+};  
 
 /**
  * \brief Show curser as idle.
+ * 
  */
 void melangeWindow::show_idle(bool isIdle )
 {
-    g_message("melangeWindow::show_idle");
+    g_message("melangeWindow::show_idle %s", isIdle ? "true" : "false");
 
-    if (isIdle) {
-        m_pSpinner->show();
-        m_pSpinner->start();
-#if GDKMM_MAJOR_VERSION == 2
-        m_refWindow->set_cursor(Gdk::Cursor(Gdk::WATCH));
-        while (Gtk::Main::events_pending ()) Gtk::Main::iteration ();
-        Gdk::flush();
-#elif GDKMM_MAJOR_VERSION == 3
-        present();
-        get_window()->set_cursor( m_refCursor );
-        while (Gtk::Main::events_pending ()) Gtk::Main::iteration ();
-        Gdk::flush();
-#endif
-    }
+	if (isIdle) {
+		static Glib::RefPtr<Gdk::Cursor> wC = Gdk::Cursor::create( get_display(), Gdk::WATCH);
+		m_refWindow->set_cursor(wC);
+		while( Gtk::Main::events_pending() ) Gtk::Main::iteration();
+	}
     else
     {
-        m_pSpinner->stop();
-        m_pSpinner->hide();
-        m_refWindow->set_cursor();
-        Gdk::flush();
-        present();
+		m_refWindow->set_cursor();
     }
 }
 
@@ -832,9 +826,9 @@ void melangeWindow::on_rotate_cw()
 {
     g_message("melangeWindow::on_rotate_cw");
 
-    show_idle ();
+	show_idle ( true );
 	m_pTreeView->rotate_selected_cw();
-    show_idle (false);
+	m_pPdfarea->rotate_cw();
 }
 
 /**
@@ -844,9 +838,9 @@ void melangeWindow::on_rotate_ccw()
 {
     g_message("melangeWindow::on_rotate_ccw");
 
-    show_idle ();
+	show_idle ( true );
 	m_pTreeView->rotate_selected_ccw();
-    show_idle (false);
+	m_pPdfarea->rotate_ccw();
 }
 
 /**
@@ -860,7 +854,9 @@ void melangeWindow::on_action_insert()
     Glib::ustring uri;
     if (this->file_open_dialog(filename, uri))
     {
+		show_idle ( true );
         m_pTreeView->insert(uri);
+		show_idle ( false );
     }
 
 }
@@ -872,7 +868,9 @@ void melangeWindow::append_document(Glib::ustring uri)
 {
     g_message("melangeWindow::append_document");
 
+	show_idle ( true );
     m_pTreeView->append(uri);
+	show_idle ( false );
 }
 
 /**
@@ -887,6 +885,8 @@ void melangeWindow::on_action_append()
 
     if (this->file_open_dialog(filename, uri))
     {
+		show_idle ( true );
         m_pTreeView->append(uri);
+		show_idle ( false );
     }
 }

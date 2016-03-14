@@ -265,6 +265,10 @@ void melangePopplerWriter::writePdf(const char* outFileName)
         ((Object*) iter->page)->free();
         delete (Object*) iter->page;
     }
+
+	timer.stop();
+	g_message("%f seconds for writing %s", timer.getElapsed(), "Temp File");
+	timer.start();
 #ifndef __WIN32
     // @fixme: does not work with mingw:
 	//         This chauses a crash with poppler 0.24.5 and mingw (gtk+ 3.10.4).
@@ -276,6 +280,9 @@ void melangePopplerWriter::writePdf(const char* outFileName)
 
 	outStr->close();
 	
+	timer.stop();
+	g_message("%f seconds for writing %s", timer.getElapsed(), "Temp File");
+	timer.start();
 	// copy temp file to output
 	rewind(tempFile); // positions the stream tempFile at its beginning.
 	

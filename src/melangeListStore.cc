@@ -88,7 +88,9 @@ void melangeListStore::set_row(melangeListStore::Row &dest, melangeListStore::Ro
  */
 void melangeListStore::rotate_cw( std::vector<Gtk::TreeModel::Path> pathlist )
 {
-    for(gint ip = 0; ip < pathlist.size(); ip++)
+    g_message("melangeListStore::rotate_cw");
+
+	for(gint ip = 0; ip < pathlist.size(); ip++)
     {
         Gtk::TreeModel::iterator iter = get_iter(pathlist[ip]);
         Gtk::TreeModel::Row row = *iter;
@@ -106,7 +108,9 @@ void melangeListStore::rotate_cw( std::vector<Gtk::TreeModel::Path> pathlist )
  */
 void melangeListStore::rotate_ccw( std::vector<Gtk::TreeModel::Path> pathlist )
 {
-    for(gint ip = 0; ip < pathlist.size(); ip++)
+	g_message("melangeListStore::rotate_ccw");
+
+	for(gint ip = 0; ip < pathlist.size(); ip++)
     {
         Gtk::TreeModel::iterator iter = get_iter(pathlist[ip]);
         Gtk::TreeModel::Row row = *iter;
@@ -213,6 +217,8 @@ GError* melangeListStore::read_pdf_document(
 											Gtk::TreeViewDropPosition pos )
 {
     //Open a PDF and create all thumbnails
+    g_message("melangeListStore::read_pdf_document");
+
 #define LINEWIDTH 10
 
     PopplerDocument* pDoc;

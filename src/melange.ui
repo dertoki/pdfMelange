@@ -606,23 +606,6 @@
                 <property name="homogeneous">True</property>
               </packing>
             </child>
-            <child>
-              <object class="GtkToolItem" id="toolbutton1">
-                <property name="use_action_appearance">False</property>
-                <property name="visible">True</property>
-                <property name="can_focus">False</property>
-                <child>
-                  <object class="GtkSpinner" id="spinner1">
-                    <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                  </object>
-                </child>
-              </object>
-              <packing>
-                <property name="expand">True</property>
-                <property name="homogeneous">True</property>
-              </packing>
-            </child>
           </object>
           <packing>
             <property name="expand">False</property>

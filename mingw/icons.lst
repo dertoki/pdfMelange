@@ -1,131 +1,39 @@
-/places/folder-bookmark.png
-/places/favorites.png
-/places/document-multiple.png
-/places/user-trash.png
-/places/folder.png
-/places/bookmarks.png
-/places/network-server-database.png
-/places/folder-black.png
-/places/folder-activities.png
-/places/user-home.png
-/places/folder-blue.png
-/places/user-desktop.png
-/status/task-attempt.png
-/status/task-attention.png
-/status/task-accepted.png
-/status/dialog-error.png
-/status/task-reject.png
-/status/task-complete.png
-/actions/arrow-left-double.png
-/actions/zoom-fit-best.png
-/actions/go-last.png
-/actions/draw-arrow-up.png
-/actions/address-book-new.png
-/actions/folder-sync.png
-/actions/document-properties.png
-/actions/list-remove.png
-/actions/zoom-2-to-1.png
-/actions/list-add-symbolic.png
-/actions/arrow-up-double.png
-/actions/get-hot-new-stuff.png
-/actions/dialog-ok.png
-/actions/edit-clear-list.png
-/actions/page-simple.png
-/actions/edit-paste.png
-/actions/go-next.png
-/actions/go-up.png
-/actions/edit-clear-locationbar-ltr.png
-/actions/zoom-out.png
-/actions/document-save-as.png
-/actions/document-edit.png
-/actions/edit-copy.png
-/actions/page-zoom.png
-/actions/edit-delete-shred.png
-/actions/edit-clear-locationbar-rtl.png
-/actions/arrow-right-double.png
-/actions/zoom-fit-height.png
-/actions/help-about.png
-/actions/go-bottom.png
-/actions/document-open.png
-/actions/edit-find-replace.png
-/actions/system-shutdown.png
-/actions/merge.png
-/actions/edit-undo.png
-/actions/edit-rename.png
-/actions/zoom-fit-width.png
-/actions/application-exit.png
-/actions/object-rotate-right.png
-/actions/process-stop.png
-/actions/dialog-close.png
-/actions/page-2sides.png
-/actions/go-top.png
-/actions/dialog-ok-apply.png
-/actions/go-first.png
-/actions/arrow-down-double.png
-/actions/edit-redo.png
-/actions/document-encrypt.png
-/actions/go-next-view.png
-/actions/list-remove-symbolic.png
-/actions/window-close.png
-/actions/go-last-view.png
-/actions/go-home.png
-/actions/zoom-in.png
-/actions/arrow-left.png
-/actions/go-previous.png
-/actions/arrow-right.png
-/actions/edit-find.png
-/actions/zoom-draw.png
-/actions/documentation.png
-/actions/edit-cut.png
-/actions/draw-arrow-back.png
-/actions/page-3sides.png
-/actions/document-encrypted.png
-/actions/zoom-original.png
-/actions/zoom-1-to-2.png
-/actions/dialog-cancel.png
-/actions/document-preview.png
-/actions/document-decrypt.png
-/actions/list-add.png
-/actions/arrow-down.png
-/actions/go-down.png
-/actions/tab-close.png
-/actions/zoom-select.png
-/actions/draw-arrow-forward.png
-/actions/help-contents.png
-/actions/arrow-up.png
-/actions/document-close.png
-/actions/rating.png
-/actions/archive-insert-directory.png
-/actions/document-new.png
-/actions/edit-delete.png
-/actions/zoom-previous.png
-/actions/document-export.png
-/actions/document-open-folder.png
-/actions/help-contextual.png
-/actions/folder-new.png
-/actions/edit-select.png
-/actions/go-first-view.png
-/actions/document-revert.png
-/actions/draw-arrow-down.png
-/actions/page-4sides.png
-/actions/zoom-next.png
-/actions/document-import.png
-/actions/document-save-all.png
-/actions/go-previous-view.png
-/actions/document-save.png
-/actions/object-rotate-left.png
-/categories/preferences-other.png
-/categories/preferences-system.png
-/categories/system-help.png
-/devices/media-flash-sd-mmc.png
-/devices/drive-removable-media-usb-pendrive.png
-/devices/drive-optical.png
-/devices/drive-removable-media-usb.png
-/devices/drive-harddisk.png
-/devices/media-floppy.png
-/devices/drive-removable-media.png
-/devices/computer-laptop.png
-/devices/computer.png
-/mimetypes/x-office-document.png
-/mimetypes/unknown.png
+mimetypes/text-x-generic.png                 gtk-file.png
+places/folder.png
+places/folder.png                            gtk-directory.png
+places/user-home-symbolic.symbolic.png       user-home-symbolic-ltr.png
+places/user-desktop.png
+places/user-desktop-symbolic.symbolic.png    user-desktop-symbolic-ltr.png
+places/folder-symbolic.symbolic.png          folder-symbolic-ltrltr.png
+places/folder-download-symbolic.symbolic.png folder-download-symbolic-ltr.png
+places/folder-pictures-symbolic.symbolic.png folder-pictures-symbolic-ltr.png
+places/folder-music-symbolic.symbolic.png    folder-music-symbolic-ltr.png
+places/folder-videos-symbolic.symbolic.png   folder-videos-symbolic-ltr.png
+actions/list-add.png
+places/folder-documents-symbolic.symbolic.png
+places/folder-videos-symbolic.symbolic.png
+places/user-trash-symbolic.symbolic.png
+places/folder-remote-symbolic.symbolic.png
+devices/drive-optical-symbolic.symbolic.png
+devices/drive-harddisk-symbolic.symbolic.png
+devices/drive-harddisk-symbolic.symbolic.png drive-harddisk-ltr.png
+actions/media-eject-symbolic.symbolic.png    media-eject-symbolic-ltr.png
+actions/pan-down-symbolic.symbolic.png       pan-down-symbolic-ltr.png
+actions/pan-up-symbolic.symbolic.png         pan-up-symbolic-ltr.png
+actions/pan-start-symbolic.symbolic.png      pan-start-symbolic-ltr.png
+actions/folder-new-symbolic.symbolic.png     folder-new-symbolic-ltr.png
+actions/bookmark-new-symbolic.symbolic.png   bookmark-new-symbolic-ltr.png
+actions/list-remove.png
+actions/object-rotate-left.png
+actions/object-rotate-right.png
+actions/zoom-out.png
+actions/zoom-in.png
+actions/zoom-fit-best.png
+actions/application-exit.png
+actions/go-down.png
+actions/go-up.png
+actions/document-open.png
+actions/document-save.png
+status/image-missing.png
+status/image-missing.png                     missing-image-ltr.png
 

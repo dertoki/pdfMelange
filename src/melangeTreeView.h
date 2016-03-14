@@ -75,9 +75,13 @@ public:
     void rotate_selected_ccw ();
 
     sigc::signal<void, int> signal_selected;        // send when selection changed and a number of items are selected.
-    sigc::signal<void> signal_item_modified;        // send when a selected item was modified, e.g. rotated. 
     sigc::signal<void> signal_list_modified;        // send when the current file was modified
     sigc::signal<void, Glib::ustring> signal_new;   // send when a new file was loaded
+    sigc::signal<void, bool> signal_idle;           // send when activity starts (true) / ends (false).
+    void on_rotate_cw_request();
+    void on_rotate_ccw_request();
+    sigc::signal<void> signal_rotate_cw_request;         // send when context popup menu item rotate cw was activated.
+    sigc::signal<void> signal_rotate_ccw_request;        // send when context popup menu item rotate ccw was activated.
 
 protected:
     void init();

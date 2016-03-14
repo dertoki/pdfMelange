@@ -89,7 +89,6 @@ private:
     melangeTreeView* m_pTreeView;
 
     /** Glade elements */
-    Gtk::Spinner*  m_pSpinner;
     Gtk::Statusbar* m_pStatusbar;
     Gtk::Label* m_pLabelFileInfo;
 

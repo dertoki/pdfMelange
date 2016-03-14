@@ -21,6 +21,8 @@
 #include <cairomm/context.h>
 #include <cairomm/matrix.h>
 #include <poppler/glib/poppler.h>
+#include <libintl.h>
+#include <glibmm/i18n.h>
 
 #include <iostream>
 #include <iomanip>
@@ -87,11 +89,42 @@ void melangeDrawingArea::init()
     add_events(Gdk::BUTTON_PRESS_MASK);
     add_events(Gdk::BUTTON_RELEASE_MASK);
     add_events(Gdk::BUTTON_MOTION_MASK);
+
+	// Connect own signals to callbacks.
     signal_size_allocate().connect(sigc::mem_fun(*this, &melangeDrawingArea::on_my_size_allocate));
     signal_scroll_event().connect(sigc::mem_fun(*this, &melangeDrawingArea::on_event_scroll));
     signal_button_press_event().connect(sigc::mem_fun(*this, &melangeDrawingArea::on_button_press_event) );
     signal_button_release_event().connect(sigc::mem_fun(*this, &melangeDrawingArea::on_button_release_event) );
     signal_motion_notify_event().connect(sigc::mem_fun(*this, &melangeDrawingArea::on_motion_notify_event) );
+
+	//Fill the popup menu:
+    Gtk::MenuItem* item;
+    item = Gtk::manage(new Gtk::MenuItem(_("Rotate CW"), true));
+    item->signal_activate().connect( sigc::mem_fun(*this, &melangeDrawingArea::on_rotate_cw_request) );
+    m_Menu_Popup.append(*item);
+
+    item = Gtk::manage(new Gtk::MenuItem(_("Rotate CCW"), true));
+    item->signal_activate().connect( sigc::mem_fun(*this, &melangeDrawingArea::on_rotate_ccw_request) );
+    m_Menu_Popup.append(*item);
+/*
+    item = Gtk::manage(new Gtk::MenuItem(_("_Copy"), true));
+    item->signal_activate().connect( sigc::mem_fun(*this, &melangeTreeView::copy_selected) );
+    m_Menu_Popup.append(*item);
+
+    item = Gtk::manage(new Gtk::MenuItem(_("Cu_t"), true));
+    item->signal_activate().connect( sigc::mem_fun(*this, &melangeTreeView::cut_selected) );
+    m_Menu_Popup.append(*item);
+
+    item = Gtk::manage(new Gtk::MenuItem(_("_Delete"), true));
+    item->signal_activate().connect( sigc::mem_fun(*this, &melangeTreeView::delete_selected) );
+    m_Menu_Popup.append(*item);
+
+    item = Gtk::manage(new Gtk::MenuItem(_("_Paste"), true));
+    item->signal_activate().connect( sigc::mem_fun(*this, &melangeTreeView::paste) );
+    m_Menu_Popup.append(*item);
+*/
+    m_Menu_Popup.accelerate(*this);
+    m_Menu_Popup.show_all(); //Show all menu items when the menu pops up
 }
 
 /**
@@ -145,12 +178,14 @@ bool melangeDrawingArea::on_draw(const Cairo::RefPtr<Cairo::Context>& m_refCr)
  	this->m_mtx_virgin = m_refCr->get_matrix();
 	/// draw into context
     if (m_pPage) {
+		Cairo::Matrix m_mtx_tmp = m_refCr->get_matrix();
         m_refCr->set_matrix ( m_mtx * m_refCr->get_matrix() );
         draw_page_frame(m_refCr);
 		poppler_page_render(m_pPage, m_refCr->cobj());
     }
     if (m_cairo_debug) _test_draw( m_refCr );
 
+	signal_idle.emit(false);
     return true;
 }
 
@@ -184,8 +219,49 @@ void melangeDrawingArea::draw_fitted_to_window()
     if (m_pPage) {
         this->m_mtx_zero = calculate_init_matrix();
         this->m_mtx = m_mtx_zero * Cairo::translation_matrix (0, 0);
-        this->queue_draw ();
+		signal_idle.emit(true); 
+		this->queue_draw ();
     }
+}
+
+/**
+ * \brief Rotate the page clockwise.
+ */
+void melangeDrawingArea::on_rotate_cw_request()
+{
+	signal_rotate_cw_request.emit();
+}
+
+/**
+ * \brief Rotate the page counter clockwise.
+ */
+void melangeDrawingArea::on_rotate_ccw_request()
+{
+	signal_rotate_ccw_request.emit();
+}
+
+/**
+ * \brief Rotate the page clockwise.
+ */
+void melangeDrawingArea::rotate_cw()
+{
+    if (m_pPage) {
+		signal_idle.emit(true); 
+        m_pdfRotation = (m_pdfRotation +  90) % 360;
+        set_page (m_pDoc, m_pPage, m_pdfRotation);
+    };
+}
+
+/**
+ * \brief Rotate the page counter clockwise.
+ */
+void melangeDrawingArea::rotate_ccw()
+{
+    if (m_pPage) {
+		signal_idle.emit(true); 
+        m_pdfRotation = (m_pdfRotation + 270) % 360;
+        set_page (m_pDoc, m_pPage, m_pdfRotation);
+    };
 }
 
 /**
@@ -193,13 +269,7 @@ void melangeDrawingArea::draw_fitted_to_window()
  */
 void melangeDrawingArea::draw_zoom_in()
 {
-    if (m_pPage) {
-        m_zoom = m_zoom_plus;
-        m_mtx = m_mtx * calculate_zoom_matrix(m_width/2, m_height/2, m_zoom);
-        m_pdfScale *= m_zoom;
-
-        queue_draw(); // Queuing an expose event to the main loop..
-    }
+	draw_zoom (m_zoom_plus);
 }
 
 /**
@@ -207,11 +277,20 @@ void melangeDrawingArea::draw_zoom_in()
  */
 void melangeDrawingArea::draw_zoom_out()
 {
+	draw_zoom (m_zoom_minus);
+}
+
+/**
+ * \brief Redraw zoom out, the base point is the center of the window.
+ */
+void melangeDrawingArea::draw_zoom(double zoom)
+{
     if (m_pPage) {
-        m_zoom = m_zoom_minus;
+        m_zoom = zoom;
         m_mtx = m_mtx * calculate_zoom_matrix(m_width/2, m_height/2, m_zoom);
         m_pdfScale *= m_zoom;
 
+		signal_idle.emit(true); 
         queue_draw(); // Queuing an expose event to the main loop..
     }
 }
@@ -477,16 +556,17 @@ bool melangeDrawingArea::on_event_scroll(GdkEventScroll *e)
     m_x = e->x;
     m_y = e->y;
     if (e->direction == GDK_SCROLL_UP) {
-        m_zoom = 1.1;
+        m_zoom = m_zoom_plus;
     }
     if (e->direction == GDK_SCROLL_DOWN) {
-        m_zoom = 0.9;
+        m_zoom = m_zoom_minus;
     }
 
     m_mtx = m_mtx * calculate_zoom_matrix(m_x, m_y, m_zoom);
     m_pdfScale *= m_zoom;
 
-    queue_draw(); // Queuing an expose event to the main loop..
+	signal_idle.emit(true); 
+	queue_draw(); // Queuing an expose event to the main loop..
     return true;
 }
 
@@ -500,13 +580,17 @@ bool melangeDrawingArea::on_event_scroll(GdkEventScroll *e)
  */
 bool melangeDrawingArea::on_button_press_event(GdkEventButton* event)
 {
-    if( (event->type == GDK_BUTTON_PRESS) && (event->button == 1) ) {
+    if ( (event->type == GDK_BUTTON_PRESS) && (event->button == 1) ) {
         m_button1 = true;
         m_x0 = event->x;
         m_y0 = event->y;
         return true; //It has been handled.
     }
-    else
+    else if ( (event->type == GDK_BUTTON_PRESS) && (event->button == 3) )
+	{
+		m_Menu_Popup.popup(event->button, event->time);
+	}
+	else 
         return false;
 }
 
@@ -620,10 +704,10 @@ public:
         m_refActionGroup = Gtk::ActionGroup::create();
 
         m_refActionGroup->add(Gtk::Action::create("Open", Gtk::Stock::OPEN, "_Open", "Open PDF file"),
-                              sigc::mem_fun(*this, &TestWindow::on_open));
+                                                  sigc::mem_fun(*this, &TestWindow::on_open));
 
         m_refActionGroup->add(Gtk::Action::create("Quit", Gtk::Stock::QUIT, "_Quit", "Exit"),
-                              sigc::mem_fun(*this, &TestWindow::on_quit));
+                                                  sigc::mem_fun(*this, &TestWindow::on_quit));
 
         m_refAction_Go_Back = Gtk::Action::create("Go_Back", Gtk::Stock::GO_BACK, "_Go_Back", "Page back");
         m_refActionGroup->add(m_refAction_Go_Back, sigc::mem_fun(*this, &TestWindow::on_go_back));
@@ -646,6 +730,10 @@ public:
         refAction_Rot_CCW->set_icon_name("object-rotate-left");
         m_refActionGroup->add(refAction_Rot_CCW, sigc::mem_fun(*this, &TestWindow::on_rotate_ccw));
 
+		drawing_area.signal_idle.connect( sigc::mem_fun(*this, &TestWindow::show_idle) );
+		drawing_area.signal_rotate_cw_request.connect( sigc::mem_fun(*this, &TestWindow::on_rotate_cw) );
+		drawing_area.signal_rotate_ccw_request.connect( sigc::mem_fun(*this, &TestWindow::on_rotate_ccw) );
+		
         m_refUIManager = Gtk::UIManager::create();
         m_refUIManager->insert_action_group(m_refActionGroup);
         add_accel_group(m_refUIManager->get_accel_group());
@@ -678,15 +766,16 @@ public:
             m_Box.pack_start(*pToolbar, Gtk::PACK_SHRINK);
 
         m_Box.pack_end(drawing_area);
-        //drawing_area.set_size_request(420, 594);
+		//drawing_area.set_cairo_debug(true);
 
-        show_all_children();
+		show_all_children();
         iPage = 0;
         iRotate = 0;
     };
 	
     virtual ~TestWindow() {};
 
+	// Content setter used to be called after window is opend.
     void init(PopplerPage* pPage, PopplerDocument* pDoc)
     {
         this->pPage = pPage;
@@ -695,7 +784,33 @@ public:
         check_sensitive();
     };
 
-    //Signal handlers:
+	// Content setter used to be called bevor window is opend.
+    void set(PopplerPage* pPage, PopplerDocument* pDoc)
+    {
+        this->pPage = pPage;
+        this->pDoc = pDoc;
+    };
+	// change the mouse when idle.
+	void show_idle(bool isIdle )
+	{
+		if (isIdle) {
+			static Glib::RefPtr<Gdk::Cursor> wC = Gdk::Cursor::create( get_display(), Gdk::WATCH);
+			get_window()->set_cursor(wC);
+			while( Gtk::Main::events_pending() ) Gtk::Main::iteration();
+		}
+		else
+		{
+			get_window()->set_cursor();
+		}
+	}
+
+	// Overwritten standard signal handler:
+	virtual void on_show(){
+		Gtk::Window::on_show();
+		if (pPage) init(pPage, pDoc);
+	};
+
+    // Handler for a signal that was defined in constructor:
     void on_open()
     {
         Gtk::FileChooserDialog dialog(*this, "Please choose a file", Gtk::FILE_CHOOSER_ACTION_OPEN);
@@ -751,14 +866,17 @@ public:
 		    }
         }
     };
+    // Handler for a signal that was defined in constructor:
     void on_quit() {
         hide();
     };
+    // Handler for a signal that was defined in constructor:
     void on_go_back()
     {
         iPage--;
         if (iPage >= 0)
         {
+			show_idle ( true );
             pPage = poppler_document_get_page(pDoc, iPage);
             if (pPage) drawing_area.set_page (pDoc, pPage, 0);
             check_sensitive();
@@ -766,11 +884,13 @@ public:
         else
             iPage++;
     };
+    // Handler for a signal that was defined in constructor:
     void on_go_forward()
     {
         iPage++;
         if (iPage < poppler_document_get_n_pages(pDoc))
         {
+			show_idle ( true );
             pPage = poppler_document_get_page(pDoc, iPage);
             if (pPage) drawing_area.set_page (pDoc, pPage, 0);
             check_sensitive();
@@ -778,27 +898,28 @@ public:
         else
             iPage--;
     };
+    // Handler for a signal that was defined in constructor:
     void on_zoom_in()  {
         drawing_area.draw_zoom_in();
     };
+    // Handler for a signal that was defined in constructor:
     void on_zoom_out() {
         drawing_area.draw_zoom_out();
     };
+    // Handler for a signal that was defined in constructor:
     void on_zoom_fit() {
+		show_idle ( true );
         drawing_area.draw_fitted_to_window ();
     };
+    // Handler for a signal that was defined in constructor:
     void on_rotate_cw ()  {
-        if (pPage) {
-            iRotate = (iRotate +  90) % 360;
-            drawing_area.set_page (pDoc, pPage, iRotate);
-        };
+		 drawing_area.rotate_cw();
     };
+    // Handler for a signal that was defined in constructor:
     void on_rotate_ccw () {
-        if (pPage) {
-            iRotate = (iRotate + 270) % 360;
-            drawing_area.set_page (pDoc, pPage, iRotate);
-        };
+		 drawing_area.rotate_ccw();
     };
+	// Method to set button states:
     void check_sensitive()
     {
         if (iPage == poppler_document_get_n_pages(pDoc) -1)
@@ -839,7 +960,7 @@ int main (int argc, char *argv[])
     if (pDoc) {
         int iPage = 0;
         pPage = poppler_document_get_page(pDoc, iPage);
-        window.init(pPage, pDoc);
+        window.set(pPage, pDoc);
     }
 
     //Shows the window and returns when it is closed.
