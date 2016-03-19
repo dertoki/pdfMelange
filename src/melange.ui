@@ -65,6 +65,20 @@
     <property name="stock_id">gtk-open</property>
     <property name="icon_name">document-open</property>
   </object>
+  <object class="GtkAction" id="page_next">
+    <property name="label" translatable="yes">next page</property>
+    <property name="short_label" translatable="yes">next</property>
+    <property name="tooltip" translatable="yes">Show next page</property>
+    <property name="stock_id">gtk-go-forward</property>
+    <property name="icon_name">go-next</property>
+  </object>
+  <object class="GtkAction" id="page_previous">
+    <property name="label" translatable="yes">previous page</property>
+    <property name="short_label" translatable="yes">previous</property>
+    <property name="tooltip" translatable="yes">Show previous page</property>
+    <property name="stock_id">gtk-go-back</property>
+    <property name="icon_name">go-previous</property>
+  </object>
   <object class="GtkAction" id="paste">
     <property name="label" translatable="yes">_Paste</property>
     <property name="short_label" translatable="yes">paste</property>
@@ -424,7 +438,7 @@
                 <property name="related_action">open</property>
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="label" translatable="yes">toolbutton1</property>
+                <property name="label" translatable="yes">open</property>
                 <property name="use_underline">True</property>
               </object>
               <packing>
@@ -437,7 +451,7 @@
                 <property name="related_action">save</property>
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="label" translatable="yes">toolbutton1</property>
+                <property name="label" translatable="yes">save</property>
                 <property name="use_underline">True</property>
               </object>
               <packing>
@@ -460,7 +474,7 @@
                 <property name="related_action">quit</property>
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="label" translatable="yes">toolbutton1</property>
+                <property name="label" translatable="yes">quit</property>
                 <property name="use_underline">True</property>
               </object>
               <packing>
@@ -479,11 +493,39 @@
               </packing>
             </child>
             <child>
+              <object class="GtkToolButton" id="toolbutton_page_previous">
+                <property name="related_action">page_previous</property>
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="label" translatable="yes">page_previous</property>
+                <property name="use_underline">True</property>
+                <property name="icon_name">object-rotate-right</property>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="homogeneous">True</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkToolButton" id="toolbutton_page_next">
+                <property name="related_action">page_next</property>
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="label" translatable="yes">page_next</property>
+                <property name="use_underline">True</property>
+                <property name="icon_name">object-rotate-right</property>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="homogeneous">True</property>
+              </packing>
+            </child>
+            <child>
               <object class="GtkToolButton" id="toolbutton_rot_cw">
                 <property name="related_action">rotate_cw</property>
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="label" translatable="yes">toolbutton2</property>
+                <property name="label" translatable="yes">rotate_cw</property>
                 <property name="use_underline">True</property>
               </object>
               <packing>
@@ -496,7 +538,7 @@
                 <property name="related_action">rotate_ccw</property>
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="label" translatable="yes">toolbutton3</property>
+                <property name="label" translatable="yes">rotate_ccw</property>
                 <property name="use_underline">True</property>
               </object>
               <packing>
@@ -509,7 +551,7 @@
                 <property name="related_action">move_page_up</property>
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="label" translatable="yes">toolbutton2</property>
+                <property name="label" translatable="yes">move_page_up</property>
                 <property name="use_underline">True</property>
               </object>
               <packing>
@@ -522,7 +564,7 @@
                 <property name="related_action">move_page_down</property>
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="label" translatable="yes">toolbutton3</property>
+                <property name="label" translatable="yes">move_page_down</property>
                 <property name="use_underline">True</property>
               </object>
               <packing>
@@ -535,7 +577,7 @@
                 <property name="related_action">insert</property>
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="label" translatable="yes">toolbutton1</property>
+                <property name="label" translatable="yes">insert</property>
                 <property name="use_underline">True</property>
               </object>
               <packing>
@@ -548,7 +590,7 @@
                 <property name="related_action">delete</property>
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="label" translatable="yes">toolbutton1</property>
+                <property name="label" translatable="yes">delete</property>
                 <property name="use_underline">True</property>
               </object>
               <packing>
@@ -572,7 +614,7 @@
                 <property name="related_action">zoom_in</property>
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="label" translatable="yes">toolbutton2</property>
+                <property name="label" translatable="yes">zoom_in</property>
                 <property name="use_underline">True</property>
               </object>
               <packing>
@@ -585,7 +627,7 @@
                 <property name="related_action">zoom_out</property>
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="label" translatable="yes">toolbutton2</property>
+                <property name="label" translatable="yes">zoom_out</property>
                 <property name="use_underline">True</property>
               </object>
               <packing>
@@ -598,7 +640,7 @@
                 <property name="related_action">zoom_fit</property>
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="label" translatable="yes">toolbutton2</property>
+                <property name="label" translatable="yes">zoom_fit</property>
                 <property name="use_underline">True</property>
               </object>
               <packing>

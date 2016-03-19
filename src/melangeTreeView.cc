@@ -433,10 +433,14 @@ void melangeTreeView::move_selected_up()
 {
     g_message("melangeTreeView::on_action_move_page_up");
 
-    std::vector<Gtk::TreeModel::Path> pathlist;
-    pathlist = m_refSelection->get_selected_rows();
+    std::vector<Gtk::TreeModel::Path> pathlist = m_refSelection->get_selected_rows();
     
     m_refModel->move_1minus(pathlist);
+
+    pathlist = get_selection()->get_selected_rows();
+    Gtk::TreeModel::iterator iter = m_refModel->get_iter(pathlist.front());
+    scroll_to_row(m_refModel->get_path(iter));
+
     signal_list_modified.emit();
 }
 
@@ -447,11 +451,53 @@ void melangeTreeView::move_selected_down()
 {
     g_message("melangeTreeView::on_action_move_page_down");
 
-    std::vector<Gtk::TreeModel::Path> pathlist;
-    pathlist = m_refSelection->get_selected_rows();
+    std::vector<Gtk::TreeModel::Path> pathlist = m_refSelection->get_selected_rows();
     
     m_refModel->move_1plus(pathlist);
+
+    pathlist = get_selection()->get_selected_rows();
+    Gtk::TreeModel::iterator iter = m_refModel->get_iter(pathlist.back());
+    scroll_to_row(m_refModel->get_path(iter));
+
     signal_list_modified.emit();
+}
+
+/**
+ * \brief Select next page.
+ */
+void melangeTreeView::select_next()
+{
+    g_message("melangeTreeView::select_next");
+
+    std::vector<Gtk::TreeModel::Path> pathlist = get_selection()->get_selected_rows();
+    Gtk::TreeModel::iterator iter = m_refModel->get_iter(pathlist[0]);
+
+    if (pathlist.size() == 0 || pathlist.size() > 1) return;
+    
+    if (++iter) {
+        m_refSelection->unselect_all();
+        m_refSelection->select(iter);
+        scroll_to_row(m_refModel->get_path(iter));
+    }
+}
+
+/**
+ * \brief Select previous page.
+ */
+void melangeTreeView::select_previous()
+{
+    g_message("melangeTreeView::select_previous");
+
+    std::vector<Gtk::TreeModel::Path> pathlist = get_selection()->get_selected_rows();
+    Gtk::TreeModel::iterator iter = m_refModel->get_iter(pathlist[0]);
+
+    if (pathlist.size() == 0 || pathlist.size() > 1) return;
+    
+    if (--iter) {
+        m_refSelection->unselect_all();
+        m_refSelection->select(iter);
+        scroll_to_row(m_refModel->get_path(iter));
+    }
 }
 
 /**

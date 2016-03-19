@@ -62,7 +62,9 @@ public:
     sigc::signal<void, bool> signal_idle;                // send when activity starts (true) / ends (false).
     sigc::signal<void> signal_rotate_cw_request;         // send when context popup menu item rotate cw was activated.
     sigc::signal<void> signal_rotate_ccw_request;        // send when context popup menu item rotate ccw was activated.
-
+	sigc::signal<void> signal_page_previous;             // send when context popup menu item previous page was activated. 
+	sigc::signal<void> signal_page_next;                 // send when context popup menu item next page was activated. 
+	
 protected:
     /** all constructors have to call init() to share the same content. */
     void init();
@@ -95,7 +97,7 @@ private:
     Cairo::Matrix m_mtx;
     Cairo::Matrix m_mtx_zero;
     Cairo::Matrix m_mtx_virgin;
-    bool m_button1;
+    bool m_button_pan;
 
     bool on_event_scroll(GdkEventScroll *e);
     void on_my_size_allocate(Gtk::Allocation& allocation);

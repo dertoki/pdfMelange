@@ -101,6 +101,8 @@ private:
     Glib::RefPtr<Gtk::Action> m_refSave_as;
     Glib::RefPtr<Gtk::Action> m_refRotate_cw;
     Glib::RefPtr<Gtk::Action> m_refRotate_ccw;
+    Glib::RefPtr<Gtk::Action> m_refPage_next;
+    Glib::RefPtr<Gtk::Action> m_refPage_previous;
     Glib::RefPtr<Gtk::Action> m_refMove_page_up;
     Glib::RefPtr<Gtk::Action> m_refMove_page_down;
     Glib::RefPtr<Gtk::Action> m_refAppend;
@@ -131,6 +133,8 @@ private:
     void show_idle(bool isIdle = true);
     void on_rotate_cw ();
     void on_rotate_ccw ();
+    void on_page_previous ();
+    void on_page_next ();
 };
 
 #endif // MELANGEWINDOW_H

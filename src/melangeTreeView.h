@@ -71,6 +71,8 @@ public:
     void insert(Glib::ustring uri);
     void move_selected_up();
     void move_selected_down();
+    void select_next();
+    void select_previous();
     void rotate_selected_cw ();
     void rotate_selected_ccw ();
 

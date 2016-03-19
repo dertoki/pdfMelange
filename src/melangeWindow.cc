@@ -124,6 +124,12 @@ melangeWindow::melangeWindow(BaseObjectType* cobject, const Glib::RefPtr<Gtk::Bu
     m_refQuit = Glib::RefPtr<Gtk::Action>::cast_static(m_refGlade->get_object ("quit"));
     m_refQuit->signal_activate().connect( sigc::mem_fun(this, &melangeWindow::on_action_quit) );
 
+    m_refPage_next = Glib::RefPtr<Gtk::Action>::cast_static(m_refGlade->get_object ("page_next"));
+    m_refPage_next->signal_activate().connect( sigc::mem_fun(this, &melangeWindow::on_page_next) );
+
+    m_refPage_previous = Glib::RefPtr<Gtk::Action>::cast_static(m_refGlade->get_object ("page_previous"));
+    m_refPage_previous->signal_activate().connect( sigc::mem_fun(this, &melangeWindow::on_page_previous) );
+
     m_refRotate_cw = Glib::RefPtr<Gtk::Action>::cast_static(m_refGlade->get_object ("rotate_cw"));
     m_refRotate_cw->signal_activate().connect( sigc::mem_fun(this, &melangeWindow::on_rotate_cw) );
 
@@ -163,7 +169,10 @@ melangeWindow::melangeWindow(BaseObjectType* cobject, const Glib::RefPtr<Gtk::Bu
 	m_pTreeView->signal_rotate_ccw_request.connect( sigc::mem_fun(this, &melangeWindow::on_rotate_ccw) );
 	m_pPdfarea->signal_rotate_cw_request.connect( sigc::mem_fun(this, &melangeWindow::on_rotate_cw) );
 	m_pPdfarea->signal_rotate_ccw_request.connect( sigc::mem_fun(this, &melangeWindow::on_rotate_ccw) );
-	
+
+	m_pPdfarea->signal_page_previous.connect( sigc::mem_fun(this, &melangeWindow::on_page_previous) );
+	m_pPdfarea->signal_page_next.connect( sigc::mem_fun(this, &melangeWindow::on_page_next) );
+
     //this->set_sensitive_on_selection(false);
 
     //Create the Tree model:
@@ -241,6 +250,8 @@ void melangeWindow::set_sensitive_on_selection(int number)
 
 	m_refCopy->set_sensitive(is_aktiv);
 	m_refCut->set_sensitive(is_aktiv);
+	m_refPage_previous->set_sensitive(is_aktiv);
+	m_refPage_next->set_sensitive(is_aktiv);
 	m_refRotate_cw->set_sensitive(is_aktiv);
 	m_refRotate_ccw->set_sensitive(is_aktiv);
 	m_refMove_page_up->set_sensitive(is_aktiv);
@@ -841,6 +852,26 @@ void melangeWindow::on_rotate_ccw()
 	show_idle ( true );
 	m_pTreeView->rotate_selected_ccw();
 	m_pPdfarea->rotate_ccw();
+}
+
+/**
+ * \brief Signal handler for once move forward.
+ */
+void melangeWindow::on_page_next()
+{
+    g_message("melangeWindow::on_page_next");
+
+	m_pTreeView->select_next();
+}
+
+/**
+ * \brief Signal handler for once move backward.
+ */
+void melangeWindow::on_page_previous()
+{
+    g_message("melangeWindow::on_page_previous");
+
+	m_pTreeView->select_previous();
 }
 
 /**

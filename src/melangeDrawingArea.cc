@@ -75,7 +75,7 @@ void melangeDrawingArea::init()
 
 	this->m_cairo_debug = false;
 
-    this->m_button1 = false;
+    this->m_button_pan = false;
     this->m_x = 0;
     this->m_y = 0;
     this->m_dx = 0;
@@ -106,24 +106,8 @@ void melangeDrawingArea::init()
     item = Gtk::manage(new Gtk::MenuItem(_("Rotate CCW"), true));
     item->signal_activate().connect( sigc::mem_fun(*this, &melangeDrawingArea::on_rotate_ccw_request) );
     m_Menu_Popup.append(*item);
-/*
-    item = Gtk::manage(new Gtk::MenuItem(_("_Copy"), true));
-    item->signal_activate().connect( sigc::mem_fun(*this, &melangeTreeView::copy_selected) );
-    m_Menu_Popup.append(*item);
 
-    item = Gtk::manage(new Gtk::MenuItem(_("Cu_t"), true));
-    item->signal_activate().connect( sigc::mem_fun(*this, &melangeTreeView::cut_selected) );
-    m_Menu_Popup.append(*item);
-
-    item = Gtk::manage(new Gtk::MenuItem(_("_Delete"), true));
-    item->signal_activate().connect( sigc::mem_fun(*this, &melangeTreeView::delete_selected) );
-    m_Menu_Popup.append(*item);
-
-    item = Gtk::manage(new Gtk::MenuItem(_("_Paste"), true));
-    item->signal_activate().connect( sigc::mem_fun(*this, &melangeTreeView::paste) );
-    m_Menu_Popup.append(*item);
-*/
-    m_Menu_Popup.accelerate(*this);
+	m_Menu_Popup.accelerate(*this);
     m_Menu_Popup.show_all(); //Show all menu items when the menu pops up
 }
 
@@ -553,40 +537,54 @@ void melangeDrawingArea::on_my_size_allocate(Gtk::Allocation& allocation)
  */
 bool melangeDrawingArea::on_event_scroll(GdkEventScroll *e)
 {
-    m_x = e->x;
-    m_y = e->y;
-    if (e->direction == GDK_SCROLL_UP) {
-        m_zoom = m_zoom_plus;
-    }
-    if (e->direction == GDK_SCROLL_DOWN) {
-        m_zoom = m_zoom_minus;
-    }
+	GdkModifierType modifiers;
+	modifiers = gtk_accelerator_get_default_mod_mask ();
 
-    m_mtx = m_mtx * calculate_zoom_matrix(m_x, m_y, m_zoom);
-    m_pdfScale *= m_zoom;
+	if ((e->state & modifiers) == GDK_CONTROL_MASK){
+		m_x = e->x;
+		m_y = e->y;
+		if (e->direction == GDK_SCROLL_UP) {
+		    m_zoom = m_zoom_plus;
+		}
+		if (e->direction == GDK_SCROLL_DOWN) {
+		    m_zoom = m_zoom_minus;
+		}
 
-	signal_idle.emit(true); 
-	queue_draw(); // Queuing an expose event to the main loop..
+		m_mtx = m_mtx * calculate_zoom_matrix(m_x, m_y, m_zoom);
+		m_pdfScale *= m_zoom;
+
+		signal_idle.emit(true); 
+		queue_draw(); // Queuing an expose event to the main loop..
+	}
+	else {
+		if (e->direction == GDK_SCROLL_UP) {
+		    signal_page_previous.emit();
+		}
+		if (e->direction == GDK_SCROLL_DOWN) {
+		    signal_page_next.emit();
+		}
+	}
+	
     return true;
 }
 
 /**
  * \brief handle the button press event.
  *
- *  Set the marker for the left button and store the mouse position.
+ *  Set the marker for the pan button and store the mouse position.
  *
  * \param event
  * \return true if handled, else false.
  */
 bool melangeDrawingArea::on_button_press_event(GdkEventButton* event)
 {
-    if ( (event->type == GDK_BUTTON_PRESS) && (event->button == 1) ) {
-        m_button1 = true;
+    if ( (event->type == GDK_BUTTON_PRESS) && (event->button == GDK_BUTTON_PRIMARY) ) {
+        m_button_pan = true;
         m_x0 = event->x;
         m_y0 = event->y;
         return true; //It has been handled.
     }
-    else if ( (event->type == GDK_BUTTON_PRESS) && (event->button == 3) )
+    else if ( (event->type == GDK_BUTTON_PRESS) && (event->button == GDK_BUTTON_SECONDARY) )
 	{
 		m_Menu_Popup.popup(event->button, event->time);
 	}
@@ -597,15 +595,15 @@ bool melangeDrawingArea::on_button_press_event(GdkEventButton* event)
 /**
  * \brief handle the button release event.
  *
- *  Unset the marker for the left button.
+ *  Unset the marker for panning the view.
  *
  * \param event
  * \return true if handled, else false.
  */
 bool melangeDrawingArea::on_button_release_event(GdkEventButton* event)
 {
-    if( (event->type == GDK_BUTTON_RELEASE) && (event->button == 1) ) {
-        m_button1 = false;
+    if( (event->type == GDK_BUTTON_RELEASE) && (event->button == GDK_BUTTON_PRIMARY) ) {
+        m_button_pan = false;
         return true; //It has been handled.
     }
     else
@@ -625,7 +623,7 @@ bool melangeDrawingArea::on_button_release_event(GdkEventButton* event)
  */
 bool melangeDrawingArea::on_motion_notify_event(GdkEventMotion* event)
 {
-    if( (event->type == GDK_MOTION_NOTIFY) && m_button1 ) {
+    if( (event->type == GDK_MOTION_NOTIFY) && m_button_pan ) {
         m_x = event->x;
         m_y = event->y;
         m_dx = m_x - m_x0;
@@ -709,7 +707,7 @@ public:
         m_refActionGroup->add(Gtk::Action::create("Quit", Gtk::Stock::QUIT, "_Quit", "Exit"),
                                                   sigc::mem_fun(*this, &TestWindow::on_quit));
 
-        m_refAction_Go_Back = Gtk::Action::create("Go_Back", Gtk::Stock::GO_BACK, "_Go_Back", "Page back");
+        m_refAction_Go_Back = Gtk::Action::create("Go_Back", Gtk::Stock::GO_BACK, "_Go_Back", "Previous page");
         m_refActionGroup->add(m_refAction_Go_Back, sigc::mem_fun(*this, &TestWindow::on_go_back));
 
         m_refAction_Go_Forward = Gtk::Action::create("Go_Forward", Gtk::Stock::GO_FORWARD, "_Go_Forward", "Next page");
@@ -733,6 +731,8 @@ public:
 		drawing_area.signal_idle.connect( sigc::mem_fun(*this, &TestWindow::show_idle) );
 		drawing_area.signal_rotate_cw_request.connect( sigc::mem_fun(*this, &TestWindow::on_rotate_cw) );
 		drawing_area.signal_rotate_ccw_request.connect( sigc::mem_fun(*this, &TestWindow::on_rotate_ccw) );
+		drawing_area.signal_page_previous.connect ( sigc::mem_fun(*this, &TestWindow::on_go_back) );
+		drawing_area.signal_page_next.connect ( sigc::mem_fun(*this, &TestWindow::on_go_forward) );
 		
         m_refUIManager = Gtk::UIManager::create();
         m_refUIManager->insert_action_group(m_refActionGroup);
