@@ -17,6 +17,8 @@ places/folder-remote-symbolic.symbolic.png
 devices/drive-optical-symbolic.symbolic.png
 devices/drive-harddisk-symbolic.symbolic.png
 devices/drive-harddisk-symbolic.symbolic.png drive-harddisk-ltr.png
+actions/go-next.png
+actions/go-previous.png
 actions/media-eject-symbolic.symbolic.png    media-eject-symbolic-ltr.png
 actions/pan-down-symbolic.symbolic.png       pan-down-symbolic-ltr.png
 actions/pan-up-symbolic.symbolic.png         pan-up-symbolic-ltr.png

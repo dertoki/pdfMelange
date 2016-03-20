@@ -75,6 +75,8 @@ public:
     void select_previous();
     void rotate_selected_cw ();
     void rotate_selected_ccw ();
+    bool is_selected_first_row();
+    bool is_selected_last_row();
 
     sigc::signal<void, int> signal_selected;        // send when selection changed and a number of items are selected.
     sigc::signal<void> signal_list_modified;        // send when the current file was modified

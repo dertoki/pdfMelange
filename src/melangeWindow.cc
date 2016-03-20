@@ -246,17 +246,42 @@ void melangeWindow::set_sensitive_on_selection(int number)
 {
     g_message("melangeWindow::set_sensitive_on_selection");
 
-	bool is_aktiv = number ? true : false; 
-
-	m_refCopy->set_sensitive(is_aktiv);
-	m_refCut->set_sensitive(is_aktiv);
-	m_refPage_previous->set_sensitive(is_aktiv);
-	m_refPage_next->set_sensitive(is_aktiv);
-	m_refRotate_cw->set_sensitive(is_aktiv);
-	m_refRotate_ccw->set_sensitive(is_aktiv);
-	m_refMove_page_up->set_sensitive(is_aktiv);
-	m_refMove_page_down->set_sensitive(is_aktiv);
-	m_refDelete->set_sensitive(is_aktiv);
+	if (number){
+		bool is_selected_first = m_pTreeView->is_selected_first_row();
+		bool is_selected_last = m_pTreeView->is_selected_last_row();
+		if (is_selected_first) {
+			m_refPage_previous->set_sensitive(false);
+			m_refMove_page_up->set_sensitive(false);
+		}
+		else {
+			m_refPage_previous->set_sensitive(true);
+			m_refMove_page_up->set_sensitive(true);
+		}
+		if (is_selected_last) {
+			m_refPage_next->set_sensitive(false);
+			m_refMove_page_down->set_sensitive(false);
+		}
+		else {
+			m_refPage_next->set_sensitive(true);
+			m_refMove_page_down->set_sensitive(true);
+		}
+		m_refCopy->set_sensitive(true);
+		m_refCut->set_sensitive(true);
+		m_refRotate_cw->set_sensitive(true);
+		m_refRotate_ccw->set_sensitive(true);
+		m_refDelete->set_sensitive(true);
+	}
+	else {
+		m_refCopy->set_sensitive(false);
+		m_refCut->set_sensitive(false);
+		m_refPage_previous->set_sensitive(false);
+		m_refPage_next->set_sensitive(false);
+		m_refRotate_cw->set_sensitive(false);
+		m_refRotate_ccw->set_sensitive(false);
+		m_refMove_page_up->set_sensitive(false);
+		m_refMove_page_down->set_sensitive(false);
+		m_refDelete->set_sensitive(false);
+	}
 
     if (number == 1) {
         set_pdf_preview();

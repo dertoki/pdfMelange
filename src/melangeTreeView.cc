@@ -308,6 +308,45 @@ void melangeTreeView::on_changed()
 }
 
 /**
+ * \brief Check if first row has been selected.
+ *
+ *    Check for selection of the first row.
+ *
+ * \return true if selected, else false 
+ */
+bool melangeTreeView::is_selected_first_row(){
+    
+    std::vector<Gtk::TreeModel::Path> selected_rows = m_refSelection->get_selected_rows();
+
+    if (m_refModel->get_iter(selected_rows.front()) == m_refModel->children().begin()) {
+        return true;
+    }
+    else {
+        return false;
+    }
+};
+
+/**
+ * \brief Check if last row has been selected.
+ *
+ *    Check for selection of the last row.
+ *
+ * \return true if selected, else false 
+ */
+bool melangeTreeView::is_selected_last_row(){
+
+    std::vector<Gtk::TreeModel::Path> selected_rows = m_refSelection->get_selected_rows();
+
+    if (m_refModel->get_iter(selected_rows.back()) == --m_refModel->children().end()) {
+        return true;
+    }
+    else {
+        return false;
+    }
+};
+
+
+/**
  * \brief Append a pdf to the end of the list.
  *
  *   Ask for a file.
