@@ -824,6 +824,7 @@ void melangeWindow::set_pdf_preview()
         infoText += cstr = g_strdup_printf(_("file \"%s\" page %i"), Glib::filename_display_basename(Glib::filename_from_uri(uri)).c_str(), page+1);
         g_free(cstr);
         m_pStatusbar->push(infoText);
+		show_idle (false);
     }
 
 }

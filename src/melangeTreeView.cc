@@ -509,9 +509,10 @@ void melangeTreeView::select_next()
     g_message("melangeTreeView::select_next");
 
     std::vector<Gtk::TreeModel::Path> pathlist = get_selection()->get_selected_rows();
-    Gtk::TreeModel::iterator iter = m_refModel->get_iter(pathlist[0]);
 
     if (pathlist.size() == 0 || pathlist.size() > 1) return;
+
+    Gtk::TreeModel::iterator iter = m_refModel->get_iter(pathlist[0]);
     
     if (++iter) {
         m_refSelection->unselect_all();
@@ -528,9 +529,10 @@ void melangeTreeView::select_previous()
     g_message("melangeTreeView::select_previous");
 
     std::vector<Gtk::TreeModel::Path> pathlist = get_selection()->get_selected_rows();
-    Gtk::TreeModel::iterator iter = m_refModel->get_iter(pathlist[0]);
 
     if (pathlist.size() == 0 || pathlist.size() > 1) return;
+
+    Gtk::TreeModel::iterator iter = m_refModel->get_iter(pathlist[0]);
     
     if (--iter) {
         m_refSelection->unselect_all();
