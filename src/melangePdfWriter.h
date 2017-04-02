@@ -32,16 +32,15 @@
  * \brief An item for a pages sequential list.
  *
  */
-struct pageItem
-{
-    std::string fileName;
-    std::string passWordDecrypt;
-    int pageNumber;
-    int pageRotate;
-    int targetNumber;
-    unsigned int offset;
-    void *doc;
-    void *page;
+struct pageItem {
+	std::string fileName;
+	std::string passWordDecrypt;
+	int pageNumber;
+	int pageRotate;
+	int targetNumber;
+	unsigned int offset;
+	void *doc;
+	void *page;
 };
 
 /**
@@ -50,24 +49,39 @@ struct pageItem
  * \brief A class to merge "pdf" files.
  *
  */
-class melangePdfWriter: public std::list<pageItem>
-{
-    public:
-        melangePdfWriter();
-        virtual ~melangePdfWriter();
+class melangePdfWriter: public std::list<pageItem> {
+public:
+	melangePdfWriter();
+	virtual ~melangePdfWriter();
 
-        enum PageMode	{ NoMode, UseNone, UseOutlines, UseThumbs, FullScreen, UseOC, UseAttachments};
-        enum PageLayout	{ NoLayout, SinglePage, OneColumn, TwoColumnLeft, TwoColumnRight, TwoPageLeft, TwoPageRight};
+	enum PageMode {
+		NoMode,
+		UseNone,
+		UseOutlines,
+		UseThumbs,
+		FullScreen,
+		UseOC,
+		UseAttachments
+	};
+	enum PageLayout {
+		NoLayout,
+		SinglePage,
+		OneColumn,
+		TwoColumnLeft,
+		TwoColumnRight,
+		TwoPageLeft,
+		TwoPageRight
+	};
 
-        virtual void writePdf(const char* outFileName) = 0;
-        virtual void setPageModeAndLayout(PageMode mode, PageLayout layout) = 0;
-        virtual void setPageModeAndLayout(const char* PageMode, const char* PageLayout) = 0;
+	virtual void writePdf(const char* outFileName) = 0;
+	virtual void setPageModeAndLayout(PageMode mode, PageLayout layout) = 0;
+	virtual void setPageModeAndLayout(const char* PageMode, const char* PageLayout) = 0;
 
-    protected:
-        Glib::ustring m_strPageModeAndLayout;
-        virtual void onErrorThrow(const char* message) = 0; ///< handles errors.
+protected:
+	Glib::ustring m_strPageModeAndLayout;
+	virtual void onErrorThrow(const char* message) = 0; ///< handles errors.
 
-    private:
+private:
 };
 
 #endif // MELANGEPDFWRITER_H

@@ -118,7 +118,8 @@ int main (int argc, char *argv[])
 
     // clean up
     delete pMelangeWindow;
-    g_free ( locale );
+    // does not work winth mingw! ToDo: Check wy!
+	//g_free ( locale );
 
     return 0;
 }

@@ -19,13 +19,18 @@
 
 #ifdef __WIN32
     #include <windows.h>
+    #include <tchar.h>
+    #include <stdio.h>
     // see http://sourceforge.net/p/mingw/bugs/666/
     #undef tmpfile
     FILE * tmpfile(void){
         char filename[MAX_PATH];
+        char tchTmpPath[MAX_PATH];
         FILE *f;
-     
-        GetTempFileName(".","temp",0,filename);
+
+        GetTempPath(MAX_PATH, tchTmpPath);
+        GetTempFileName( tchTmpPath, "pdfmelange", 1, filename);
+        printf("zefix %s, %s\n", tchTmpPath, filename);
         f = fopen(filename,"w+bTD");
         return f;
     }
@@ -33,13 +38,13 @@
     int copyfile(FILE* inFile, FILE* outFile){
         char buf[4096]; // 4K bock buffer
         ssize_t countIn, countOut; // unsigned long int
-        while (countIn = fread(buf, sizeof(char), sizeof(buf), inFile)) {   
+        while (countIn = fread(buf, sizeof(char), sizeof(buf), inFile)) {
             countOut = fwrite(buf, sizeof(char), countIn, outFile);
             if (countOut != countIn)
                 return 0;
         }
         return 1;
-    } 
+    }
 #else
     #include <sys/stat.h>
     #include <sys/sendfile.h>
@@ -51,6 +56,5 @@
             return 0;
         else
             return 1;
-    } 
+    }
 #endif
-

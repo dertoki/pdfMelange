@@ -33,12 +33,13 @@ my_applauncher='set-up.exe'
 my_prefix="$PWD/dist"
 my_main_icon='pdfMelange.png'
 icons_list_file='icons.lst'
-dll_list_file='gtk+-3.18.6-i686-dlls.lst'
+#dll_list_file='gtk+-3.18.6-i686-dlls.lst'
+dll_list_file='gtk+-3.22.2-x64-dlls.lst'
 #dll_list_file='gtk+-3.18.6-x64-dlls.lst'
 
 # System Root
-gtk3_prefix='/usr/i686-w64-mingw32/sys-root/mingw'  # Fedora f23 
-#gtk3_prefix='/usr/x86_64-w64-mingw32/sys-root/mingw'  # Fedora f23 
+#gtk3_prefix='/usr/i686-w64-mingw32/sys-root/mingw'  # Fedora f23 
+gtk3_prefix='/usr/x86_64-w64-mingw32/sys-root/mingw'  # Fedora f23 
 
 gtk3_icons_dir="/share/icons/Adwaita/32x32/"
 

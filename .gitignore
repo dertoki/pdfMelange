@@ -1,7 +1,17 @@
 .anjuta/*
 .anjuta_sym_db.db
+.autotools
+.cproject
+.project
 autom4te.cache/*
+myForm.pdf
+AcroForm-example.pdf
+test.pdf
+src/poppler-0.51.0-pdfunite.cc
+src/poppler-0.52.0-pdfunite.cc
+src/melangePopplerWriter2017.cc
 Optimized/*
+.settings
 Debug
 Debug/*
 mingw/dist

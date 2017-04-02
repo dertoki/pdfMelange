@@ -21,6 +21,7 @@
 #define MELANGEPOPPLERWRITER_H
 
 #include "melangePdfWriter.h"
+#include <PDFDoc.h>
 
 /**
  * \struct mdoc
@@ -28,11 +29,10 @@
  * \brief An item for a document tree list.
  *
  */
-struct docItem
-{
-    void *doc;
-    std::string fileName;
-    std::list<pageItem*> pages;
+struct docItem {
+    PDFDoc* doc;
+	std::string fileName;
+	std::list<pageItem*> pages;
 };
 
 /**
@@ -52,24 +52,26 @@ struct docItem
  *
  */
 
-class melangePopplerWriter : public melangePdfWriter
-{
-    public:
-        melangePopplerWriter();
-        virtual ~melangePopplerWriter();
+class melangePopplerWriter: public melangePdfWriter {
+public:
+	melangePopplerWriter();
+	virtual ~melangePopplerWriter();
 
-        void writePdf(const char* outFileName);
-        void setPageModeAndLayout(PageMode mode, PageLayout layout);
-        void setPageModeAndLayout(const char* PageMode, const char* PageLayout);
-        void printInfo(void);
+	void writePdf(const char* outFileName);
+	void setPageModeAndLayout(PageMode mode, PageLayout layout);
+	void setPageModeAndLayout(const char* PageMode, const char* PageLayout);
+	void printInfo(void);
 
-    protected:
-        std::list<docItem> docs;   // source documents tree
+protected:
+	std::list<docItem> docs;   // source documents tree
 
-		void onErrorThrow(const char* message);
-        void setTreeList(void);
+	void onErrorThrow(const char* message);
+	void setTreeList(void);
 
-    private:
+private:
+	void doMergeNameTree(PDFDoc *doc, XRef *srcXRef, XRef *countRef, int oldRefNum, int newRefNum, Dict *srcNameTree, Dict *mergeNameTree, int numOffset);
+	void doMergeNameDict(PDFDoc *doc, XRef *srcXRef, XRef *countRef, int oldRefNum, int newRefNum, Dict *srcNameDict, Dict *mergeNameDict, int numOffset);
+	void doMergeFormDict(Dict *srcFormDict, Dict *mergeFormDict, int numOffset);
 };
 
 #endif // MELANGEPOPPLERWRITER_H

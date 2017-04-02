@@ -1,11 +1,11 @@
 #PREFIX=/opt/gtk38
 #PREFIX=/opt/mingw
-PREFIX=/usr/i686-w64-mingw32/sys-root/mingw
-#PREFIX=/usr/x86_64-w64-mingw32/sys-root/mingw
-CC=i686-w64-mingw32-g++
-#CC=x86_64-w64-mingw32-g++
-RC=i686-w64-mingw32-windres
-#RC=x86_64-w64-mingw32-windres
+#PREFIX=/usr/i686-w64-mingw32/sys-root/mingw
+PREFIX=/usr/x86_64-w64-mingw32/sys-root/mingw
+#CC=i686-w64-mingw32-g++
+CC=x86_64-w64-mingw32-g++
+#RC=i686-w64-mingw32-windres
+RC=x86_64-w64-mingw32-windres
 
 
 INCLUDEDIR=$(PREFIX)/include

@@ -23,8 +23,6 @@
  */
 
 //#include "melangePyPdfWriter.h"
-#include "melangePopplerWriter.h"
-
 #include "melangeListStore.h"
 #include "melangeWindow.h"
 
@@ -32,6 +30,7 @@
 #include <gtk/gtk.h>
 #include <string.h>
 #include <iostream>
+#include "melangePopplerWriter.h"
 
 PopplerPermissions melangeListStore::sPermissions = POPPLER_PERMISSIONS_FULL;
 bool melangeListStore::sEncrypted = false;

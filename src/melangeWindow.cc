@@ -677,7 +677,7 @@ bool melangeWindow::file_open_dialog(std::string &filename, Glib::ustring &uri)
     }
 }
 
-
+ 
 /**
  * \brief Signal handler for action m_refOpen.
  */
@@ -698,7 +698,7 @@ void melangeWindow::on_action_open()
 		show_idle( false );
     }
 }
-
+ 
 /**
  * \brief Clear the drawingareaPDF.
  */
