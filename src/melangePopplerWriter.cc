@@ -26,6 +26,7 @@
 #include <glibmm/ustring.h>
 #include <goo/gmem.h>
 #include <goo/gtypes.h>
+//#include <goo/gfile.h>
 #include <goo/GooString.h>
 #include <goo/GooTimer.h>
 #include <Object.h>
@@ -38,7 +39,7 @@
 #include <list>
 #include <string>
 
-#include "../config.h"
+//#include "../config.h"
 #include "copyfile.h"
 
 melangePopplerWriter::melangePopplerWriter()
@@ -232,15 +233,21 @@ void melangePopplerWriter::writePdf(const char* outFileName) {
     // loop to set doc pointers in list.
     std::list<docItem>::iterator diter;
     for (diter = docs.begin(); diter != docs.end(); diter++) {
-        g_message("   opened for reading: %s", diter->fileName.c_str());
         // open pdf document.
+
+#ifdef __WIN32
+        inFileName = new GooString(Glib::locale_from_utf8(diter->fileName).c_str());
+#else
         inFileName = new GooString(diter->fileName.c_str());
+#endif
+
         PDFDoc *doc = new PDFDoc(inFileName, passWord);
         if (!doc) {
             GooString errorMessage;
             errorMessage.appendf("Error on opening file {0:t}", inFileName);
             onErrorThrow(errorMessage.getCString());
         }
+        g_message("   opened for reading: %s (UTF8) %s (local)", diter->fileName.c_str(), inFileName->getCString());
         diter->doc = doc;
         // set document pointers in each page.
         std::list<pageItem *>::iterator piter;
@@ -277,6 +284,7 @@ void melangePopplerWriter::writePdf(const char* outFileName) {
     XRef *countRef = new XRef();
     yRef->add(0, 65535, 0, gFalse);
     PDFDoc::writeHeader(outStr, majorVersion, minorVersion);
+    g_message("   wrote header ok");
 
     // handle OutputIntents, AcroForm, OCProperties & Names
 
@@ -284,7 +292,6 @@ void melangePopplerWriter::writePdf(const char* outFileName) {
     Object afObj;
     Object ocObj;
     Object names;
-    //int i, j;
     diter = docs.begin();
     if (docs.size() >= 1) {
         Object catObj;
@@ -378,6 +385,7 @@ void melangePopplerWriter::writePdf(const char* outFileName) {
         }
         catObj.free();
     }
+    g_message("   handled OutputIntents, AcroForm, OCProperties & Names");
 
     // get and write pages content.
     for (diter = docs.begin(); diter != docs.end(); diter++) {
@@ -466,6 +474,7 @@ void melangePopplerWriter::writePdf(const char* outFileName) {
         objectsCount += doc->writePageObjects(outStr, yRef, numOffset, gTrue);
         numOffset = yRef->getNumObjects() + 1;
     }
+    g_message("   wrote page content");
 
     int rootNum = yRef->getNumObjects() + 1;
     // write catalog object:
@@ -510,6 +519,7 @@ void melangePopplerWriter::writePdf(const char* outFileName) {
         outStr->printf(">>\nendobj\n");
         objectsCount++;
     }
+    g_message("   wrote catalog object");
 
     // write pages (tree) object.
     {
@@ -588,7 +598,6 @@ void melangePopplerWriter::writePdf(const char* outFileName) {
 
     timer.stop();
     g_message("%f seconds for writing %s", timer.getElapsed(), "Temp File");
-    timer.start();
 #ifndef __WIN32
     // @fixme: does not work with mingw:
     //         This chauses a crash with poppler 0.24.5 and mingw (gtk+ 3.10.4).
@@ -597,22 +606,27 @@ void melangePopplerWriter::writePdf(const char* outFileName) {
         delete (PDFDoc*) diter->doc;
     }
 #endif
-
     outStr->close();
 
-    timer.stop();
-    g_message("%f seconds for writing %s", timer.getElapsed(), "Temp File");
     timer.start();
     // copy temp file to output
     rewind(tempFile); // positions the stream tempFile at its beginning.
 
+#ifdef __WIN32
+    FILE* outFile = fopen(Glib::locale_from_utf8(outFileName).c_str(), "wb");
+#else
     FILE* outFile = fopen(outFileName, "wb");
+#endif
+
     if (!outFile) {
         GooString errorMessage;
         errorMessage.appendf("Error on opening file {0:s}", outFileName);
         onErrorThrow(errorMessage.getCString());
+    } else {
+        g_message("%f seconds on opening %s since rewind", timer.getElapsed(), outFileName);
     }
     copyfile(tempFile, outFile);
+    g_message("%f seconds on copy tempfile to %s since rewind", timer.getElapsed(), outFileName);
 
     fclose(tempFile);
     fclose(outFile);

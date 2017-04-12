@@ -17,15 +17,15 @@ CFLAGS := $(shell $(PKG_CONFIG) --cflags gtkmm-3.0 poppler poppler-glib) \
  		-I../mingw \
  		-Isrc -include cmath \
 		-std=c++0x -Os -s -Wall
-#LDFLAGS = -Os -s -mms-bitfields -mwindows
-LDFLAGS = -Os -s -mms-bitfields -mconsole
+LDFLAGS = -Os -s -mms-bitfields -mwindows
+#LDFLAGS = -Os -s -mms-bitfields -mconsole
 #LDFLAGS = -Os -s -mms-bitfields -mwindows -static-libgcc -static-libstdc++ -lws2_32
 
 #
 # pdfMelange:
 #
 M_PACKAGE_NAME="pdfMelange"
-M_VERSION="0.4.3"
+M_VERSION="0.4.4"
 M_PACKAGE_STRING=$(M_PACKAGE_NAME)" "$(M_VERSION)
 
 M_LIBS := $(shell $(PKG_CONFIG) --libs gtkmm-3.0 poppler poppler-glib)

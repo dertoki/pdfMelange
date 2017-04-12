@@ -1,14 +1,14 @@
-mimetypes/text-x-generic.png                 gtk-file.png
+mimetypes/text-x-generic.png                    gtk-file.png
 places/folder.png
-places/folder.png                            gtk-directory.png
-places/user-home-symbolic.symbolic.png       user-home-symbolic-ltr.png
+places/folder.png                               gtk-directory.png
+places/user-home-symbolic.symbolic.png          user-home-symbolic-ltr.png
 places/user-desktop.png
-places/user-desktop-symbolic.symbolic.png    user-desktop-symbolic-ltr.png
-places/folder-symbolic.symbolic.png          folder-symbolic-ltrltr.png
-places/folder-download-symbolic.symbolic.png folder-download-symbolic-ltr.png
-places/folder-pictures-symbolic.symbolic.png folder-pictures-symbolic-ltr.png
-places/folder-music-symbolic.symbolic.png    folder-music-symbolic-ltr.png
-places/folder-videos-symbolic.symbolic.png   folder-videos-symbolic-ltr.png
+places/user-desktop-symbolic.symbolic.png       user-desktop-symbolic-ltr.png
+places/folder-symbolic.symbolic.png             folder-symbolic-ltrltr.png
+places/folder-download-symbolic.symbolic.png    folder-download-symbolic-ltr.png
+places/folder-pictures-symbolic.symbolic.png    folder-pictures-symbolic-ltr.png
+places/folder-music-symbolic.symbolic.png       folder-music-symbolic-ltr.png
+places/folder-videos-symbolic.symbolic.png      folder-videos-symbolic-ltr.png
 actions/list-add.png
 places/folder-documents-symbolic.symbolic.png
 places/folder-videos-symbolic.symbolic.png
@@ -16,15 +16,21 @@ places/user-trash-symbolic.symbolic.png
 places/folder-remote-symbolic.symbolic.png
 devices/drive-optical-symbolic.symbolic.png
 devices/drive-harddisk-symbolic.symbolic.png
-devices/drive-harddisk-symbolic.symbolic.png drive-harddisk-ltr.png
+devices/drive-harddisk-symbolic.symbolic.png    drive-harddisk-ltr.png
 actions/go-next.png
 actions/go-previous.png
-actions/media-eject-symbolic.symbolic.png    media-eject-symbolic-ltr.png
-actions/pan-down-symbolic.symbolic.png       pan-down-symbolic-ltr.png
-actions/pan-up-symbolic.symbolic.png         pan-up-symbolic-ltr.png
-actions/pan-start-symbolic.symbolic.png      pan-start-symbolic-ltr.png
-actions/folder-new-symbolic.symbolic.png     folder-new-symbolic-ltr.png
-actions/bookmark-new-symbolic.symbolic.png   bookmark-new-symbolic-ltr.png
+actions/media-eject-symbolic.symbolic.png       media-eject-symbolic-ltr.png
+actions/pan-down-symbolic.symbolic.png          pan-down-symbolic-ltr.png
+actions/pan-down-symbolic.symbolic.png          pan-down-symbolic.png
+actions/pan-up-symbolic.symbolic.png            pan-up-symbolic-ltr.png
+actions/pan-start-symbolic.symbolic.png         pan-start-symbolic-ltr.png
+actions/pan-end-symbolic.symbolic.png           pan-end-symbolic-ltr.png
+actions/window-close-symbolic.symbolic.png      window-close-symbolic-ltr.png
+actions/window-maximize-symbolic.symbolic.png   window-maximize-symbolic-ltr.png
+actions/window-minimize-symbolic.symbolic.png   window-minimize-symbolic-ltr.png
+actions/window-restore-symbolic.symbolic.png    window-restore-symbolic-ltr.png
+actions/folder-new-symbolic.symbolic.png        folder-new-symbolic-ltr.png
+actions/bookmark-new-symbolic.symbolic.png      bookmark-new-symbolic-ltr.png
 actions/list-remove.png
 actions/object-rotate-left.png
 actions/object-rotate-right.png
@@ -37,5 +43,8 @@ actions/go-up.png
 actions/document-open.png
 actions/document-save.png
 status/image-missing.png
-status/image-missing.png                     missing-image-ltr.png
-
+status/image-missing.png                        missing-image-ltr.png
+status/checkbox-checked-symbolic.symbolic.png   check-symbolic-ltr.png
+status/checkbox-checked-symbolic.symbolic.png   checkbox-checked-symbolic-ltr.png
+mimetypes/text-x-generic.png
+mimetypes/text-x-generic-symbolic.symbolic.png  text-x-generic-symbolic-ltr.png

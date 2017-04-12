@@ -33,8 +33,8 @@
  *
  */
 struct pageItem {
-	std::string fileName;
-	std::string passWordDecrypt;
+    Glib::ustring fileName;
+    Glib::ustring passWordDecrypt;
 	int pageNumber;
 	int pageRotate;
 	int targetNumber;

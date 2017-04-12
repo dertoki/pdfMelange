@@ -31,7 +31,7 @@
  */
 struct docItem {
     PDFDoc* doc;
-	std::string fileName;
+    Glib::ustring fileName;
 	std::list<pageItem*> pages;
 };
 

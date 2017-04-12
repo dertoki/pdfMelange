@@ -30,7 +30,6 @@
 
         GetTempPath(MAX_PATH, tchTmpPath);
         GetTempFileName( tchTmpPath, "pdfmelange", 1, filename);
-        printf("zefix %s, %s\n", tchTmpPath, filename);
         f = fopen(filename,"w+bTD");
         return f;
     }
