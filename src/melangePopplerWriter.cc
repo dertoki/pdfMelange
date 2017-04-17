@@ -26,7 +26,6 @@
 #include <glibmm/ustring.h>
 #include <goo/gmem.h>
 #include <goo/gtypes.h>
-//#include <goo/gfile.h>
 #include <goo/GooString.h>
 #include <goo/GooTimer.h>
 #include <Object.h>
@@ -39,7 +38,6 @@
 #include <list>
 #include <string>
 
-//#include "../config.h"
 #include "copyfile.h"
 
 melangePopplerWriter::melangePopplerWriter()
@@ -50,6 +48,72 @@ melangePopplerWriter::melangePopplerWriter()
 melangePopplerWriter::~melangePopplerWriter()
 {
     //dtor
+
+    //printInfo();
+
+    std::list<docItem>::iterator diter;
+    for (diter = docs.begin(); diter != docs.end(); diter++) {
+        PDFDoc *doc = diter->doc;
+        std::list<pageItem*>::iterator piter;
+        for (piter = diter->pages.begin(); piter != diter->pages.end(); piter++) {
+            pageItem *page_item = *piter; // dereference the iterator
+            ((Object*) page_item->page)->free();
+            delete (Object*) page_item->page;
+        }
+        delete (PDFDoc*) diter->doc;
+    }
+}
+/** \brief Create the document tree.
+ *
+ *  A structured document tree from the given arbitrary ordered list of page items is created.
+ *  Items of the tree-list are documents and each owns a separate list of pages.
+ *
+ *  Allocation of page and doc objects does NOT occur here.
+ *
+ */
+void melangePopplerWriter::setTreeList(void) {
+    docs.clear();
+
+    int target_pageNumber = 0;
+    melangePopplerWriter::iterator iter;
+    for (iter = this->begin(); iter != this->end(); iter++) {
+        target_pageNumber++;
+        iter->targetNumber = target_pageNumber;
+        // search for item of *this in docs
+        std::list<docItem>::iterator diter;
+        for (diter = docs.begin(); diter != docs.end(); diter++) {
+            if (diter->fileName == iter->fileName)
+                break;
+        }
+        if (diter == docs.end()) { // search with no success
+            docItem doc;
+            doc.doc = (PDFDoc*) iter->doc;
+            doc.fileName = iter->fileName;
+
+            doc.pages.push_back(&*iter);
+
+            docs.push_back(doc);
+        } else { // search with success
+            diter->pages.push_back(&*iter);
+        }
+    }
+}
+
+/** \brief print the document pages tree to std::out.
+ *
+ */
+void melangePopplerWriter::printInfo(void) {
+    setTreeList();
+    for (std::list<docItem>::iterator diter = docs.begin(); diter != docs.end(); diter++) {
+
+        std::cout << "file name: " << diter->fileName << std::endl;
+        std::cout << "  page numbers (source/target)";
+
+        for (std::list<pageItem*>::iterator piter = diter->pages.begin(); piter != diter->pages.end(); piter++) {
+            std::cout << " (" << (*piter)->pageNumber << "/" << (*piter)->targetNumber << ")";
+        }
+        std::cout << std::endl;
+    }
 }
 
 void melangePopplerWriter::doMergeNameTree(PDFDoc *doc, XRef *srcXRef, XRef *countRef, int oldRefNum, int newRefNum, Dict *srcNameTree, Dict *mergeNameTree, int numOffset) {
@@ -227,13 +291,13 @@ void melangePopplerWriter::writePdf(const char* outFileName) {
     int majorVersion = 0;
     int minorVersion = 0;
 
+    // create the "docs" list, that stores all pages to each doc.
     setTreeList();
     //printInfo();
 
     // loop to set doc pointers in list.
     std::list<docItem>::iterator diter;
     for (diter = docs.begin(); diter != docs.end(); diter++) {
-        // open pdf document.
 
 #ifdef __WIN32
         inFileName = new GooString(Glib::locale_from_utf8(diter->fileName).c_str());
@@ -241,6 +305,7 @@ void melangePopplerWriter::writePdf(const char* outFileName) {
         inFileName = new GooString(diter->fileName.c_str());
 #endif
 
+        // open pdf document.
         PDFDoc *doc = new PDFDoc(inFileName, passWord);
         if (!doc) {
             GooString errorMessage;
@@ -249,10 +314,13 @@ void melangePopplerWriter::writePdf(const char* outFileName) {
         }
         g_message("   opened for reading: %s (UTF8) %s (local)", diter->fileName.c_str(), inFileName->getCString());
         diter->doc = doc;
+
         // set document pointers in each page.
+        diter->doc = doc;
         std::list<pageItem *>::iterator piter;
         for (piter = diter->pages.begin(); piter != diter->pages.end(); piter++)
             (*piter)->doc = diter->doc;
+
         // get final pdf version.
         if (doc->isOk()) {
             if (doc->getPDFMajorVersion() > majorVersion) {
@@ -387,35 +455,6 @@ void melangePopplerWriter::writePdf(const char* outFileName) {
     }
     g_message("   handled OutputIntents, AcroForm, OCProperties & Names");
 
-    // get and write pages content.
-    for (diter = docs.begin(); diter != docs.end(); diter++) {
-        PDFDoc *doc = diter->doc;
-        std::list<pageItem*>::iterator piter;
-        for (piter = diter->pages.begin(); piter != diter->pages.end(); piter++) {
-            pageItem *page_item = *piter; // dereference the iterator
-            int i = page_item->pageNumber;
-            PDFRectangle *cropBox = NULL;
-
-            if (doc->getCatalog()->getPage(i)->isCropped())
-                cropBox = doc->getCatalog()->getPage(i)->getCropBox();
-            // rewrite pageDict with MediaBox, CropBox and new page CTM
-            doc->replacePageDict(i, doc->getCatalog()->getPage(i)->getRotate(), doc->getCatalog()->getPage(i)->getMediaBox(), cropBox);
-            Ref *refPage = doc->getCatalog()->getPageRef(i);
-            // Fetch the indirect reference of Object page.
-            Object *page = new Object();
-            doc->getXRef()->fetch(refPage->num, refPage->gen, page);
-            page_item->page = page;
-            page_item->offset = numOffset;
-            Dict *pageDict = page->getDict();
-            doc->markPageObjects(pageDict, yRef, countRef, numOffset, refPage->num, refPage->num);
-        }
-        // write all objects used by pageDict to outStr
-        objectsCount += doc->writePageObjects(outStr, yRef, numOffset, gTrue);
-        numOffset = yRef->getNumObjects() + 1;
-    }
-
-    std::vector<Object> pages;
-    std::vector<Guint> offsets;
     for (diter = docs.begin(); diter != docs.end(); diter++) {
         PDFDoc *doc = diter->doc;
         std::list<pageItem*>::iterator piter;
@@ -426,12 +465,14 @@ void melangePopplerWriter::writePdf(const char* outFileName) {
             PDFRectangle *cropBox = NULL;
             if (doc->getCatalog()->getPage(j)->isCropped())
                 cropBox = doc->getCatalog()->getPage(j)->getCropBox();
-            doc->replacePageDict(j, doc->getCatalog()->getPage(j)->getRotate(),
-                    doc->getCatalog()->getPage(j)->getMediaBox(), cropBox);
+            // rewrite pageDict with MediaBox, CropBox and new page CTM
+            doc->replacePageDict(j, doc->getCatalog()->getPage(j)->getRotate(), doc->getCatalog()->getPage(j)->getMediaBox(), cropBox);
             Ref *refPage = doc->getCatalog()->getPageRef(j);
-            Object page;
-            doc->getXRef()->fetch(refPage->num, refPage->gen, &page);
-            Dict *pageDict = page.getDict();
+            Object *page = new Object();
+
+            // Fetch the indirect reference of Object page.
+            doc->getXRef()->fetch(refPage->num, refPage->gen, page);
+            Dict *pageDict = page->getDict();
             Dict *resDict = doc->getCatalog()->getPage(j)->getResourceDict();
             if (resDict) {
                 Object *newResource = new Object();
@@ -439,8 +480,8 @@ void melangePopplerWriter::writePdf(const char* outFileName) {
                 pageDict->set("Resources", newResource);
                 delete newResource;
             }
-            pages.push_back(page);
-            offsets.push_back(numOffset);
+            page_item->page = page; // set page pointers in "docs" list.
+            page_item->offset = numOffset;
             doc->markPageObjects(pageDict, yRef, countRef, numOffset, refPage->num, refPage->num);
             Object annotsObj;
             pageDict->lookupNF("Annots", &annotsObj);
@@ -471,67 +512,66 @@ void melangePopplerWriter::writePdf(const char* outFileName) {
         pageForm.free();
         pageNames.free();
         pageCatObj.free();
+        // write all objects used by pageDict to outStr
         objectsCount += doc->writePageObjects(outStr, yRef, numOffset, gTrue);
         numOffset = yRef->getNumObjects() + 1;
     }
     g_message("   wrote page content");
 
     int rootNum = yRef->getNumObjects() + 1;
+
     // write catalog object:
-    {
-        yRef->add(rootNum, 0, outStr->getPos(), gTrue);
-        outStr->printf("%d 0 obj\n", rootNum);
-        outStr->printf("<< /Type /Catalog /Pages %d 0 R", rootNum + 1);
-        if (!m_strPageModeAndLayout.empty())
-            outStr->printf("%s", m_strPageModeAndLayout.c_str());
-        // insert OutputIntents
-        if (intents.isArray() && intents.arrayGetLength() > 0) {
-          outStr->printf(" /OutputIntents [");
-          for (int j = 0; j < intents.arrayGetLength(); j++) {
-            Object intent;
-            intents.arrayGet(j, &intent, 0);
-            if (intent.isDict()) {
-              PDFDoc::writeObject(&intent, outStr, yRef, 0, NULL, cryptRC4, 0, 0, 0);
-            }
-            intent.free();
-          }
-          outStr->printf("]");
+    yRef->add(rootNum, 0, outStr->getPos(), gTrue);
+    outStr->printf("%d 0 obj\n", rootNum);
+    outStr->printf("<< /Type /Catalog /Pages %d 0 R", rootNum + 1);
+    if (!m_strPageModeAndLayout.empty())
+        outStr->printf("%s", m_strPageModeAndLayout.c_str());
+    // insert OutputIntents
+    if (intents.isArray() && intents.arrayGetLength() > 0) {
+      outStr->printf(" /OutputIntents [");
+      for (int j = 0; j < intents.arrayGetLength(); j++) {
+        Object intent;
+        intents.arrayGet(j, &intent, 0);
+        if (intent.isDict()) {
+          PDFDoc::writeObject(&intent, outStr, yRef, 0, NULL, cryptRC4, 0, 0, 0);
         }
-        intents.free();
-        // insert AcroForm
-        if (!afObj.isNull()) {
-          outStr->printf(" /AcroForm ");
-          PDFDoc::writeObject(&afObj, outStr, yRef, 0, NULL, cryptRC4, 0, 0, 0);
-          afObj.free();
-        }
-        // insert OCProperties
-        if (!ocObj.isNull() && ocObj.isDict()) {
-          outStr->printf(" /OCProperties ");
-          PDFDoc::writeObject(&ocObj, outStr, yRef, 0, NULL, cryptRC4, 0, 0, 0);
-          ocObj.free();
-        }
-        // insert Names
-        if (!names.isNull() && names.isDict()) {
-          outStr->printf(" /Names ");
-          PDFDoc::writeObject(&names, outStr, yRef, 0, NULL, cryptRC4, 0, 0, 0);
-          names.free();
-        }
-        outStr->printf(">>\nendobj\n");
-        objectsCount++;
+        intent.free();
+      }
+      outStr->printf("]");
     }
+    intents.free();
+    // insert AcroForm
+    if (!afObj.isNull()) {
+      outStr->printf(" /AcroForm ");
+      PDFDoc::writeObject(&afObj, outStr, yRef, 0, NULL, cryptRC4, 0, 0, 0);
+      afObj.free();
+    }
+    // insert OCProperties
+    if (!ocObj.isNull() && ocObj.isDict()) {
+      outStr->printf(" /OCProperties ");
+      PDFDoc::writeObject(&ocObj, outStr, yRef, 0, NULL, cryptRC4, 0, 0, 0);
+      ocObj.free();
+    }
+    // insert Names
+    if (!names.isNull() && names.isDict()) {
+      outStr->printf(" /Names ");
+      PDFDoc::writeObject(&names, outStr, yRef, 0, NULL, cryptRC4, 0, 0, 0);
+      names.free();
+    }
+    outStr->printf(">>\nendobj\n");
+    objectsCount++;
+
     g_message("   wrote catalog object");
 
     // write pages (tree) object.
-    {
-        yRef->add(rootNum + 1, 0, outStr->getPos(), gTrue);
-        outStr->printf("%d 0 obj\n", rootNum + 1);
-        outStr->printf("<< /Type /Pages /Kids [");
-        for (melangePopplerWriter::iterator iter = begin(); iter != end(); iter++) {
-            outStr->printf(" %d 0 R", rootNum + iter->targetNumber + 1); // (targetnumber starts with 1)
-        }
-        outStr->printf(" ] /Count %zd >>\nendobj\n", this->size());
-        objectsCount++;
+    yRef->add(rootNum + 1, 0, outStr->getPos(), gTrue);
+    outStr->printf("%d 0 obj\n", rootNum + 1);
+    outStr->printf("<< /Type /Pages /Kids [");
+    for (melangePopplerWriter::iterator iter = begin(); iter != end(); iter++) {
+        outStr->printf(" %d 0 R", rootNum + iter->targetNumber + 1); // (targetnumber starts with 1)
     }
+    outStr->printf(" ] /Count %zd >>\nendobj\n", this->size());
+    objectsCount++;
 
     // write page objects.
     for (melangePopplerWriter::iterator iter = begin(); iter != end(); iter++) {
@@ -591,24 +631,12 @@ void melangePopplerWriter::writePdf(const char* outFileName) {
     // cleanup
     delete yRef;
     delete countRef;
-    for (melangePopplerWriter::iterator iter = begin(); iter != end(); iter++) {
-        ((Object*) iter->page)->free();
-        delete (Object*) iter->page;
-    }
-
     timer.stop();
     g_message("%f seconds for writing %s", timer.getElapsed(), "Temp File");
-#ifndef __WIN32
-    // @fixme: does not work with mingw:
-    //         This chauses a crash with poppler 0.24.5 and mingw (gtk+ 3.10.4).
-    // @todo: check with current poppler version.
-    for (diter = docs.begin(); diter != docs.end(); diter++) {
-        delete (PDFDoc*) diter->doc;
-    }
-#endif
     outStr->close();
 
     timer.start();
+
     // copy temp file to output
     rewind(tempFile); // positions the stream tempFile at its beginning.
 
@@ -633,57 +661,6 @@ void melangePopplerWriter::writePdf(const char* outFileName) {
 
     timer.stop();
     g_message("%f seconds for writing %s", timer.getElapsed(), outFileName);
-}
-
-/** \brief Create the document tree.
- *
- *  A structured document tree from the given arbitrary ordered list of page items is created.
- *  Items of the tree-list are documents and each owns a separate list of pages.
- *
- */
-void melangePopplerWriter::setTreeList(void) {
-    docs.clear();
-
-    int target_pageNumber = 0;
-    melangePopplerWriter::iterator iter;
-    for (iter = this->begin(); iter != this->end(); iter++) {
-        target_pageNumber++;
-        iter->targetNumber = target_pageNumber;
-        // search for item of *this in mdocs
-        std::list<docItem>::iterator diter;
-        for (diter = docs.begin(); diter != docs.end(); diter++) {
-            if (diter->fileName == iter->fileName)
-                break;
-        }
-        if (diter == docs.end()) { // search with no success
-            docItem doc;
-            doc.doc = (PDFDoc*) iter->doc;
-            doc.fileName = iter->fileName;
-
-            doc.pages.push_back(&*iter);
-
-            docs.push_back(doc);
-        } else { // search with success
-            diter->pages.push_back(&*iter);
-        }
-    }
-}
-
-/** \brief print the document pages tree to std::out.
- *
- */
-void melangePopplerWriter::printInfo(void) {
-    setTreeList();
-    for (std::list<docItem>::iterator diter = docs.begin(); diter != docs.end(); diter++) {
-
-        std::cout << "file name: " << diter->fileName << std::endl;
-        std::cout << "  page numbers (source/target)";
-
-        for (std::list<pageItem*>::iterator piter = diter->pages.begin(); piter != diter->pages.end(); piter++) {
-            std::cout << " (" << (*piter)->pageNumber << "/" << (*piter)->targetNumber << ")";
-        }
-        std::cout << std::endl;
-    }
 }
 
 /**
