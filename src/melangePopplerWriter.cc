@@ -360,10 +360,13 @@ void melangePopplerWriter::writePdf(const char* outFileName) {
     Object afObj;
     Object ocObj;
     Object names;
+
     diter = docs.begin();
     if (docs.size() >= 1) {
         Object catObj;
         PDFDoc *pdfdoc = diter->doc;
+        printf("handle OutputIntents internal loop %s\n", diter->fileName.c_str());
+
         pdfdoc->getXRef()->getCatalog(&catObj);
         Dict *catDict = catObj.getDict();
         catDict->lookup("OutputIntents", &intents);
@@ -371,89 +374,92 @@ void melangePopplerWriter::writePdf(const char* outFileName) {
         Ref *refPage = pdfdoc->getCatalog()->getPageRef(1);
         if (!afObj.isNull()) {
             pdfdoc->markAcroForm(&afObj, yRef, countRef, 0, refPage->num, refPage->num);
-        }
-        catDict->lookupNF("OCProperties", &ocObj);
-        if (!ocObj.isNull() && ocObj.isDict()) {
-            pdfdoc->markPageObjects(ocObj.getDict(), yRef, countRef, 0, refPage->num, refPage->num);
-        }
-        catDict->lookup("Names", &names);
-        if (!names.isNull() && names.isDict()) {
-            pdfdoc->markPageObjects(names.getDict(), yRef, countRef, 0, refPage->num, refPage->num);
-        }
-        if (intents.isArray() && intents.arrayGetLength() > 0) {
-            for (++diter; diter != docs.end(); ++diter) {
-                pdfdoc = diter->doc;
-                Object pagecatObj, pageintents;
-                pdfdoc->getXRef()->getCatalog(&pagecatObj);
-                Dict *pagecatDict = pagecatObj.getDict();
-                pagecatDict->lookup("OutputIntents", &pageintents);
-                if (pageintents.isArray() && pageintents.arrayGetLength() > 0) {
-                    for (int j = intents.arrayGetLength() - 1; j >= 0; j--) {
-                        Object intent;
-                        intents.arrayGet(j, &intent, 0);
-                        if (intent.isDict()) {
-                            Object idf;
-                            intent.dictLookup("OutputConditionIdentifier", &idf);
-                            if (idf.isString()) {
-                                GooString *gidf = idf.getString();
-                                GBool removeIntent = gTrue;
-                                for (int k = 0; k < pageintents.arrayGetLength(); k++) {
-                                    Object pgintent;
-                                    pageintents.arrayGet(k, &pgintent, 0);
-                                    if (pgintent.isDict()) {
-                                        Object pgidf;
-                                        pgintent.dictLookup("OutputConditionIdentifier", &pgidf);
-                                        if (pgidf.isString()) {
-                                            GooString *gpgidf = pgidf.getString();
-                                            if (gpgidf->cmp(gidf) == 0) {
-                                                pgidf.free();
-                                                removeIntent = gFalse;
-                                                break;
+
+            catDict->lookupNF("OCProperties", &ocObj);
+            if (!ocObj.isNull() && ocObj.isDict()) {
+                pdfdoc->markPageObjects(ocObj.getDict(), yRef, countRef, 0, refPage->num, refPage->num);
+            }
+            catDict->lookup("Names", &names);
+            if (!names.isNull() && names.isDict()) {
+                pdfdoc->markPageObjects(names.getDict(), yRef, countRef, 0, refPage->num, refPage->num);
+            }
+            if (intents.isArray() && intents.arrayGetLength() > 0) {
+                for (diter++; diter != docs.end(); ++diter) {
+                    pdfdoc = diter->doc;
+                    printf("--> handle OutputIntents internal loop %s\n", diter->fileName.c_str());
+                    Object pagecatObj, pageintents;
+                    pdfdoc->getXRef()->getCatalog(&pagecatObj);
+                    Dict *pagecatDict = pagecatObj.getDict();
+                    pagecatDict->lookup("OutputIntents", &pageintents);
+                    if (pageintents.isArray() && pageintents.arrayGetLength() > 0) {
+                        for (int j = intents.arrayGetLength() - 1; j >= 0; j--) {
+                            Object intent;
+                            intents.arrayGet(j, &intent, 0);
+                            if (intent.isDict()) {
+                                Object idf;
+                                intent.dictLookup("OutputConditionIdentifier", &idf);
+                                if (idf.isString()) {
+                                    GooString *gidf = idf.getString();
+                                    GBool removeIntent = gTrue;
+                                    for (int k = 0; k < pageintents.arrayGetLength(); k++) {
+                                        Object pgintent;
+                                        pageintents.arrayGet(k, &pgintent, 0);
+                                        if (pgintent.isDict()) {
+                                            Object pgidf;
+                                            pgintent.dictLookup("OutputConditionIdentifier", &pgidf);
+                                            if (pgidf.isString()) {
+                                                GooString *gpgidf = pgidf.getString();
+                                                if (gpgidf->cmp(gidf) == 0) {
+                                                    pgidf.free();
+                                                    removeIntent = gFalse;
+                                                    break;
+                                                }
                                             }
+                                            pgidf.free();
                                         }
-                                        pgidf.free();
                                     }
-                                }
-                                if (removeIntent) {
+                                    if (removeIntent) {
+                                        intents.arrayRemove(j);
+                                        error(errSyntaxWarning, -1, "Output intent {0:s} missing in pdf {1:s}, removed",
+                                                gidf->getCString(), pdfdoc->getFileName()->getCString());
+                                    }
+                                } else {
                                     intents.arrayRemove(j);
-                                    error(errSyntaxWarning, -1, "Output intent {0:s} missing in pdf {1:s}, removed",
-                                            gidf->getCString(), pdfdoc->getFileName()->getCString());
+                                    error(errSyntaxWarning, -1,
+                                            "Invalid output intent dict, missing required OutputConditionIdentifier");
                                 }
+                                idf.free();
                             } else {
                                 intents.arrayRemove(j);
-                                error(errSyntaxWarning, -1,
-                                        "Invalid output intent dict, missing required OutputConditionIdentifier");
                             }
-                            idf.free();
-                        } else {
-                            intents.arrayRemove(j);
+                            intent.free();
                         }
-                        intent.free();
+                    } else {
+                        error(errSyntaxWarning, -1, "Output intents differs, remove them all");
+                        intents.free();
+                        break;
                     }
-                } else {
-                    error(errSyntaxWarning, -1, "Output intents differs, remove them all");
-                    intents.free();
-                    break;
+                    pagecatObj.free();
+                    pageintents.free();
                 }
-                pagecatObj.free();
-                pageintents.free();
             }
-        }
-        if (intents.isArray() && intents.arrayGetLength() > 0) {
-            for (int j = intents.arrayGetLength() - 1; j >= 0; j--) {
-                Object intent;
-                intents.arrayGet(j, &intent, 0);
-                if (intent.isDict()) {
-                    pdfdoc->markPageObjects(intent.getDict(), yRef, countRef, numOffset, 0, 0);
-                } else {
-                    intents.arrayRemove(j);
+            if (intents.isArray() && intents.arrayGetLength() > 0) {
+                for (int j = intents.arrayGetLength() - 1; j >= 0; j--) {
+                    Object intent;
+                    intents.arrayGet(j, &intent, 0);
+                    if (intent.isDict()) {
+                        pdfdoc->markPageObjects(intent.getDict(), yRef, countRef, numOffset, 0, 0);
+                    } else {
+                        intents.arrayRemove(j);
+                    }
+                    intent.free();
                 }
-                intent.free();
             }
+            catObj.free();
         }
-        catObj.free();
-    }
+}
     g_message("   handled OutputIntents, AcroForm, OCProperties & Names");
+
 
     for (diter = docs.begin(); diter != docs.end(); diter++) {
         PDFDoc *doc = diter->doc;
