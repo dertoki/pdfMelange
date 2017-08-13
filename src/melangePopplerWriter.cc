@@ -365,7 +365,6 @@ void melangePopplerWriter::writePdf(const char* outFileName) {
     if (docs.size() >= 1) {
         Object catObj;
         PDFDoc *pdfdoc = diter->doc;
-        printf("handle OutputIntents internal loop %s\n", diter->fileName.c_str());
 
         pdfdoc->getXRef()->getCatalog(&catObj);
         Dict *catDict = catObj.getDict();
@@ -386,7 +385,7 @@ void melangePopplerWriter::writePdf(const char* outFileName) {
             if (intents.isArray() && intents.arrayGetLength() > 0) {
                 for (diter++; diter != docs.end(); ++diter) {
                     pdfdoc = diter->doc;
-                    printf("--> handle OutputIntents internal loop %s\n", diter->fileName.c_str());
+
                     Object pagecatObj, pageintents;
                     pdfdoc->getXRef()->getCatalog(&pagecatObj);
                     Dict *pagecatDict = pagecatObj.getDict();
@@ -457,10 +456,10 @@ void melangePopplerWriter::writePdf(const char* outFileName) {
             }
             catObj.free();
         }
-}
+    }
     g_message("   handled OutputIntents, AcroForm, OCProperties & Names");
 
-
+    // write pages content.
     for (diter = docs.begin(); diter != docs.end(); diter++) {
         PDFDoc *doc = diter->doc;
         std::list<pageItem*>::iterator piter;

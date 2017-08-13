@@ -5,11 +5,11 @@
 # http://www.opensource.org/licenses/lgpl-3.0.html
 #
 # DESCRIPTION:
-# 
+#
 #  Get a working (mingw) runtime environment for "pdfMelange".
 #  Dependencies are gtk3, wine and p7zip-full.
 #
-# Usage: 
+# Usage:
 #       $ ./get_win32_deps.sh {all|depload|depinst|clean|collect|buildsetup|run}"
 #
 #                all           : build and execute the windows program.
@@ -33,13 +33,10 @@ my_applauncher='set-up.exe'
 my_prefix="$PWD/dist"
 my_main_icon='pdfMelange.png'
 icons_list_file='icons.lst'
-#dll_list_file='gtk+-3.18.6-i686-dlls.lst'
-dll_list_file='gtk+-3.22.2-x64-dlls.lst'
-#dll_list_file='gtk+-3.18.6-x64-dlls.lst'
+dll_list_file='gtk+-3.22.17-x64-dlls.lst'
 
 # System Root
-#gtk3_prefix='/usr/i686-w64-mingw32/sys-root/mingw'  # Fedora f23 
-gtk3_prefix='/usr/x86_64-w64-mingw32/sys-root/mingw'  # Fedora f23 
+gtk3_prefix='/usr/x86_64-w64-mingw32/sys-root/mingw'  # Fedora f26
 
 gtk3_icons_dir="/share/icons/Adwaita/32x32/"
 
@@ -50,11 +47,11 @@ gtk3_icons_dir="/share/icons/Adwaita/32x32/"
 # Copy files, listed in file $1, from dir $2 to dir $2.
 #
 # List file $1 may have one or two arguments per line.
-#    With one argument per line, the source- and target-name are the same.    
+#    With one argument per line, the source- and target-name are the same.
 #    With two arguments per line, the first argument is the source-name and
-#        the second argument is the target-name.    
+#        the second argument is the target-name.
 #    Returns "1" on error.
-function _list_copy 
+function _list_copy
 {
      local list_file="$1"
      local source_dir="$2"
@@ -65,16 +62,16 @@ function _list_copy
      cat "$list_file" | while read source_file target_file; do
           if [ "$target_file" ] ; then   # If the length of "$target_file" is non-zero.
                if [ -e "$source_dir$source_file" ] ; then   # If file exists
-                    cp -v "$source_dir$source_file"  "$target_dir$target_file"               
-               else 
+                    cp -v "$source_dir$source_file"  "$target_dir$target_file"
+               else
                     echo -e "\n >>> Error: \"""$source_file""\" not found!"
                     echo -e " >>>        Expected to find \"""$source_file""\" in \"""$source_dir""\""
                     return 1
                fi
           elif [ "$source_file" ] ; then # If the length of "$source_file" is non-zero.
                if [ -e "$source_dir$source_file" ] ; then   # If file exists
-                    cp -v "$source_dir$source_file"  "$target_dir"               
-               else 
+                    cp -v "$source_dir$source_file"  "$target_dir"
+               else
                     echo -e "\n >>> Error: \"""$source_file""\" not found!"
                     echo -e " >>>        Expected to find \"""$source_file""\" in \"""$source_dir""\""
                     return 1
@@ -84,20 +81,20 @@ function _list_copy
 }
 
 # download the dependencies for windows.
-function _download_deps 
+function _download_deps
 {
     if [ ! -f download ] ; then  mkdir download ; fi
     wget "http://www.jrsoftware.org/download.php/is.exe" -P download
 }
 
 # install the dependencies for windows.
-function _install_deps 
+function _install_deps
 {
     if [ ! -f download ] ; then  mkdir download ; fi
 
     # a simple check if wine is installed.
     which wine 1> /dev/null
-    if [ $? -ne 0 ] ; then 
+    if [ $? -ne 0 ] ; then
        echo -e "\n >>> Error: \"wine\" is needed but NOT installed! \n"
        exit 1
     fi
@@ -106,8 +103,8 @@ function _install_deps
     wine download/is.exe
 }
 
-# create a windows setup program. 
-function _build_setup 
+# create a windows setup program.
+function _build_setup
 {
 #   if [ ! -f output ] ; then  mkdir output ; fi
 
@@ -116,14 +113,14 @@ function _build_setup
 
     wineconsole --backend=curses $my_inno_root\\iscc "$my_project".iss
     mv -v output/setup.exe output/"$my_project$my_version".setup.exe
-    
+
     md5sum    --tag output/$my_project$my_version.setup.exe >  output/hash
     sha1sum   --tag output/$my_project$my_version.setup.exe >> output/hash
     sha256sum --tag output/$my_project$my_version.setup.exe >> output/hash
 }
 
-# create a portable program. 
-function _build_portable 
+# create a portable program.
+function _build_portable
 {
     if [ ! -f output ] ; then  mkdir output ; fi
 
@@ -153,9 +150,9 @@ function _build_portable
 ################################################
 
 # Collect libraries
-function _collect_dlls 
+function _collect_dlls
 {
-     # copy gtk3 libraries. 
+     # copy gtk3 libraries.
 
      local dll_source_dir="$gtk3_prefix/bin/"
      local dll_target_dir="$my_prefix/bin/"
@@ -168,7 +165,7 @@ function _collect_dlls
 }
 
 # Collect icons
-function _collect_std_icons 
+function _collect_std_icons
 {
      local icons_source_dir="$gtk3_prefix$gtk3_icons_dir"
      local icons_target_dir="$my_prefix/share/icons/"
@@ -180,7 +177,7 @@ function _collect_std_icons
      if [ "$?" -eq 1 ] ; then  exit 1 ; fi
 }
 
-function _collect_GSettingsSchemas 
+function _collect_GSettingsSchemas
 {
     my_GSettingsSchemas_path='/share/glib-2.0/schemas/'
 
@@ -188,7 +185,7 @@ function _collect_GSettingsSchemas
     cp -v $gtk3_prefix$my_GSettingsSchemas_path/* $my_prefix$my_GSettingsSchemas_path
 }
 
-function _collect_copyright_notes 
+function _collect_copyright_notes
 {
     # pyPdf copyright notes.
 
@@ -226,14 +223,14 @@ case "$1" in
             _collect_dlls
             _collect_GSettingsSchemas
             _collect_std_icons
-#            _collect_copyright_notes 
+#            _collect_copyright_notes
             ;;
         buildsetup)
-            make -f Makefile.win32 melange
+            #make -f Makefile.win32 melange
             _build_setup
             ;;
         buildportable)
-            make -f Makefile.win32 portable
+            #make -f Makefile.win32 portable
             _build_portable
             ;;
         depinst)
@@ -270,4 +267,3 @@ case "$1" in
             echo $"         - run :  start the program with wine."
             exit 1
 esac
-

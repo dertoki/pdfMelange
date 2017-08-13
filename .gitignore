@@ -10,10 +10,8 @@ test.pdf
 src/poppler-0.51.0-pdfunite.cc
 src/poppler-0.52.0-pdfunite.cc
 src/melangePopplerWriter2017.cc
-Optimized/*
-.settings
-Debug
-Debug/*
+/src/melangePopplerWriter-0.4.3.c
+/src/poppler-0.54.0-pdfunite.cc
 mingw/dist
 mingw/dist/*
 mingw/download
