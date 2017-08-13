@@ -5,10 +5,10 @@
           <meta http-equiv="X-UA-Compatible" content="IE=edge">
           <meta name="viewport" content="width=device-width, initial-scale=1">
           <title>pdfMelange</title>
-          <link rel="icon" type="image/vnd.microsoft.icon" href=./Home/favicon.ico>
+          <title>Bootstrap-Basis-Vorlage</title>
 
           <!-- Bootstrap -->
-          <link href="/pdfMelange/Home/css/bootstrap.min.css" rel="stylesheet">
+          <link href=./Home/resources/css/bootstrap.min.css rel="stylesheet">
 
           <!-- Unterstützung für Media Queries und HTML5-Elemente in IE8 über HTML5 shim und Respond.js -->
           <!-- ACHTUNG: Respond.js funktioniert nicht, wenn du die Seite über file:// aufrufst -->
@@ -19,7 +19,7 @@
      </head>
 
      <body>
-       
+
          <nav class="navbar navbar-default">
                <div class="container-fluid">
                     <div class="navbar-header">
@@ -31,65 +31,68 @@
                               <span class="icon-bar"></span>
                               <span class="icon-bar"></span>
                          </button>
-                         
-                         <a class="navbar-brand" href="" title="Home" >
-                                pdfMelange 
+
+                         <a class="navbar-brand" href="#Home">
+                              pdfMelange
                          </a>
                     </div>
 
                     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                          <ul class="nav navbar-nav">
-                              <li><img src="/pdfMelange/Home/brand.png" height="50px" width="83px" title="free forever"></li>
+                              <li><img src=./Home/resources/brand.png height="50px" width="83px" title="free forever"></li>
+                              <!-- <li><a href="#Home"> <span class="glyphicon glyphicon-home" aria-hidden="true"></span> Home </a></li> -->
                               <li><a href="/pdfMelange/Home/Download.html"> <span class="glyphicon glyphicon-download-alt" aria-hidden="true"></span> Download </a></li>
-                              <li><a href="/pdfMelange/Home/Installation.html"> <span class="glyphicon glyphicon-wrench" aria-hidden="true"></span> Installation </a></li> 
-                              <li><a href="/pdfMelange/Home/Screenshots.html"> <span class="glyphicon glyphicon-picture" aria-hidden="true"></span> Screenshots </a></li> 
-                              <li><a href="/pdfMelange/Home/News.html"> <span class="glyphicon glyphicon-hand-right" aria-hidden="true"></span> News </a></li> 
+                              <li><a href="/pdfMelange/Home/Installation.html"> <span class="glyphicon glyphicon-wrench" aria-hidden="true"></span> Installation </a></li>
+                              <li><a href="/pdfMelange/Home/Screenshots.html"> <span class="glyphicon glyphicon-picture" aria-hidden="true"></span> Screenshots </a></li>
+                              <li><a href="/pdfMelange/Home/News.html"> <span class="glyphicon glyphicon-hand-right" aria-hidden="true"></span> News </a></li>
                          </ul>
-                         
+
                          <ul class="nav navbar-nav navbar-right">
-                             <a href="https://github.com/"> 
-                                 <img src="/pdfMelange/Home/Octocat.png" height="50px" width="50px" title="hosted at GitHub" >
+                             <a href="https://github.com/">
+                                 <img src="/pdfMelange/Home/resources/Octocat.png" height="50px" width="50px" title="hosted at GitHub" >
                              </a>
                              <a href="http://zim-wiki.org/">
-                                 <img src="/pdfMelange/Home/zim-wiki.png" height="50px" width="50px" title="pages built with zim-wiki">
+                                 <img src="/pdfMelange/Home/resources/zim-wiki.png" height="50px" width="50px" title="pages built with zim-wiki">
                              </a>
                          </ul>
-                         
+
                     </div><!-- /.navbar-collapse -->
 
                </div>
           </nav>
-            
+
           <div class="container-fluid">
                <div class="row">
                     <div class="col-md-3">
-                        <a href="">
-                            <span class="glyphicon glyphicon-home"></span>
-                            Home 
-                        </a>
+                        <!-- <a href="#Home"> <span class="glyphicon glyphicon-home"></span> Home </a> -->
                         <ul>
-<li><a href="/pdfMelange/Home/Development_Resources.html" title="Development Resources" class="page">Development Resources</a></li>
+<li><b>Home</b>
+<ul>
 <li><a href="/pdfMelange/Home/Download.html" title="Download" class="page">Download</a></li>
 <li><a href="/pdfMelange/Home/Installation.html" title="Installation" class="page">Installation</a></li>
 <li><a href="/pdfMelange/Home/License.html" title="License" class="page">License</a></li>
+<li><a href="/pdfMelange/Home/Links.html" title="Links" class="page">Links</a></li>
 <li><a href="/pdfMelange/Home/News.html" title="News" class="page">News</a></li>
+<li><a href="/pdfMelange/Home/pdfMelange_for_Windows.html" title="pdfMelange for Windows" class="page">pdfMelange for Windows</a></li>
 <li><a href="/pdfMelange/Home/Screenshots.html" title="Screenshots" class="page">Screenshots</a></li>
+</ul></li>
 </ul>
 
                     </div>
                     <div class="col-md-9">
-                                                                <div class='heading'>
-                                    <h1>pdfMelange</h1>
+                                <div class='heading'>
+                                   <h1>pdfMelange <a name='Home'></a></h1>
                                 </div>
-                                
+
                                 <div class='content'>
                                    <p>
-<strong>pdfMelange</strong> is a small utility program to modify PDF documents.<br>
+<b>pdfMelange</b> is a small utility program to modify PDF documents.<br>
 This program I have written specifically for my daily work, to combine scanned documents with selected pages of various sources.<br>
-<strong>pdfMelange</strong> has been published in the hope that it is also useful for others.<br>
+<b>pdfMelange</b> has been published in the hope that it is also useful for others.
 </p>
 
 <h4>Features:</h4>
+
 <p>
 <ul style='padding-left: 30pt'>
 <li>Merging PDF documents.</li>
@@ -102,14 +105,17 @@ This program I have written specifically for my daily work, to combine scanned d
 </p>
 
 <h4>History:</h4>
+
 <p>
 <ul style='padding-left: 30pt'>
-<li>Version 0.1 to 0.3 was developed with <em>java</em> in 2008. The java version is no longer maintained.</li>
-<li>Version 0.4 has been developed since 2013 with C++ and <em>Gtkmm</em> as a <em>Gnome</em> application. It is also available for <em>Windows</em>. </li>
+<li>Version 0.1 to 0.3 was developed with <i>java</i> in 2008. The java version is no longer maintained.</li>
+<li>Version 0.4 has been developed since 2013 with C++ and <i>Gtkmm</i> as a <i>Gnome</i> application. It is also available for <i>Windows</i>. </li>
 </ul>
 </p>
 
 <h1>News</h1>
+
+<br>
 
 <p>
 <a href="/pdfMelange/Home/News/2015-04-05_New_version_0.4.2.html" title="+News:2015-04-05 New version 0.4.2" class="page">+News:2015-04-05 New version 0.4.2</a><br>
@@ -119,19 +125,19 @@ This program I have written specifically for my daily work, to combine scanned d
 <a href="/pdfMelange/Home/News/2008-11-16_Version_release_0.3.1.html" title="+News:2008-11-16 Version release 0.3.1" class="page">+News:2008-11-16 Version release 0.3.1</a><br>
 <a href="/pdfMelange/Home/News/2008-10-13_Version-release_0.3.0.html" title="+News:2008-10-13 Version-release 0.3.0" class="page">+News:2008-10-13 Version-release 0.3.0</a><br>
 <a href="/pdfMelange/Home/News/2008-09-08_Version_release_0.2.0.html" title="+News:2008-09-08 Version release 0.2.0" class="page">+News:2008-09-08 Version release 0.2.0</a><br>
-<a href="/pdfMelange/Home/News/2008-06-07_Registered_at_berlios.html" title="+News:2008-06-07 Registered at berlios" class="page">+News:2008-06-07 Registered at berlios</a><br>
+<a href="/pdfMelange/Home/News/2008-06-07_Registered_at_berlios.html" title="+News:2008-06-07 Registered at berlios" class="page">+News:2008-06-07 Registered at berlios</a>
 </p>
 
                                 </div>
-                                
+
                                 <br />
                     </div>
                </div>
-          </div>    
+          </div>
 
          <!-- jQuery (wird für Bootstrap JavaScript-Plugins benötigt) -->
          <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
          <!-- Binde alle kompilierten Plugins zusammen ein (wie hier unten) oder such dir einzelne Dateien nach Bedarf aus -->
-         <script src="/pdfMelange/Home/js/bootstrap.min.js" ></script>
+         <script src=./Home/resources/js/bootstrap.min.js ></script>
      </body>
 </html>

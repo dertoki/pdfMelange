@@ -5,10 +5,10 @@
           <meta http-equiv="X-UA-Compatible" content="IE=edge">
           <meta name="viewport" content="width=device-width, initial-scale=1">
           <title>pdfMelange</title>
-          <link rel="icon" type="image/vnd.microsoft.icon" href=../Home/favicon.ico>
+          <title>Bootstrap-Basis-Vorlage</title>
 
           <!-- Bootstrap -->
-          <link href="/pdfMelange/Home/css/bootstrap.min.css" rel="stylesheet">
+          <link href=../Home/resources/css/bootstrap.min.css rel="stylesheet">
 
           <!-- Unterstützung für Media Queries und HTML5-Elemente in IE8 über HTML5 shim und Respond.js -->
           <!-- ACHTUNG: Respond.js funktioniert nicht, wenn du die Seite über file:// aufrufst -->
@@ -19,7 +19,7 @@
      </head>
 
      <body>
-       
+
          <nav class="navbar navbar-default">
                <div class="container-fluid">
                     <div class="navbar-header">
@@ -31,98 +31,103 @@
                               <span class="icon-bar"></span>
                               <span class="icon-bar"></span>
                          </button>
-                         
-                         <a class="navbar-brand" href="/pdfMelange/index.html" title="Home" >
-                                pdfMelange 
+
+                         <a class="navbar-brand" href="/pdfMelange/index.html">
+                              pdfMelange
                          </a>
                     </div>
 
                     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                          <ul class="nav navbar-nav">
-                              <li><img src="/pdfMelange/Home/brand.png" height="50px" width="83px" title="free forever"></li>
+                              <li><img src=../Home/resources/brand.png height="50px" width="83px" title="free forever"></li>
+                              <!-- <li><a href="/pdfMelange/index.html"> <span class="glyphicon glyphicon-home" aria-hidden="true"></span> Home </a></li> -->
                               <li><a href="/pdfMelange/Home/Download.html"> <span class="glyphicon glyphicon-download-alt" aria-hidden="true"></span> Download </a></li>
-                              <li><a href=""> <span class="glyphicon glyphicon-wrench" aria-hidden="true"></span> Installation </a></li> 
-                              <li><a href="/pdfMelange/Home/Screenshots.html"> <span class="glyphicon glyphicon-picture" aria-hidden="true"></span> Screenshots </a></li> 
-                              <li><a href="/pdfMelange/Home/News.html"> <span class="glyphicon glyphicon-hand-right" aria-hidden="true"></span> News </a></li> 
+                              <li><a href="#Home:Installation"> <span class="glyphicon glyphicon-wrench" aria-hidden="true"></span> Installation </a></li>
+                              <li><a href="/pdfMelange/Home/Screenshots.html"> <span class="glyphicon glyphicon-picture" aria-hidden="true"></span> Screenshots </a></li>
+                              <li><a href="/pdfMelange/Home/News.html"> <span class="glyphicon glyphicon-hand-right" aria-hidden="true"></span> News </a></li>
                          </ul>
-                         
+
                          <ul class="nav navbar-nav navbar-right">
-                             <a href="https://github.com/"> 
-                                 <img src="/pdfMelange/Home/Octocat.png" height="50px" width="50px" title="hosted at GitHub" >
+                             <a href="https://github.com/">
+                                 <img src="/pdfMelange/Home/resources/Octocat.png" height="50px" width="50px" title="hosted at GitHub" >
                              </a>
                              <a href="http://zim-wiki.org/">
-                                 <img src="/pdfMelange/Home/zim-wiki.png" height="50px" width="50px" title="pages built with zim-wiki">
+                                 <img src="/pdfMelange/Home/resources/zim-wiki.png" height="50px" width="50px" title="pages built with zim-wiki">
                              </a>
                          </ul>
-                         
+
                     </div><!-- /.navbar-collapse -->
 
                </div>
           </nav>
-            
+
           <div class="container-fluid">
                <div class="row">
                     <div class="col-md-3">
-                        <a href="/pdfMelange/index.html">
-                            <span class="glyphicon glyphicon-home"></span>
-                            Home 
-                        </a>
+                        <!-- <a href="/pdfMelange/index.html"> <span class="glyphicon glyphicon-home"></span> Home </a> -->
                         <ul>
-<li><a href="/pdfMelange/Home/Development_Resources.html" title="Development Resources" class="page">Development Resources</a></li>
-<li><a href="/pdfMelange/Home/Download.html" title="Download" class="page">Download</a></li>
-<li><strong class="activepage">Installation</strong></li>
+<li><a href="/pdfMelange/index.html" title="Home" class="page">Home</a>
 <ul>
-<li><a href="/pdfMelange/Home/Installation/jPDFmelange_for_Java.html" title="jPDFmelange for Java" class="page">jPDFmelange for Java</a></li>
-<li><a href="/pdfMelange/Home/Installation/pdfMelange_for_GNUs.html" title="pdfMelange for GNUs" class="page">pdfMelange for GNUs</a></li>
-<li><a href="/pdfMelange/Home/Installation/pdfMelange_for_Windows.html" title="pdfMelange for Windows" class="page">pdfMelange for Windows</a></li>
+<li><a href="/pdfMelange/Home/Download.html" title="Download" class="page">Download</a></li>
+<li><b>Installation</b>
+<ul>
+<li><a href="/pdfMelange/Home/Installation/Linux.html" title="Linux" class="page">Linux</a></li>
+<li><a href="/pdfMelange/Home/Installation/Windows_-_minGW.html" title="Windows - minGW" class="page">Windows - minGW</a></li>
 </ul>
+</li>
 <li><a href="/pdfMelange/Home/License.html" title="License" class="page">License</a></li>
+<li><a href="/pdfMelange/Home/Links.html" title="Links" class="page">Links</a></li>
 <li><a href="/pdfMelange/Home/News.html" title="News" class="page">News</a></li>
+<li><a href="/pdfMelange/Home/pdfMelange_for_Windows.html" title="pdfMelange for Windows" class="page">pdfMelange for Windows</a></li>
 <li><a href="/pdfMelange/Home/Screenshots.html" title="Screenshots" class="page">Screenshots</a></li>
+</ul></li>
 </ul>
 
                     </div>
                     <div class="col-md-9">
-                                                                <div class='heading'>
-                                    <h1>Installation</h1>
+                                <div class='heading'>
+                                   <h1>Installation <a name='Home:Installation'></a></h1>
                                 </div>
-                                
+
                                 <div class='content'>
-                                   <h3>Unix, Linux, ...</h3>
+                                   <h4>Summary</h4>
+
+<br>
+
+<pre style='padding-left: 30pt'>
+Build system:		Autotools
+Programming language: 	C++
+GUI: 			gtk+
+Additional libraries: 	poppler
+Supported OS: 		Linux, Windows
+</pre>
+
+<br>
 
 <p>
-<div style='padding-left: 30pt'>
-see <a href="/pdfMelange/Home/Installation/pdfMelange_for_GNUs.html" title="+pdfMelange for GNUs" class="page">+pdfMelange for GNUs</a><br>
-</div>
+Get precompiled packagues at <a href="/pdfMelange/Home/Download.html" title="Home:Download" class="page">Home:Download</a>
 </p>
 
-
-<h3>Windows</h3>
+<h4>pdfMelange builds for</h4>
 
 <p>
-<div style='padding-left: 30pt'>
- see <a href="/pdfMelange/Home/Installation/pdfMelange_for_Windows.html" title="+pdfMelange for Windows" class="page">+pdfMelange for Windows</a><br>
-</div>
+<ul style='padding-left: 30pt'>
+<li><a href="/pdfMelange/Home/Installation/Linux.html" title="+Linux" class="page">+Linux</a></li>
+<li><a href="/pdfMelange/Home/Installation/Windows_-_minGW.html" title="+Windows - minGW" class="page">+Windows - minGW</a></li>
+</ul>
 </p>
 
-<h3>Java</h3>
-
-<p>
-<div style='padding-left: 30pt'>
- see <a href="/pdfMelange/Home/Installation/jPDFmelange_for_Java.html" title="+jPDFmelange for Java" class="page">+jPDFmelange for Java</a>.<br>
-</div>
-</p>
 
                                 </div>
-                                
+
                                 <br />
                     </div>
                </div>
-          </div>    
+          </div>
 
          <!-- jQuery (wird für Bootstrap JavaScript-Plugins benötigt) -->
          <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
          <!-- Binde alle kompilierten Plugins zusammen ein (wie hier unten) oder such dir einzelne Dateien nach Bedarf aus -->
-         <script src="/pdfMelange/Home/js/bootstrap.min.js" ></script>
+         <script src=../Home/resources/js/bootstrap.min.js ></script>
      </body>
 </html>

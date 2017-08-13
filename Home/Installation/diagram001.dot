@@ -1,0 +1,14 @@
+digraph structs {
+node [shape=plaintext]
+struct1 [label=<
+<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="1">
+
+<tr><td ALIGN="RIGHT">Build system:</td>             <td ALIGN="LEFT">Autotools</td></tr>
+<tr><td ALIGN="RIGHT">Programming language:</td>     <td ALIGN="LEFT">C++</td></tr>
+<tr><td ALIGN="RIGHT">GUI:</td>                      <td ALIGN="LEFT">gtkmm</td></tr>
+<tr><td ALIGN="RIGHT">Additional libraries:</td>     <td ALIGN="LEFT">poppler, python2.7</td></tr>
+<tr><td ALIGN="RIGHT">Distribution:</td>             <td ALIGN="LEFT">deb, rpm, mingw</td></tr>
+
+</TABLE>
+>];
+}

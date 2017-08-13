@@ -69,22 +69,15 @@
 <li><a href="/pdfMelange/index.html" title="Home" class="page">Home</a>
 <ul>
 <li><a href="/pdfMelange/Home/Download.html" title="Download" class="page">Download</a></li>
-<li><a href="/pdfMelange/Home/Installation.html" title="Installation" class="page">Installation</a></li>
-<li><a href="/pdfMelange/Home/License.html" title="License" class="page">License</a></li>
-<li><a href="/pdfMelange/Home/Links.html" title="Links" class="page">Links</a></li>
-<li><a href="/pdfMelange/Home/News.html" title="News" class="page">News</a>
+<li><a href="/pdfMelange/Home/Installation.html" title="Installation" class="page">Installation</a>
 <ul>
-<li><a href="/pdfMelange/Home/News/2008-06-07_Registered_at_berlios.html" title="2008-06-07 Registered at berlios" class="page">2008-06-07 Registered at berlios</a></li>
-<li><a href="/pdfMelange/Home/News/2008-09-08_Version_release_0.2.0.html" title="2008-09-08 Version release 0.2.0" class="page">2008-09-08 Version release 0.2.0</a></li>
-<li><a href="/pdfMelange/Home/News/2008-10-13_Version-release_0.3.0.html" title="2008-10-13 Version-release 0.3.0" class="page">2008-10-13 Version-release 0.3.0</a></li>
-<li><a href="/pdfMelange/Home/News/2008-11-16_Version_release_0.3.1.html" title="2008-11-16 Version release 0.3.1" class="page">2008-11-16 Version release 0.3.1</a></li>
-<li><a href="/pdfMelange/Home/News/2009-07-19_Version_release_0.3.2.html" title="2009-07-19 Version release 0.3.2" class="page">2009-07-19 Version release 0.3.2</a></li>
-<li><a href="/pdfMelange/Home/News/2009-09-02_Version_release_0.3.3.html" title="2009-09-02 Version release 0.3.3" class="page">2009-09-02 Version release 0.3.3</a></li>
-<li><b>2014-03-09 Moved to GitHub</b></li>
-<li><a href="/pdfMelange/Home/News/2015-04-05_New_version_0.4.2.html" title="2015-04-05 New version 0.4.2" class="page">2015-04-05 New version 0.4.2</a></li>
-<li><a href="/pdfMelange/Home/News/2017-08-17_New_version_0.4.4.html" title="2017-08-17 New version 0.4.4" class="page">2017-08-17 New version 0.4.4</a></li>
+<li><a href="/pdfMelange/Home/Installation/Linux.html" title="Linux" class="page">Linux</a></li>
+<li><b>Windows - minGW</b></li>
 </ul>
 </li>
+<li><a href="/pdfMelange/Home/License.html" title="License" class="page">License</a></li>
+<li><a href="/pdfMelange/Home/Links.html" title="Links" class="page">Links</a></li>
+<li><a href="/pdfMelange/Home/News.html" title="News" class="page">News</a></li>
 <li><a href="/pdfMelange/Home/pdfMelange_for_Windows.html" title="pdfMelange for Windows" class="page">pdfMelange for Windows</a></li>
 <li><a href="/pdfMelange/Home/Screenshots.html" title="Screenshots" class="page">Screenshots</a></li>
 </ul></li>
@@ -93,15 +86,114 @@
                     </div>
                     <div class="col-md-9">
                                 <div class='heading'>
-                                   <h1>2014-03-09 Moved to GitHub <a name='Home:News:2014-03-09 Moved to GitHub'></a></h1>
+                                   <h1>Windows - minGW <a name='Home:Installation:Windows - minGW'></a></h1>
                                 </div>
 
                                 <div class='content'>
                                    <p>
+The Windows binaries are created in a cross compiling environment on a linux host. We neither need a Windows installation nor any non free Windows resources. 
+</p>
+
+<h2>Precompiled packages</h2>
+
+<br>
+
+<p>
+Please choose the appropriate package for Windows, see <a href="/pdfMelange/Home/Download.html" title="Home:Download" class="page">Home:Download</a>
+</p>
+
+<h2>Requirements and dependencies</h2>
+
+<br>
+
+<p>
+<div style='padding-left: 60pt'>
+There are precompiled editions of <i>gtkmm</i> for <i>mingw</i> in repositories of <i>fedora</i>.	
+</div>
+</p>
+
+<pre style='padding-left: 60pt'>
+sudo dnf install wget gcc-c++ intltool sysconftool
+sudo dnf install mingw64-gcc mingw64-gtkmm30 mingw64-poppler-glib
+</pre>
+
+<p>
+<div style='padding-left: 60pt'>
+You will find all the files in <tt>/usr/i686-w64-mingw32/sys-root/mingw.</tt>
+</div>
+</p>
+
+<br>
+
+<h3>Build</h3>
+
+<br>
+
+<p>
+<ol style='padding-left: 30pt' type="1" start="1">
+<li><b>Compile pdfMelange:</b></li>
+</ol>
+</p>
+
+<p>
+<div style='padding-left: 60pt'>
+A particular makefile "<tt>Makefile.win32</tt>" in the subdirectory <tt>"./mingw"</tt> is used to build the binaries. Check the makefile variable <tt>PKG_PREFIX </tt>and start the make.
+</div>
+</p>
+
+<pre style='padding-left: 60pt'>
+cd mingw
+make -f Makefile.win32
+</pre>
+
+<p>
+<ol style='padding-left: 30pt' type="1" start="2">
+<li><b>Build a setup program:</b></li>
+</ol>
+</p>
+
+<p>
+<div style='padding-left: 60pt'>
+It's boring to collect all necessary files for a Windows distribution. We need a lot of library files, icons, etc.  Files have to reside in specific directories and the directories have to be arranged in a special order.<br>
+For this process I deliver the script '<tt>get_win32_deps.sh</tt>' that collects the files and creates a windows setup program:
+</div>
+</p>
+
+<p>
 <ul style='padding-left: 30pt'>
-<li>Source code has been transfered from CVS to git and relocated from <a href="https://developer.berlios.de/project/showfiles.php?group_id=9775" title="berlios" class="https">berlios</a> to <a href="https://github.com/dertoki/jPDFmelange" title="GitHub" class="https">GitHub</a>.</li>
-<li>The project homepage has been transfered from <a href="http://jpdfmelange.berlios.de/" title="jpdfmelange.berlios.de" class="http">jpdfmelange.berlios.de</a> to <a href="http://dertoki.github.io/pdfMelange/" title="dertoki.github.io/pdfMelange" class="http">dertoki.github.io/pdfMelange</a>.</li>
-<li>Source code of info and online dialog has been modified to fit to the new links.</li>
+<li>We need an installation of Wine:</li>
+</ul>
+</p>
+
+<pre style='padding-left: 60pt'>
+sudo apt install wine
+</pre>
+
+<p>
+<ul style='padding-left: 30pt'>
+<li>A Windows version of <b>'Inno Setup'</b> needs to be installed:</li>
+</ul>
+</p>
+
+<pre style='padding-left: 60pt'>
+./get_win32_deps.sh depload
+./get_win32_deps.sh depinst
+</pre>
+
+<p>
+<ul style='padding-left: 30pt'>
+<li>Start the build process:</li>
+</ul>
+</p>
+
+<pre style='padding-left: 60pt'>
+/get_win32_deps.sh buildsetup
+</pre>
+
+<p>
+<ul style='padding-left: 30pt'>
+<li>The target file structure is colleced in '<tt>mingw/dist</tt>'.</li>
+<li>The setup program is copied to '<tt>mingw/output</tt>'.</li>
 </ul>
 </p>
 

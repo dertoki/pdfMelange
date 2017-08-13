@@ -5,10 +5,10 @@
           <meta http-equiv="X-UA-Compatible" content="IE=edge">
           <meta name="viewport" content="width=device-width, initial-scale=1">
           <title>pdfMelange</title>
-          <link rel="icon" type="image/vnd.microsoft.icon" href=../Home/favicon.ico>
+          <title>Bootstrap-Basis-Vorlage</title>
 
           <!-- Bootstrap -->
-          <link href="/pdfMelange/Home/css/bootstrap.min.css" rel="stylesheet">
+          <link href=../Home/resources/css/bootstrap.min.css rel="stylesheet">
 
           <!-- Unterstützung für Media Queries und HTML5-Elemente in IE8 über HTML5 shim und Respond.js -->
           <!-- ACHTUNG: Respond.js funktioniert nicht, wenn du die Seite über file:// aufrufst -->
@@ -19,7 +19,7 @@
      </head>
 
      <body>
-       
+
          <nav class="navbar navbar-default">
                <div class="container-fluid">
                     <div class="navbar-header">
@@ -31,107 +31,109 @@
                               <span class="icon-bar"></span>
                               <span class="icon-bar"></span>
                          </button>
-                         
-                         <a class="navbar-brand" href="/pdfMelange/index.html" title="Home" >
-                                pdfMelange 
+
+                         <a class="navbar-brand" href="/pdfMelange/index.html">
+                              pdfMelange
                          </a>
                     </div>
 
                     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                          <ul class="nav navbar-nav">
-                              <li><img src="/pdfMelange/Home/brand.png" height="50px" width="83px" title="free forever"></li>
-                              <li><a href=""> <span class="glyphicon glyphicon-download-alt" aria-hidden="true"></span> Download </a></li>
-                              <li><a href="/pdfMelange/Home/Installation.html"> <span class="glyphicon glyphicon-wrench" aria-hidden="true"></span> Installation </a></li> 
-                              <li><a href="/pdfMelange/Home/Screenshots.html"> <span class="glyphicon glyphicon-picture" aria-hidden="true"></span> Screenshots </a></li> 
-                              <li><a href="/pdfMelange/Home/News.html"> <span class="glyphicon glyphicon-hand-right" aria-hidden="true"></span> News </a></li> 
+                              <li><img src=../Home/resources/brand.png height="50px" width="83px" title="free forever"></li>
+                              <!-- <li><a href="/pdfMelange/index.html"> <span class="glyphicon glyphicon-home" aria-hidden="true"></span> Home </a></li> -->
+                              <li><a href="#Home:Download"> <span class="glyphicon glyphicon-download-alt" aria-hidden="true"></span> Download </a></li>
+                              <li><a href="/pdfMelange/Home/Installation.html"> <span class="glyphicon glyphicon-wrench" aria-hidden="true"></span> Installation </a></li>
+                              <li><a href="/pdfMelange/Home/Screenshots.html"> <span class="glyphicon glyphicon-picture" aria-hidden="true"></span> Screenshots </a></li>
+                              <li><a href="/pdfMelange/Home/News.html"> <span class="glyphicon glyphicon-hand-right" aria-hidden="true"></span> News </a></li>
                          </ul>
-                         
+
                          <ul class="nav navbar-nav navbar-right">
-                             <a href="https://github.com/"> 
-                                 <img src="/pdfMelange/Home/Octocat.png" height="50px" width="50px" title="hosted at GitHub" >
+                             <a href="https://github.com/">
+                                 <img src="/pdfMelange/Home/resources/Octocat.png" height="50px" width="50px" title="hosted at GitHub" >
                              </a>
                              <a href="http://zim-wiki.org/">
-                                 <img src="/pdfMelange/Home/zim-wiki.png" height="50px" width="50px" title="pages built with zim-wiki">
+                                 <img src="/pdfMelange/Home/resources/zim-wiki.png" height="50px" width="50px" title="pages built with zim-wiki">
                              </a>
                          </ul>
-                         
+
                     </div><!-- /.navbar-collapse -->
 
                </div>
           </nav>
-            
+
           <div class="container-fluid">
                <div class="row">
                     <div class="col-md-3">
-                        <a href="/pdfMelange/index.html">
-                            <span class="glyphicon glyphicon-home"></span>
-                            Home 
-                        </a>
+                        <!-- <a href="/pdfMelange/index.html"> <span class="glyphicon glyphicon-home"></span> Home </a> -->
                         <ul>
-<li><a href="/pdfMelange/Home/Development_Resources.html" title="Development Resources" class="page">Development Resources</a></li>
-<li><strong class="activepage">Download</strong></li>
+<li><a href="/pdfMelange/index.html" title="Home" class="page">Home</a>
+<ul>
+<li><b>Download</b></li>
 <li><a href="/pdfMelange/Home/Installation.html" title="Installation" class="page">Installation</a></li>
 <li><a href="/pdfMelange/Home/License.html" title="License" class="page">License</a></li>
+<li><a href="/pdfMelange/Home/Links.html" title="Links" class="page">Links</a></li>
 <li><a href="/pdfMelange/Home/News.html" title="News" class="page">News</a></li>
+<li><a href="/pdfMelange/Home/pdfMelange_for_Windows.html" title="pdfMelange for Windows" class="page">pdfMelange for Windows</a></li>
 <li><a href="/pdfMelange/Home/Screenshots.html" title="Screenshots" class="page">Screenshots</a></li>
+</ul></li>
 </ul>
 
                     </div>
                     <div class="col-md-9">
-                                                                <div class='heading'>
-                                    <h1>Download</h1>
+                                <div class='heading'>
+                                   <h1>Download <a name='Home:Download'></a></h1>
                                 </div>
-                                
+
                                 <div class='content'>
                                    <p>
 <ul>
-<li><strong>Linux</strong>: </li>
+<li><b>Linux</b>: </li>
 </ul>
 <div style='padding-left: 30pt'>
-Precompiled packages are available for <a href="http://software.opensuse.org/download.html?project=home%3Adertoki&package=pdfmelange" title="Ubuntu 14.04 LTS, Fedora 20 and openSUSE" class="http">Ubuntu 14.04 LTS, Fedora 20 and openSUSE</a>.<br>
+Precompiled packages are available for <a href="http://software.opensuse.org/download.html?project=home%3Adertoki&package=pdfmelange" title="Ubuntu 14.04 LTS, Fedora 20 and openSUSE" class="http">Ubuntu 14.04 LTS, Fedora 20 and openSUSE</a>.
 </div>
 </p>
 
 <p>
 <ul>
-<li><strong>Windows</strong>:</li>
+<li><b>Windows</b>:</li>
 </ul>
 <div style='padding-left: 30pt'>
-A version that has been tested with <a href="https://github.com/dertoki/pdfMelange/releases/download/0.4.2/pdfMelange-2015-04-05.setup.exe" title="XP and Windows 7" class="https">XP and Windows 7</a>.<br>
+A version that has been tested with <a href="https://github.com/dertoki/pdfMelange/releases/download/v0.4.4/pdfMelange-2017-08-13.setup.exe" title="XP and Windows 7" class="https">XP and Windows 7</a>.
 </div>
 </p>
-	
+
 <p>
 <div style='padding-left: 30pt'>
-Checksum (<strong>pdfMelange-2015-04-05.setup.exe</strong>):<br>
+Checksum (<tt>pdfMelange-2017-08-13.setup.exe</tt>):
 </div>
 </p>
 <pre style='padding-left: 30pt'>
-MD5    = b3241abd4a826b3efb8f6e938b4574ab
-SHA1   = 03824de9830f8cce99bad8e84d1e5ebe84c7ff2f
-SHA256 = ff115a432421d34e61cec075039e33841239acb9e2938f518059d314890afe5a
+MD5 = d060e99701270b8ab5cf111d83d4c5df
+SHA1 = 4016872f654d9f3e78eae63f010859fb7d38d68d
+SHA256 = 166a44b0bf39354bfa05302adbe6dc66937332aeff6dee1527e4829ad67db4d2
 </pre>
 
 <p>
 <ul>
-<li><strong>Sources</strong>:</li>
+<li><b>Sources</b>:</li>
 </ul>
 <div style='padding-left: 30pt'>
-You may check out the repository from <a href="https://github.com/dertoki/pdfMelange.git" title="github" class="https">github</a> or <a href="https://github.com/dertoki/pdfMelange/archive/0.4.2.tar.gz" title="download the tarball" class="https">download the tarball</a> 	.<br>
+You may check out the repository from <a href="https://github.com/dertoki/pdfMelange.git" title="github" class="https">github</a> or <a href="https://github.com/dertoki/pdfMelange/archive/v0.4.4.tar.gz" title="download the tarball" class="https">download the tarball</a>.
 </div>
 </p>
-	
+
 
                                 </div>
-                                
+
                                 <br />
                     </div>
                </div>
-          </div>    
+          </div>
 
          <!-- jQuery (wird für Bootstrap JavaScript-Plugins benötigt) -->
          <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
          <!-- Binde alle kompilierten Plugins zusammen ein (wie hier unten) oder such dir einzelne Dateien nach Bedarf aus -->
-         <script src="/pdfMelange/Home/js/bootstrap.min.js" ></script>
+         <script src=../Home/resources/js/bootstrap.min.js ></script>
      </body>
 </html>
