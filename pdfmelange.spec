@@ -1,5 +1,5 @@
 Name:           pdfmelange
-Version:        0.4.3
+Version:        0.4.4
 Release:        1%{?dist}
 Summary:        A program to modify PDF documents
 
@@ -62,6 +62,7 @@ rm -rf $RPM_BUILD_ROOT
 %doc /usr/doc/pdfmelange/INSTALL
 %doc /usr/doc/pdfmelange/NEWS
 %doc /usr/doc/pdfmelange/README
+%doc /usr/doc/pdfmelange/README.md
 
 %changelog
 * Sun Apr 04 2014 Tobias

@@ -5,6 +5,7 @@ SUBDIRS = src po
 
 pdfmelangedocdir = ${prefix}/doc/pdfmelange
 pdfmelangedoc_DATA = \
+	README\
 	README.md\
 	COPYING\
 	AUTHORS\
@@ -25,7 +26,6 @@ mingw_FILES = \
 	mingw/gtk+-3.10.4-dlls.lst \
 	mingw/launcher.c \
 	mingw/launcher-resource.rc \
-	mingw/info.rtf \
 	mingw/licence.txt \
 	mingw/Makefile.win32 \
 	mingw/pdfMelange.ico \
